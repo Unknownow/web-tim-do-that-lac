@@ -1,0 +1,38 @@
+{
+    "register": "Đăng ký",
+    "login": "Đăng nhập",
+    "formRegister": {
+        "password": "Mật khẩu",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "username": "Tên đăng nhập",
+        "phoneNumber": "Số điện thoại",
+        "ihaveread": "Tôi đã đọc",
+        "agreement": "điểu khoản",
+        "notValidEmail": "Email có giá trị không hợp lệ!",
+        "nullEmail": "Email không được để trống!",
+        "nullPassword": "Mật khẩu không được để trống!",
+        "nullConfirmPassword": "Mật khẩu xác nhận không được để trống!",
+        "tooltipUsername": "Bạn muốn mọi người gọi bạn là?",
+        "nullUsername": "Tên đăng nhập không được để trống",
+        "nullPhoneNumber": "Số điện thoại không được để trống!"
+    },
+    "formLogin": {
+        "username": "Tên đăng nhập",
+        "nullUsername": "Tên đăng nhập không được để trống!",
+        "password": "Mật khẩu",
+        "nullPassword": "Mật khẩu không được để trống!",
+        "rememberme": "Duy trì đăng nhập",
+        "forgotPassword": "Quên mật khẩu",
+        "registernow": "Đăng ký!",
+        "or": "Hoặc"
+    },
+    "navbar": {
+        "category": "Danh mục",
+        "post": "Đăng tin",
+        "about": "Giới thiệu",
+        "wallet": "Ví",
+        "paper": "Giấy tờ",
+        "phone": "Điện thoại",
+        "other": "Khác"
+    }
+}

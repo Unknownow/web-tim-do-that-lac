@@ -1,0 +1,38 @@
+{
+  "register": "Register",
+  "login": "Login",
+  "formRegister": {
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "username": "Username",
+    "phoneNumber": "Phone Number",
+    "ihaveread": "I have read the",
+    "agreement": "agreement",
+    "notValidEmail": "The input is not valid E-mail!",
+    "nullEmail": "Please input your E-mail!",
+    "nullPassword": "Please input your password!",
+    "nullConfirmPassword": "Please confirm your password!",
+    "tooltipUsername": "What do you want others to call you?",
+    "nullUsername": "Please input your Username!",
+    "nullPhoneNumber": "Please input your phone number!"
+  },
+  "formLogin": {
+    "username": "Username",
+    "nullUsername": "Please input your username!",
+    "password": "Password",
+    "nullPassword": "Please input your Password!",
+    "rememberme": "Remember me",
+    "forgotPassword": "Forgot password",
+    "registernow": "register now!",
+    "or": "Or"
+  },
+  "navbar": {
+    "category": "Category",
+    "post": "Post",
+    "about": "About",
+    "wallet": "Wallet",
+    "paper": "Personal documents",
+    "phone": "Phone",
+    "other": "Other"
+  }
+}
