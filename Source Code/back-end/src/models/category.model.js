@@ -4,7 +4,8 @@ const CategorySchema = mongoose.Schema(
     {
         name: {
             type: String,
-            required: true
+            required: true,
+            lowercase:true
         },
         description: {
             type: String,
@@ -14,3 +15,5 @@ const CategorySchema = mongoose.Schema(
 )
 
 const Category = mongoose.model("Category", CategorySchema);
+
+module.exports = Category;
