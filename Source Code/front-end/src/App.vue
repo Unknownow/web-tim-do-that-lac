@@ -1,21 +1,21 @@
-<template style="width:2000px">
+<template>
   <div>
     <header-app></header-app>
     <!-- <div>{{$t('message')}}</div> -->
     <!-- router view is content -->
-    <router-view />
+    <router-view></router-view>
     <footer-app id="footer"></footer-app>
   </div>
 </template>
 
 <script>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
   components: {
     "header-app": Header,
-    "footer-app": Footer,
+    "footer-app": Footer
   }
 };
 </script>
@@ -27,11 +27,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 0
+  margin: 0;
 }
 #footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>

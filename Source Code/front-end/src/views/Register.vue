@@ -159,7 +159,7 @@ export default {
     compareToFirstPassword(rule, value, callback) {
       const form = this.form;
       if (value && value !== form.getFieldValue("password")) {
-        console.log(i18n.locale + " ------------ ");
+        // console.log(i18n.locale + " ------------ ");
         if (i18n.locale == "vi") {
           callback("Mật khẩu xác nhận không trùng khớp!");
         } else {

@@ -1,6 +1,7 @@
 {
   "register": "Register",
   "login": "Login",
+  "logout": "Logout",
   "formRegister": {
     "password": "Password",
     "confirmPassword": "Confirm Password",
@@ -24,7 +25,8 @@
     "rememberme": "Remember me",
     "forgotPassword": "Forgot password",
     "registernow": "register now!",
-    "or": "Or"
+    "or": "Or",
+    "wrongPassText": "The Username or Password is incorrect"
   },
   "navbar": {
     "category": "Category",
@@ -34,5 +36,23 @@
     "paper": "Personal documents",
     "phone": "Phone",
     "other": "Other"
+  },
+  "category": {
+    "title":"Featured category",
+    "atm": "ATM Card",
+    "wallet": "Wallet",
+    "laptop": "Laptop",
+    "phone": "Phone",
+    "paper": "Personal documents"
+  },
+  "news":{
+    "title": "Latest news"
+  },
+  "detail": {
+    "reply": "Reply",
+    "share": "Share",
+    "comment": "Comment",
+    "detail": "Detail",
+    "category": "Category"
   }
 }

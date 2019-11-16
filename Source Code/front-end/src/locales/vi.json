@@ -1,6 +1,7 @@
 {
     "register": "Đăng ký",
     "login": "Đăng nhập",
+    "logout": "Đăng xuất",
     "formRegister": {
         "password": "Mật khẩu",
         "confirmPassword": "Xác nhận mật khẩu",
@@ -24,7 +25,8 @@
         "rememberme": "Duy trì đăng nhập",
         "forgotPassword": "Quên mật khẩu",
         "registernow": "Đăng ký!",
-        "or": "Hoặc"
+        "or": "Hoặc",
+        "wrongPassText": "Sai tên đăng nhập hoặc mật khẩu"
     },
     "navbar": {
         "category": "Danh mục",
@@ -34,5 +36,23 @@
         "paper": "Giấy tờ",
         "phone": "Điện thoại",
         "other": "Khác"
+    },
+    "category": {
+        "title": "Danh mục nổi bật",
+        "atm": "Thẻ ATM",
+        "wallet": "Ví",
+        "laptop": "Laptop",
+        "phone": "Điện thoại",
+        "paper": "Giấy tờ"
+    },
+    "news": {
+        "title": "Tin tức mới nhất"
+    },
+    "detail": {
+        "reply": "Phản hồi",
+        "share": "Chia sẻ",
+        "comment": "Bình luận",
+        "detail": "Chi tiết",
+        "category": "Danh mục"
     }
 }

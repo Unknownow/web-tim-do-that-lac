@@ -33,13 +33,17 @@
       <span>
         <a href="#" @click.prevent="setLocale('en')">
           <img src="/flag_en.svg" alt="english flag" id="iconFlag" />
-          <span id="englishLanguage" class="ml-2" style="color: white">English</span>
+          <span id="englishLanguage" class="ml-2" style="color: white"
+            >English</span
+          >
         </a>
       </span>
       <span>
         <a href="#" @click.prevent="setLocale('vi')">
           <img src="/flag_vi.svg" alt="english flag" id="iconFlag" />
-          <span id="vietnamLanguage" class="ml-2" style="color: white">Tiếng việt</span>
+          <span id="vietnamLanguage" class="ml-2" style="color: white"
+            >Tiếng việt</span
+          >
         </a>
       </span>
     </div>
@@ -94,7 +98,7 @@ export default {
         params: { lang: locale }
       });
       //set color text language
-      if (locale == "en") {
+      if (this.$i18n.locale == "en") {
         document.getElementById("englishLanguage").style.color = "#5bc0de";
         document.getElementById("vietnamLanguage").style.color = "white";
       } else {
@@ -130,4 +134,3 @@ export default {
   margin-top: 22px;
 }
 </style>
-
