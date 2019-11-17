@@ -38,6 +38,7 @@
         "other": "Khác"
     },
     "category": {
+        "select": "Lựa chọn",
         "title": "Danh mục nổi bật",
         "atm": "Thẻ ATM",
         "wallet": "Ví",

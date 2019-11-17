@@ -3,11 +3,11 @@
     <!-- <div class="row"> -->
     <!-- <div class="column"> -->
     <!-- <div style="margin-bottom: 10px">Kết nối</div> -->
-    <div style="float: right; margin: 20px;">
-      <a-icon type="twitter" class="icon-footer" :style="{ fontSize: '30px'}" />
-      <a-icon type="facebook" class="icon-footer" :style="{ fontSize: '30px'}" />
-      <a-icon type="google-plus" class="icon-footer" :style="{ fontSize: '30px'}" />
-      <a-icon type="instagram" class="icon-footer" :style="{ fontSize: '30px'}" />
+    <div style="float: right; margin: 10px;">
+      <a-icon type="twitter" class="icon-footer" :style="{ fontSize: '20px'}" />
+      <a-icon type="facebook" class="icon-footer" :style="{ fontSize: '20px'}" />
+      <a-icon type="google-plus" class="icon-footer" :style="{ fontSize: '20px'}" />
+      <a-icon type="instagram" class="icon-footer" :style="{ fontSize: '20px'}" />
     </div>
     <!-- <span>Twitter</span>
         <br />
@@ -66,7 +66,7 @@ export default {
 }
 footer {
   background: gray;
-  height: 60px;
+  height: 40px;
   color: white;
 }
 </style>

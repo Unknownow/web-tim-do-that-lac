@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div><h1>{{$t('news.title')}}</h1></div>
-    <div
-      style="width: 100%; cursor: pointer;"
-      v-on:click="clickPost"
-    >
+    <div>
+      <h1>{{ $t("news.title") }}</h1>
+    </div>
+    <div style="width: 100%; cursor: pointer;" v-on:click="clickPost">
       <a-card-grid
-        v-for="index in 12"
+        v-for="index in numPost"
         :key="index"
         :bordered="true"
         style=" min-width: 200px; width: 25%; height: 300px; border: 1px solid black; margin: 50px;"
@@ -27,12 +26,17 @@
     </div>
     <!-- thẻ div này để tránh list card bị footer che mất. -->
     <div style="cursor: point; height: 500px; width: 100%; color: #ffffff ">
-      ...........................
+      ............
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    numPost: {
+      type: Number
+    }
+  },
   data() {
     return {
       id: "222"

@@ -34,15 +34,16 @@
     "about": "About",
     "wallet": "Wallet",
     "paper": "Personal documents",
-    "phone": "Phone",
+    "phone": "Mobile Phone",
     "other": "Other"
   },
   "category": {
+    "select": "Select",
     "title":"Featured category",
     "atm": "ATM Card",
     "wallet": "Wallet",
     "laptop": "Laptop",
-    "phone": "Phone",
+    "phone": "Mobile Phone",
     "paper": "Personal documents"
   },
   "news":{

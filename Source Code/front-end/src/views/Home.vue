@@ -1,6 +1,7 @@
 <template>
   <div style="background-color: #ffffff; margin: 50px;">
     <div>
+      <search-component></search-component>
       <div><h1>{{$t('category.title')}}</h1></div>
       <div>
         <a-row :gutter="8">
@@ -62,15 +63,17 @@
         </a-row>
       </div>
     </div>
-    <news-component></news-component>
+    <news-component v-bind:numPost = 12></news-component>
   </div>
 </template>
 
 <script>
 import News from "../components/News.vue";
+import Search from "../components/Search.vue"
 export default {
   components: {
-    "news-component": News
+    "news-component": News,
+    "search-component": Search
   },
   data() {
     return {};
@@ -81,8 +84,8 @@ export default {
 <style scoped>
 .centered {
   color: white;
-  width: 94%;
-  background: rgba(0, 0, 0, .2) ;
+  /* width: 94%;
+  background: rgba(0, 0, 0, .2) ; */
   /* font-size: 55px; */
   font-size:3vw;
   position: absolute;
