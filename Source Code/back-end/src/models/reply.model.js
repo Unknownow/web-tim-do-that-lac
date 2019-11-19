@@ -34,3 +34,7 @@ const ReplySchema = mongoose.Schema(
         timestamps: true
     }
 )
+
+const Reply = mongoose.model("Reply", ReplySchema);
+
+module.exports = Reply;

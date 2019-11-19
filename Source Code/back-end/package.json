@@ -1,18 +1,23 @@
 {
-  "name": "tim-do-that-lac",
+  "name": "back-end",
   "version": "1.0.0",
-  "description": "Backend cho tìm đồ thất lạc",
   "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "brcypt": "^1.0.1",
+    "env-cmd": "^10.0.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.9",
+    "snakecase-keys": "^3.1.0",
+    "validator": "^12.0.0"
+  },
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./src/index.js"
+    "dev": "env-cmd -f ./config/.env nodemon src/index.js"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "mongoose": "^5.7.9",
-    "validator": "^12.0.0"
-  }
+  "description": ""
 }
