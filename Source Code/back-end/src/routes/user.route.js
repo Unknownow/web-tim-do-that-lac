@@ -16,12 +16,12 @@ const {
 router.post("/web_management/createUser/admin", auth, asyncMiddleware(createAdminUser));
 router.post("/web_management/createUser/mod", auth, asyncMiddleware(createModUser));
 
-router.post("/user/register", asyncMiddleware(createUser));
-router.post("/user/login", asyncMiddleware(logIn));
-router.post("/user/logout", auth, asyncMiddleware(logOut));
-router.post("/user/logoutAll", auth, asyncMiddleware(logOutAllToken));
-router.get("/user/me", auth, asyncMiddleware(getUserInfo));
-router.patch("/user/me", auth, asyncMiddleware(updateUserInfo));
-router.delete('/user/me', auth, asyncMiddleware(deleteUser));
+router.post("/register", asyncMiddleware(createUser));
+router.post("/login", asyncMiddleware(logIn));
+router.post("/logout", auth, asyncMiddleware(logOut));
+router.post("/logoutAll", auth, asyncMiddleware(logOutAllToken));
+router.get("/me", auth, asyncMiddleware(getUserInfo));
+router.patch("/me", auth, asyncMiddleware(updateUserInfo));
+router.delete('/me', auth, asyncMiddleware(deleteUser));
 
 module.exports = router;

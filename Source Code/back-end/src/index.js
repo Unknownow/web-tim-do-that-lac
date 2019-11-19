@@ -1,14 +1,16 @@
 require("./database/connect");
 const express = require("express");
-const mongoose = require("mongoose");
 const errorHandler = require("./middlewares/errorHandler");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // main routes here:
-app.use("/", require("./routes/category.route"));
-app.use("/", require("./routes/user.route"));
+app.use("/categoryManagement", require("./routes/category.route"));
+app.use("/user", require("./routes/user.route"));
+app.use("/post", require("./routes/post.route"));
 
 // error handler middleware:
 app.use(errorHandler);
