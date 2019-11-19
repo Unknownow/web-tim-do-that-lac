@@ -1,19 +1,22 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const PostSchema = new mongoose.Schema(
     {
         idUser: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: "User"
+            trim:true
         },
         type: {
             type: String,
             required: true,
+            trim:true
         },
         title: {
             type: String,
-            required: true
+            required: true,
+            trim:true
         },
         description: {
             type: String,
@@ -21,22 +24,30 @@ const PostSchema = new mongoose.Schema(
         },
         address: {
             type: String,
-            required: true
+            required: true,
+            trim:true
         },
         time: {
-            type: Date,
+            type: String,
             required: true,
         },
         categories: [{
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             required: true,
-            ref: "Category"
-        }]
+            trim:true
+        }],
+        finishedFlag: {
+            type:Boolean,
+            required:true,
+            default:false
+        }
     },
     {
         timestamps: true,
     }
 );
+
+PostSchema.plugin(mongoosePaginate);
 
 const Post = mongoose.model("Post", PostSchema);
 

@@ -9,9 +9,9 @@ async function createAdminUser(req, res) {
     }
 
     const admin = await userService.createAdminUser(req.body);
-    res.status(201).send({ 
+    res.status(201).send({
         status: 1,
-        results: admin 
+        results: admin
     });
 }
 
@@ -22,9 +22,9 @@ async function createModUser(req, res) {
     }
 
     const mod = await userService.createAdminUser(req.body);
-    res.status(201).send({ 
+    res.status(201).send({
         status: 1,
-        results: mod 
+        results: mod
     });
 }
 

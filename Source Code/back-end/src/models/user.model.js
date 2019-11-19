@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require('validator');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const CustomError = require('../errors/CustomError');
 const errorCode = require('../errors/errorCode');
@@ -69,41 +69,33 @@ const UserSchema = mongoose.Schema(
     }
 );
 
-UserSchema.methods.generateAuthToken = async function() {
+UserSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign({ _id: user.id.toString() }, PKEY); // return String
-  
+
     user.tokens = user.tokens.concat({ token });
     await user.save();
-  
+
     return token;
-  };
-  
-  UserSchema.methods.toJSON = function() {
+};
+
+UserSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
-  
+
     delete userObject.password;
     delete userObject.tokens;
-  
+
     return userObject;
-  };
-  
-  UserSchema.pre('save', async function(next) {
+};
+
+UserSchema.pre('save', async function (next) {
     const user = this;
-  
     if (user.isModified('password')) {
-      user.password = await bcrypt.hash(user.password, 8);
+        user.password = await bcrypt.hash(user.password, 8);
     }
-  
     next();
-  });
-  
-  UserSchema.pre('remove', async function(next) {
-    const user = this;
-    await Task.deleteMany({ owner: user._id });
-    next();
-  });
+});
 
 const User = mongoose.model("User", UserSchema);
 
