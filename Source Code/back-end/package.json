@@ -15,7 +15,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "dev": "env-cmd -f ./config/.env nodemon src/index.js"
+    "start": "nodemon ./src/index.js"
   },
   "author": "",
   "license": "ISC",
