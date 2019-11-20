@@ -37,16 +37,22 @@
     "phone": "Mobile Phone",
     "other": "Other"
   },
+  "searchbar": {
+    "keyword": "Keyword",
+    "address": "Address",
+    "category": "Category",
+    "search": "Search"
+  },
   "category": {
     "select": "Select",
-    "title":"Featured category",
+    "title": "Featured category",
     "atm": "ATM Card",
     "wallet": "Wallet",
     "laptop": "Laptop",
     "phone": "Mobile Phone",
     "paper": "Personal documents"
   },
-  "news":{
+  "news": {
     "title": "Latest news"
   },
   "detail": {

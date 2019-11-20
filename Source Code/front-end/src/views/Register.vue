@@ -4,85 +4,99 @@
       <a-form-item v-bind="formItemLayout" label="E-mail">
         <a-input
           v-decorator="[
-          'email',
-          {
-            rules: [
-              {
-                type: 'email',
-                message: $t('formRegister.notValidEmail'),
-              },
-              {
-                required: true,
-                message: $t('formRegister.nullEmail'),
-              },
-            ],
-          },
-        ]"
+            'email',
+            {
+              rules: [
+                {
+                  type: 'email',
+                  message: $t('formRegister.notValidEmail')
+                },
+                {
+                  required: true,
+                  message: $t('formRegister.nullEmail')
+                }
+              ]
+            }
+          ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout" :label="$t('formRegister.password')">
         <a-input
           v-decorator="[
-          'password',
-          {
-            rules: [
-              {
-                required: true,
-                message: $t('formRegister.nullPassword'),
-              },
-              {
-                validator: validateToNextPassword,
-              },
-            ],
-          },
-        ]"
+            'password',
+            {
+              rules: [
+                {
+                  required: true,
+                  message: $t('formRegister.nullPassword')
+                },
+                {
+                  validator: validateToNextPassword
+                }
+              ]
+            }
+          ]"
           type="password"
         />
       </a-form-item>
-      <a-form-item v-bind="formItemLayout" :label="$t('formRegister.confirmPassword')">
+      <a-form-item
+        v-bind="formItemLayout"
+        :label="$t('formRegister.confirmPassword')"
+      >
         <a-input
           v-decorator="[
-          'confirm',
-          {
-            rules: [
-              {
-                required: true,
-                message: $t('formRegister.nullConfirmPassword'),
-              },
-              {
-                validator: compareToFirstPassword,
-              },
-            ],
-          },
-        ]"
+            'confirm',
+            {
+              rules: [
+                {
+                  required: true,
+                  message: $t('formRegister.nullConfirmPassword')
+                },
+                {
+                  validator: compareToFirstPassword
+                }
+              ]
+            }
+          ]"
           type="password"
           @blur="handleConfirmBlur"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout">
         <span slot="label">
-          {{$t('formRegister.username')}}&nbsp;
+          {{ $t("formRegister.username") }}&nbsp;
           <a-tooltip :title="$t('formRegister.tooltipUsername')">
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
         <a-input
           v-decorator="[
-          'Username',
-          {
-            rules: [{ required: true, message: $t('formRegister.nullUsername'), whitespace: true }],
-          },
-        ]"
+            'Username',
+            {
+              rules: [
+                {
+                  required: true,
+                  message: $t('formRegister.nullUsername'),
+                  whitespace: true
+                }
+              ]
+            }
+          ]"
         />
       </a-form-item>
-      <a-form-item v-bind="formItemLayout" :label="$t('formRegister.phoneNumber')">
+      <a-form-item
+        v-bind="formItemLayout"
+        :label="$t('formRegister.phoneNumber')"
+      >
         <a-input
           v-decorator="[
-          'phone',
-          {
-            rules: [{ required: true, message: $t('formRegister.nullPhoneNumber') }],
-          },
-        ]"
+            'phone',
+            {
+              rules: [
+                { required: true, message: $t('formRegister.nullPhoneNumber') }
+              ]
+            }
+          ]"
           style="width: 100%"
         >
           <a-select
@@ -97,12 +111,14 @@
       </a-form-item>
       <a-form-item v-bind="tailFormItemLayout" style="margin-top: -50px;">
         <a-checkbox v-decorator="['agreement', { valuePropName: 'checked' }]">
-          {{$t('formRegister.ihaveread')}}
-          <a href>{{$t('formRegister.agreement')}}</a>
+          {{ $t("formRegister.ihaveread") }}
+          <a href>{{ $t("formRegister.agreement") }}</a>
         </a-checkbox>
       </a-form-item>
       <a-form-item v-bind="tailFormItemLayout" style="margin-top: -50px;">
-        <a-button type="primary" html-type="submit">{{$t('register')}}</a-button>
+        <a-button type="primary" html-type="submit">{{
+          $t("register")
+        }}</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -110,6 +126,7 @@
 
 <script>
 import i18n from "../i18n";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -146,9 +163,11 @@ export default {
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFieldsAndScroll((err, values) => {
+      this.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
+          if (values.agreement) {
+            this.register(values);
+          }
         }
       });
     },
@@ -159,7 +178,6 @@ export default {
     compareToFirstPassword(rule, value, callback) {
       const form = this.form;
       if (value && value !== form.getFieldValue("password")) {
-        // console.log(i18n.locale + " ------------ ");
         if (i18n.locale == "vi") {
           callback("Mật khẩu xác nhận không trùng khớp!");
         } else {
@@ -171,6 +189,19 @@ export default {
     },
     validateToNextPassword(rule, value, callback) {
       const form = this.form;
+      let getPassword = form.getFieldValue("password");
+
+      if (
+        getPassword.match(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-+_=|{}`~])[0-9a-zA-Z]{8,}/
+        )
+      ) {
+        callback();
+      } else {
+        callback(
+          "Mật khẩu cần phải có ít nhất 8 kí tự gồm: chữ thường, chữ hoa, số và ký tự"
+        );
+      }
       if (value && this.confirmDirty) {
         form.validateFields(["confirm"], { force: true });
       }
@@ -186,6 +217,25 @@ export default {
         );
       }
       this.autoCompleteResult = autoCompleteResult;
+    },
+    register: function(values) {
+      axios
+        .post("http://localhost:3000/user/register", {
+          role: "member",
+          name: values.Username,
+          email: values.email,
+          password: values.password,
+          tel: values.phone,
+          address: "123 đường XYZ quận MNP Thành Phố Hà Nội"
+        })
+        .then(() => {
+          this.$store.state.nameCurrentUser = values.Username;
+          this.$store.state.loginState = true;
+          this.$router.push("/home");
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

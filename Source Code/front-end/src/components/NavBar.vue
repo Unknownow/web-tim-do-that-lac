@@ -19,7 +19,7 @@
       <a-menu-item key="post">
         <a-icon type="form" />
         <span>
-          <router-link :to="{ name: 'login' }" style="color:#595959">{{$t('navbar.post')}}</router-link>
+          <router-link :to="{ name: 'post' }" style="color:#595959">{{$t('navbar.post')}}</router-link>
         </span>
       </a-menu-item>
       <a-menu-item key="intro">

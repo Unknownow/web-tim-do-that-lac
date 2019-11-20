@@ -1,14 +1,14 @@
 <template>
   <div style="width: 100%; background-color: #ffffff; margin-top: 50px;">
     <div style="position: relative">
-      <img src="/Capture.png" width="100%" height="300px" />
-      <div id="leftContent" style="font-size: 20px; margin-left: 60px">
+      <img src="/category/headerdetail.jpg" width="100%" />
+      <div id="leftContent" style="font-size: 20px; margin-left: 60px; color: white">
         <div style="font-size: 30px; margin-left: 360px;">
           Đánh rơi ví màu nâu chứa 50 nghìn VNĐ
         </div>
-        <div style="margin-left: 60px">
+        <div style="margin-left: 30px">
           <a-icon theme="filled" type="phone" />
-          <span style="margin-left: 10px">Đức Mập đít: 032748123</span>
+          <span style="margin-left: 10px">Đức Mập: 032748123</span>
         </div>
         <div style="margin-left: 140px">
           <a-icon theme="filled" type="compass" />
@@ -17,7 +17,7 @@
         <div id="category" style="margin-left: -100px">Ví</div>
       </div>
       <div id="rightContent">
-        <div style="font-size: 25px; color: red">
+        <div style="font-size: 25px; color: white">
           <div style="display:inline-block">
             <a-icon theme="filled" type="message" />
             <span style="margin-left: 10px">{{ $t("detail.reply") }}</span>

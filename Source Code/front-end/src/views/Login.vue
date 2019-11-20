@@ -9,7 +9,7 @@
       <a-form-item v-bind="formItemLayout" :label="$t('formLogin.username')">
         <a-input
           v-decorator="[
-            'userName',
+            'email',
             {
               rules: [{ required: true, message: $t('formLogin.nullUsername') }]
             }
@@ -48,16 +48,14 @@
         <a class="login-form-forgot" href>{{
           $t("formLogin.forgotPassword")
         }}</a>
-        <div v-if="wrongPass" style="color: red">{{ $t("formLogin.wrongPassText") }}</div>
-        <a-button
-          type="primary"
-          html-type="submit"
-          class="login-form-button"
-          v-on:click="login"
-          >{{ $t("login") }}</a-button
-        >
+        <div v-if="wrongPass" style="color: red">
+          {{ $t("formLogin.wrongPassText") }}
+        </div>
+        <a-button type="primary" html-type="submit" class="login-form-button">{{
+          $t("login")
+        }}</a-button>
         {{ $t("formLogin.or") }}
-        <router-link :to="{ name: 'register' }" v-on:click="login">{{
+        <router-link :to="{ name: 'register' }">{{
           $t("formLogin.registernow")
         }}</router-link>
         <!-- <a href>register now!</a> -->
@@ -68,6 +66,7 @@
 
 <script>
 import { CookieFunctions } from "../functions/CookieFunctions";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -86,6 +85,18 @@ export default {
     };
   },
   beforeCreate() {
+    if (
+      CookieFunctions.readCookie("sessionId") !== "" &&
+      CookieFunctions.readCookie("sessionId") !== null &&
+      CookieFunctions.readCookie("sessionUserName") !== "" &&
+      CookieFunctions.readCookie("sessionUserName") !== null
+    ) {
+      this.$store.state.nameCurrentUser = CookieFunctions.readCookie(
+        "sessionUserName"
+      );
+      this.$store.state.loginState = true;
+      this.$router.push("/home");
+    }
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
 
@@ -94,24 +105,35 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          // console.log("Received values of form: ", values);
-          this.$store.state.nameCurrentUser = values.userName;
-          if (this.$store.state.loginState) {
-            this.$router.push("/home");
-          }
+          // console.log(values);
+          axios
+            .post("http://localhost:3000/user/login", {
+              email: values.email,
+              password: values.password
+            })
+            .then(response => {
+              if (values.remember) {
+                this.storeToken(response.data.results.token, values.email);
+              }
+              this.$store.state.nameCurrentUser = values.email;
+              this.$store.state.loginState = true;
+              this.$router.push("/home");
+            })
+            .catch(() => {
+              if (this.$i18n.locale == "vi") {
+                alert("Tên đăng nhập hoặc mật khẩu không đúng");
+              } else {
+                alert("Incorrect username or password");
+              }
+            });
         }
       });
     },
-    login: function() {
+    storeToken: function(token, username) {
       // login sẽ thực hiện trước hàm handleSubmit nên cần để router phía trên
       // console.log(this.$store.state.loginState);
-      var sId = "AAXASDWQW";
-      CookieFunctions.writeCookie("sessionId", sId, 3);
-      if (sId !== null) {
-        this.$store.state.loginState = true;
-      } else {
-        this.wrongPass = true;
-      }
+      CookieFunctions.writeCookie("sessionId", token, 3);
+      CookieFunctions.writeCookie("sessionUserName", username, 3);
     }
   }
 };

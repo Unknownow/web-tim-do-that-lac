@@ -5,14 +5,14 @@
       <h2 style="color: #ffffff">Tìm đồ thất lạc của bạn</h2>
       <a-form layout="inline">
         <a-form-item>
-          <a-input placeholder="Username">
-            <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+          <a-input :placeholder="$t('searchbar.keyword')">
+            <!-- <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /> -->
           </a-input>
         </a-form-item>
         <a-form-item>
           <a-select
             showSearch
-            placeholder="Select a person"
+            :placeholder="$t('category.select') + ' ' + $t('searchbar.address')"
             optionFilterProp="children"
             style="width: 200px"
             @focus="handleFocus"
@@ -49,7 +49,7 @@
         </a-form-item>
         <a-form-item>
           <a-button type="primary" html-type="submit">
-            Search
+           {{$t('searchbar.search')}}
           </a-button>
         </a-form-item>
       </a-form>

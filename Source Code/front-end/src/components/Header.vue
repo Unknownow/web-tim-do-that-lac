@@ -3,7 +3,9 @@
     <div id="headerBar">
       <div id="nameWebsite">
         <!-- <a href="/home" style="color: #ffffff">ReturnMe</a> -->
-        <router-link :to="{ name: 'home' }" style="color: #ffffff">ReturnMe</router-link>
+        <router-link :to="{ name: 'home' }" style="color: #ffffff"
+          >ReturnMe</router-link
+        >
       </div>
       <!-- <label >Đăng nhập</label> -->
       <a-button
@@ -56,9 +58,11 @@ export default {
   },
   methods: {
     LogoutFunction: function() {
-      this.$store.commit("changeStateLogin");
-      this.$store.state.loginState = false;
+      // this.$store.commit("changeStateLogin");
       CookieFunctions.deleteCookie("sessionId");
+      CookieFunctions.deleteCookie("sessionUserName");
+      this.$store.state.loginState = false;
+      this.$router.push("/login");
     }
   },
   computed: {}

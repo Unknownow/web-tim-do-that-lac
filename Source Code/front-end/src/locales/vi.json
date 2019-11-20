@@ -37,6 +37,12 @@
         "phone": "Điện thoại",
         "other": "Khác"
     },
+    "searchbar": {
+        "keyword": "Từ khóa",
+        "address": "Địa chỉ",
+        "category": "Danh mục",
+        "search": "Tìm kiếm"
+    },
     "category": {
         "select": "Lựa chọn",
         "title": "Danh mục nổi bật",
