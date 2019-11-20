@@ -7,8 +7,8 @@ const {
     deleteCategory
 } = require('../controllers/category.controller');
 
-router.post('/categoryManagement/', auth, asyncMiddleware(createCategory));
-router.patch('/categoryManagement/:name', auth, asyncMiddleware(updateCategory));
-router.delete('/categoryManagement/:name', auth, asyncMiddleware(deleteCategory));
+router.post('/', auth, asyncMiddleware(createCategory));
+router.patch('/:name', auth, asyncMiddleware(updateCategory));
+router.delete('/:name', auth, asyncMiddleware(deleteCategory));
 
 module.exports = router;
