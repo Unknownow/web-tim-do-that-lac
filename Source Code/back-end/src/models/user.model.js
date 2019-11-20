@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require('validator');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const CustomError = require('../errors/CustomError');
 const errorCode = require('../errors/errorCode');
