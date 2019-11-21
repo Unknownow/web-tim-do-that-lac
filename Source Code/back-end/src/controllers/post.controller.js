@@ -101,13 +101,22 @@ async function finishPost(req, res) {
     });
 }
 
-async function getPostByIndex(req, res){
-    const {start, end} = req.query;
-    
+async function getPostByIndex(req, res) {
+    const { start, end } = req.query;
+
     const listPosts = await postService.getPostByIndex(start, end);
     res.status(201).send({
-        status:1,
-        results:listPosts
+        status: 1,
+        results: listPosts
+    });
+}
+
+async function searchPost(req, res) {
+    const keyword = req.query;
+    const listPosts = await postService.searchPost(keyword);
+    res.status(201).send({
+        status: 1,
+        results: listPosts
     });
 }
 
@@ -119,5 +128,6 @@ module.exports = {
     deletePostByID,
     finishPost,
     getPostByIndex,
-    getPostByIDAfterLogin
+    getPostByIDAfterLogin,
+    searchPost
 }

@@ -38,11 +38,11 @@ async function createUser(req, res) {
 
 async function logIn(req, res) {
     const { email, password } = req.body;
-    const token = await userService.logIn(email, password);
+    const {token, role} = await userService.logIn(email, password);
 
     res.send({
         status: 1,
-        results: { token }
+        results: { token, role }
     });
 }
 

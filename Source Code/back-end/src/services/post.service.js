@@ -9,6 +9,8 @@ async function createPost(idUser, postDetail) {
         postDetail.categories[i] = postDetail.categories[i].toLowerCase();
     }
 
+    postDetail.time = new Date(postDetail.time + ":00Z");
+
     const newPost = await Post.create({ idUser, ...postDetail });
     return newPost;
 }
@@ -44,10 +46,10 @@ async function updatePost(_id, user, updatedInfo) {
     }
 
     const updates = Object.keys(updatedInfo);
-    const allowedUpdate = ["title", "description", "time", "address"];
-    const isValidUpdate = updates.every(update => {
-        allowedUpdate.includes(update);
-    });
+    const allowedUpdates = ["title", "description", "address", "time"];
+    const isValidUpdate = updates.every(update =>
+        allowedUpdates.includes(update),
+    );
 
     if (!isValidUpdate) {
         throw new CustomError(errorCode.BAD_REQUEST, "Invalid key in update!");
@@ -58,7 +60,7 @@ async function updatePost(_id, user, updatedInfo) {
             updatedInfo.categories[i] = updatedInfo.categories[i].toLowerCase();
         }
 
-    const updatedPost = Post.findByIdAndUpdate(_id, { ...updatedInfo });
+    const updatedPost = Post.findByIdAndUpdate(_id, { ...updatedInfo }, { new: true });
     return updatedPost;
 }
 
@@ -66,7 +68,7 @@ async function deletePostByID(_id, user) {
     const permittedRole = ["admin", "mod"];
     let isValidToDelete = false;
     const currentPost = await Post.findById(_id);
-    
+
 
     for (let i = 0; i < permittedRole.length; i++) {
         if (user.role === permittedRole[i]) {
@@ -125,6 +127,62 @@ async function getPostByIndex(start, end) {
     return listPosts;
 }
 
+async function searchPost(keyword) {
+    const limit = keyword.end - keyword.start + 1;
+    const start = keyword.start;
+
+    delete keyword.start;
+    delete keyword.end;
+
+    if (!keyword.address) {
+        keyword.address = { $exists: true };
+    }
+    else {
+        keyword.address = { $regex: new RegExp(keyword.address) }
+    }
+
+    if (!keyword.categories) {
+        keyword.categories = { $exists: true };
+    }
+    else {
+        keyword.categories = { $in: keyword.categories };
+    }
+
+    let regexString = "";
+    if(!keyword.keywords){
+        keyword.keywords = ".*";
+    }
+    else if (keyword.keywords instanceof Array) {
+        keyword.keywords.forEach(key => {
+            regexString += key + "|"
+        });
+        regexString = regexString.substring(0, regexString.length - 1);
+    }
+    else{
+        regexString = keyword.keywords;
+    }
+    const regex = new RegExp(regexString);
+    keyword.description = keyword.title = { $regex: regex, $options: "$i" };
+
+    let listPosts = await Post.paginate(
+        {
+            address: keyword.address,
+            categories: keyword.categories,
+            $or: [
+                { description: keyword.description },
+                { title: keyword.title },
+            ],
+            finishedFlag: false
+        },
+        {
+            offset: start,
+            limit
+        }
+    );
+
+    return listPosts.docs;
+}
+
 module.exports = {
     createPost,
     getAllPost,
@@ -132,5 +190,6 @@ module.exports = {
     updatePost,
     deletePostByID,
     finishPost,
-    getPostByIndex
+    getPostByIndex,
+    searchPost
 }

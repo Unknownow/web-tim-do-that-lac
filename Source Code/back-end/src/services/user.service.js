@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 const errorCode = require('../errors/errorCode');
 const CustomError = require('../errors/CustomError');
@@ -61,8 +61,9 @@ async function logIn(email, password) {
         throw new CustomError(errorCode.UNAUTHORIZED, "Login failed! Password is not matched");
     }
     const token = currentUser.generateAuthToken();
+    const role = currentUser.role;
 
-    return token;
+    return { token, role };
 }
 
 async function logOut(user, currentToken) {
