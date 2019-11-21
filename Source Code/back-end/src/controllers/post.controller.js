@@ -4,7 +4,8 @@ const CustomError = require("../errors/CustomError");
 const errorCode = require("../errors/errorCode");
 
 async function createPost(req, res) {
-    const newPost = await postService.createPost(req.user._id, req.body);
+    req.body = JSON.parse(JSON.stringify(req.body));
+    const newPost = await postService.createPost(req.user._id, req.body, req.files);
 
     res.status(201).send({
         status: 1,
@@ -58,12 +59,13 @@ async function getPostByID(req, res) {
 async function updatePost(req, res) {
     const { id } = req.params;
 
+    
+
     if (!validator.isMongoId(id)) {
         throw new CustomError(errorCode.BAD_REQUEST, 'Invalid ID');
     }
-
-    const updatedInfo = req.body;
-    const post = await postService.updatePost(id, req.user, updatedInfo);
+    const updatedInfo = JSON.parse(JSON.stringify(req.body));
+    const post = await postService.updatePost(id, req.user, updatedInfo, req.files);
 
     res.status(201).send({
         status: 1,
@@ -120,6 +122,16 @@ async function searchPost(req, res) {
     });
 }
 
+async function uploadFile(req, res) {
+    req.body = JSON.parse(JSON.stringify(req.body));
+    const files = req.files;
+    postService.uploadFile(files, req.user);
+    res.status(201).send({
+        status: 1,
+        results: req.files[0].buffer
+    })
+}
+
 module.exports = {
     createPost,
     getAllPost,
@@ -129,5 +141,6 @@ module.exports = {
     finishPost,
     getPostByIndex,
     getPostByIDAfterLogin,
-    searchPost
+    searchPost,
+    uploadFile
 }

@@ -1,15 +1,36 @@
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
-const Category = require("../models/category.model")
 const CustomError = require("../errors/CustomError");
 const errorCode = require("../errors/errorCode");
+const cloudinary = require("cloudinary").v2;
+const keywordFormatter = require("./post.keywordFormatter");
 
-async function createPost(idUser, postDetail) {
+cloudinary.config({
+    cloud_name: 'webtt20191',
+    api_key: '136924572142265',
+    api_secret: 'Xl3Es1W3G8Hg1F3Y16riLdxX8G0'
+});
+
+async function createPost(idUser, postDetail, files) {
     for (let i = 0; i < postDetail.categories.length; i++) {
         postDetail.categories[i] = postDetail.categories[i].toLowerCase();
     }
 
     postDetail.time = new Date(postDetail.time + ":00Z");
+    postDetail.imgLinks = [];
+    if (files) {
+        const folderName = idUser + "_folder";
+        for (let i = 0; i < files.length; i++) {
+            let fileName = idUser + "_image_" + i.toString() + "_" + Date.now();
+            try {
+                let result = await cloudinary.uploader.upload(files[i].path, { public_id: fileName, folder: folderName });
+                postDetail.imgLinks = postDetail.imgLinks.concat(result.url);
+
+            } catch (error) {
+                throw new CustomError(errorCode.INTERNAL_SERVER_ERROR, "Upload images failed");
+            }
+        }
+    }
 
     const newPost = await Post.create({ idUser, ...postDetail });
     return newPost;
@@ -35,7 +56,7 @@ async function getPostByID(_id) {
     return post;
 }
 
-async function updatePost(_id, user, updatedInfo) {
+async function updatePost(_id, user, updatedInfo, files) {
     const post = await Post.findById(_id);
     if (!post) {
         throw new CustomError(errorCode.NOT_FOUND, "Could not find this post!");
@@ -44,9 +65,8 @@ async function updatePost(_id, user, updatedInfo) {
     if (post.idUser.toString() !== user._id.toString()) {
         throw new CustomError(errorCode.FORBIDDEN, "You are not permitted to update this post!");
     }
-
     const updates = Object.keys(updatedInfo);
-    const allowedUpdates = ["title", "description", "address", "time"];
+    const allowedUpdates = ["title", "description", "address", "time", "categories"];
     const isValidUpdate = updates.every(update =>
         allowedUpdates.includes(update),
     );
@@ -59,6 +79,26 @@ async function updatePost(_id, user, updatedInfo) {
         for (let i = 0; i < updatedInfo.categories.length; i++) {
             updatedInfo.categories[i] = updatedInfo.categories[i].toLowerCase();
         }
+    if (files) {
+        updatedInfo.imgLinks = [];
+        const folderName = user._id + "_folder";
+        for (let i = 0; i < files.length; i++) {
+            let fileName = user._id + "_image_" + i.toString() + "_" + Date.now();
+            try {
+                let result = await cloudinary.uploader.upload(files[i].path, { public_id: fileName, folder: folderName });
+                updatedInfo.imgLinks = updatedInfo.imgLinks.concat(result.url);
+            } catch (error) {
+                throw new CustomError(errorCode.INTERNAL_SERVER_ERROR, "Upload images failed");
+            }
+        }
+        if(post.imgLinks)
+            updatedInfo.imgLinks = updatedInfo.imgLinks.concat(post.imgLinks);
+    }
+
+    if(updatedInfo.time){
+        updatedInfo.time = new Date(updatedInfo.time + ":00Z");
+    }
+    
 
     const updatedPost = Post.findByIdAndUpdate(_id, { ...updatedInfo }, { new: true });
     return updatedPost;
@@ -134,35 +174,7 @@ async function searchPost(keyword) {
     delete keyword.start;
     delete keyword.end;
 
-    if (!keyword.address) {
-        keyword.address = { $exists: true };
-    }
-    else {
-        keyword.address = { $regex: new RegExp(keyword.address) }
-    }
-
-    if (!keyword.categories) {
-        keyword.categories = { $exists: true };
-    }
-    else {
-        keyword.categories = { $in: keyword.categories };
-    }
-
-    let regexString = "";
-    if(!keyword.keywords){
-        keyword.keywords = ".*";
-    }
-    else if (keyword.keywords instanceof Array) {
-        keyword.keywords.forEach(key => {
-            regexString += key + "|"
-        });
-        regexString = regexString.substring(0, regexString.length - 1);
-    }
-    else{
-        regexString = keyword.keywords;
-    }
-    const regex = new RegExp(regexString);
-    keyword.description = keyword.title = { $regex: regex, $options: "$i" };
+    keyword = await keywordFormatter(keyword);
 
     let listPosts = await Post.paginate(
         {
@@ -183,6 +195,19 @@ async function searchPost(keyword) {
     return listPosts.docs;
 }
 
+async function uploadFile(files, user) {
+    for (let i = 0; i < files.length; i++) {
+        let fileName = user._id + "_image_" + i.toString() + "_" + Date.now();
+        console.log(fileName);
+        try {
+            console.log(await cloudinary.uploader.upload(files[i].path, { public_id: fileName }));
+        } catch (error) {
+            error.FileUpload = 'Error Upload Image';
+            console.log(error);
+        }
+    }
+}
+
 module.exports = {
     createPost,
     getAllPost,
@@ -191,5 +216,6 @@ module.exports = {
     deletePostByID,
     finishPost,
     getPostByIndex,
-    searchPost
+    searchPost,
+    uploadFile
 }

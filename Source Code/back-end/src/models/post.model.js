@@ -36,6 +36,10 @@ const PostSchema = new mongoose.Schema(
             required: true,
             trim:true
         }],
+        imgLinks: [{
+            type:String,
+            required:false
+        }],
         finishedFlag: {
             type:Boolean,
             required:true,
