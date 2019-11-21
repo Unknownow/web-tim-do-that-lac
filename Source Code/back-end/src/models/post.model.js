@@ -28,7 +28,7 @@ const PostSchema = new mongoose.Schema(
             trim:true
         },
         time: {
-            type: String,
+            type: Date,
             required: true,
         },
         categories: [{
