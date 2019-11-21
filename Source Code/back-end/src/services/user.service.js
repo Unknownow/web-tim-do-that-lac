@@ -78,7 +78,7 @@ async function logOutAll(user) {
 
 async function updateUser(user, updatedInfo) {
     const updates = Object.keys(updatedInfo);
-    const allowUpdate = ["role", "name", "email", "password", "tel", "address"];
+    const allowUpdate = ["name", "password", "tel", "address"];
     const isValidUpdateInfo = updates.every(update =>
         allowUpdate.includes(update)
     );
