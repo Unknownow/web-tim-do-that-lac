@@ -25,7 +25,8 @@
       </a-button>
       <span
         v-if="this.$store.state.loginState"
-        style="float: right; margin-top: 23px"
+        style="float: right; margin-top: 23px; cursor: pointer"
+        v-on:click="routeToProfile"
         >{{ this.$store.state.nameCurrentUser }}</span
       >
       <languageSwitch></languageSwitch>
@@ -63,6 +64,11 @@ export default {
       CookieFunctions.deleteCookie("sessionUserName");
       this.$store.state.loginState = false;
       this.$router.push("/login");
+    },
+    routeToProfile: function() {
+      this.$router.push({
+        name: "profile"
+      });
     }
   },
   computed: {}

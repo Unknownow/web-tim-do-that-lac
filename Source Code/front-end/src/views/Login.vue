@@ -42,7 +42,7 @@
               initialValue: true
             }
           ]"
-          style="margin-left: -70px"
+          style="margin-left: -48px"
           >{{ $t("formLogin.rememberme") }}</a-checkbox
         >
         <a class="login-form-forgot" href>{{
@@ -51,6 +51,10 @@
         <div v-if="wrongPass" style="color: red">
           {{ $t("formLogin.wrongPassText") }}
         </div>
+        <br />
+        <span v-if="failLogin" style="color: red; font-size: 15px"
+          >Sai tên đăng nhập hoặc mật khẩu</span
+        >
         <a-button type="primary" html-type="submit" class="login-form-button">{{
           $t("login")
         }}</a-button>
@@ -70,6 +74,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      failLogin: false,
       wrongPass: false,
       formItemLayout: {
         labelCol: {
@@ -120,11 +125,12 @@ export default {
               this.$router.push("/home");
             })
             .catch(() => {
-              if (this.$i18n.locale == "vi") {
-                alert("Tên đăng nhập hoặc mật khẩu không đúng");
-              } else {
-                alert("Incorrect username or password");
-              }
+              // if (this.$i18n.locale == "vi") {
+              //   alert("Tên đăng nhập hoặc mật khẩu không đúng");
+              // } else {
+              //   alert("Incorrect username or password");
+              // }
+              this.failLogin = true;
             });
         }
       });
@@ -132,6 +138,7 @@ export default {
     storeToken: function(token, username) {
       // login sẽ thực hiện trước hàm handleSubmit nên cần để router phía trên
       // console.log(this.$store.state.loginState);
+      this.$store.state.token = token;
       CookieFunctions.writeCookie("sessionId", token, 3);
       CookieFunctions.writeCookie("sessionUserName", username, 3);
     }

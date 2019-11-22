@@ -105,17 +105,30 @@
             style="width: 70px"
           >
             <a-select-option value="84">+84</a-select-option>
-            <a-select-option value="85">+85</a-select-option>
+            <a-select-option value="86">+86</a-select-option>
           </a-select>
         </a-input>
       </a-form-item>
-      <a-form-item v-bind="tailFormItemLayout" style="margin-top: -50px;">
+      <a-form-item v-bind="formItemLayout" :label="$t('formRegister.address')">
+        <a-input
+          v-decorator="[
+            'address',
+            {
+              rules: []
+            }
+          ]"
+        />
+      </a-form-item>
+      <a-form-item v-bind="tailFormItemLayout" style="margin-top: -30px;">
         <a-checkbox v-decorator="['agreement', { valuePropName: 'checked' }]">
           {{ $t("formRegister.ihaveread") }}
           <a href>{{ $t("formRegister.agreement") }}</a>
         </a-checkbox>
       </a-form-item>
-      <a-form-item v-bind="tailFormItemLayout" style="margin-top: -50px;">
+      <a-form-item
+        v-bind="tailFormItemLayout"
+        style="margin-top: -50px; margin-bottom: 50px"
+      >
         <a-button type="primary" html-type="submit">{{
           $t("register")
         }}</a-button>
@@ -127,6 +140,7 @@
 <script>
 import i18n from "../i18n";
 import axios from "axios";
+import { CookieFunctions } from "../functions/CookieFunctions";
 export default {
   data() {
     return {
@@ -191,6 +205,7 @@ export default {
       const form = this.form;
       let getPassword = form.getFieldValue("password");
 
+      // kiểm tra mật khẩu có đúng định dạng không
       if (
         getPassword.match(
           /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-+_=|{}`~])[0-9a-zA-Z]{8,}/
@@ -226,16 +241,28 @@ export default {
           email: values.email,
           password: values.password,
           tel: values.phone,
-          address: "123 đường XYZ quận MNP Thành Phố Hà Nội"
+          address: values.address
         })
-        .then(() => {
-          this.$store.state.nameCurrentUser = values.Username;
-          this.$store.state.loginState = true;
-          this.$router.push("/home");
+        .then(response => {
+          if (response.data.message !== "Email has already existed") {
+            this.$store.state.nameCurrentUser = values.Username;
+            this.$store.state.loginState = true;
+            this.$store.state.token = response.data.results.token;
+            console.log(response);
+            this.storeToken(values.Username, response.data.results.token);
+            this.$router.push("/home");
+          }
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    storeToken: function(token, username) {
+      // login sẽ thực hiện trước hàm handleSubmit nên cần để router phía trên
+      // console.log(this.$store.state.loginState);
+      this.$store.state.token = token;
+      CookieFunctions.writeCookie("sessionId", token, 3);
+      CookieFunctions.writeCookie("sessionUserName", username, 3);
     }
   }
 };

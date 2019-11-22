@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     loginState: false,
-    nameCurrentUser: 'Dat ngu si'
+    nameCurrentUser: 'Dat ngu si',
+    token: null
   },
   getters: {},
   mutations: {

@@ -5,7 +5,7 @@
     "formRegister": {
         "password": "Mật khẩu",
         "confirmPassword": "Xác nhận mật khẩu",
-        "username": "Tên đăng nhập",
+        "username": "Họ và tên",
         "phoneNumber": "Số điện thoại",
         "ihaveread": "Tôi đã đọc",
         "agreement": "điểu khoản",
@@ -15,7 +15,8 @@
         "nullConfirmPassword": "Mật khẩu xác nhận không được để trống!",
         "tooltipUsername": "Bạn muốn mọi người gọi bạn là?",
         "nullUsername": "Tên đăng nhập không được để trống",
-        "nullPhoneNumber": "Số điện thoại không được để trống!"
+        "nullPhoneNumber": "Số điện thoại không được để trống!",
+        "address": "Địa chỉ"
     },
     "formLogin": {
         "username": "Tên đăng nhập",

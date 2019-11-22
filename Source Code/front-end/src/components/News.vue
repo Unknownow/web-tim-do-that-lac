@@ -5,12 +5,12 @@
     </div>
     <div style="width: 100%; cursor: pointer;" v-on:click="clickPost">
       <a-card-grid
-        v-for="index in numPost"
-        :key="index"
+        v-for="post in dataPost"
+        :key="post.index"
         :bordered="true"
         style=" min-width: 200px; width: 25%; height: 300px; border: 1px solid black; margin: 50px;"
       >
-        <h2 style="margin-top: -10px">Card title</h2>
+        <h2 style="margin-top: -10px">{{ post.title }}</h2>
         <img
           src="/flag_en.svg"
           width="100%"
@@ -18,9 +18,9 @@
           style="margin-left: 0 px"
           alt="english flag"
         />
-        <div style="margin-top: 10px">
-          <p>Địa chỉ</p>
-          <p>Họ tên + Số đuiện thoại</p>
+        <div style="margin-top: 5px">
+          <p>{{ post.address }}</p>
+          <p>{{ post.name }} {{ post.tel }}</p>
         </div>
       </a-card-grid>
     </div>
@@ -31,10 +31,14 @@
   </div>
 </template>
 <script>
+// import axios from "axios";
 export default {
   props: {
-    numPost: {
-      type: Number
+    // numPost: {
+    //   type: Number
+    // }
+    dataPost: {
+      type: Array
     }
   },
   data() {
@@ -42,6 +46,20 @@ export default {
       id: "222"
     };
   },
+  // beforeCreate(){
+  //    axios
+  //     .get("http://localhost:3000/post/getPost?start=0&end=5")
+  //     .then(response => {
+  //       this.dataPost = response.data.results;
+  //       console.log(this.dataPost);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     })
+  //     .finally(() => {
+  //       // always executed
+  //     });
+  // },
   methods: {
     clickPost: function() {
       // this.$router.push("/detail/"+this.id);
