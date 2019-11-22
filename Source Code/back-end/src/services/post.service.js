@@ -164,7 +164,6 @@ async function getPostByIndex(start, end) {
     for (let i = 0; i < listPosts.length; i++) {
         let tempUser = await User.findById(listPosts[i].idUser);
         listPosts[i] = { name: tempUser.name, tel: tempUser.tel, ...listPosts[i]._doc };
-        delete listPosts[i]._id;
         delete listPosts[i].idUser;
     }
 
