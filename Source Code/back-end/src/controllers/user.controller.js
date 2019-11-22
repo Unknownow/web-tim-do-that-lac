@@ -38,8 +38,7 @@ async function createUser(req, res) {
 
 async function logIn(req, res) {
     const { email, password } = req.body;
-    const {token, role} = await userService.logIn(email, password);
-
+    const { token, role } = await userService.logIn(email, password);
     res.send({
         status: 1,
         results: { token, role }
@@ -57,9 +56,11 @@ async function logOutAllToken(req, res) {
 }
 
 async function getUserInfo(req, res) {
+    const user = req.user;
+    delete user.otp;
     res.send({
         status: 1,
-        results: req.user
+        results: user
     });
 }
 
@@ -79,6 +80,28 @@ async function deleteUser(req, res) {
     });
 }
 
+async function getOTP(req, res) {
+    const { email } = req.params;
+    const emailResult = await userService.forgotPassword(email)
+    res.send({
+        status: 1,
+        results: {
+            email: req.params,
+            "emailResult": emailResult
+        }
+    });
+}
+
+async function resetPassword(req, res) {
+    const { email } = req.params;
+    const { otp, password } = req.body;
+    const newUser = await userService.resetPassword(email, password, otp);
+    res.send({
+        status: 1,
+        user: newUser
+    })
+}
+
 module.exports = {
     createAdminUser,
     createModUser,
@@ -88,5 +111,7 @@ module.exports = {
     logOutAllToken,
     getUserInfo,
     updateUserInfo,
-    deleteUser
+    deleteUser,
+    getOTP,
+    resetPassword
 }

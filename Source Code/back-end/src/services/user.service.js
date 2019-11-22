@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
+const otpEmailSender = require("./otpEmail.service");
 const errorCode = require('../errors/errorCode');
 const CustomError = require('../errors/CustomError');
 
@@ -60,7 +61,7 @@ async function logIn(email, password) {
     if (!isMatch) {
         throw new CustomError(errorCode.UNAUTHORIZED, "Login failed! Password is not matched");
     }
-    const token = currentUser.generateAuthToken();
+    const token = await currentUser.generateAuthToken();
     const role = currentUser.role;
 
     return { token, role };
@@ -78,7 +79,7 @@ async function logOutAll(user) {
 
 async function updateUser(user, updatedInfo) {
     const updates = Object.keys(updatedInfo);
-    const allowUpdate = ["name", "password", "tel", "address"];
+    const allowUpdate = ["name", "tel", "address"];
     const isValidUpdateInfo = updates.every(update =>
         allowUpdate.includes(update)
     );
@@ -99,6 +100,30 @@ async function deleteUser(user) {
     await user.save();
 }
 
+async function forgotPassword(email) {
+    const user = await User.findOne({ "email": email });
+    if (!user) {
+        throw new CustomError(errorCode.NOT_FOUND, "Could not find your email!");
+    }
+    const OTP = await user.generateOTP();
+    const result = await otpEmailSender(user.email, OTP);
+    return result;
+}
+
+async function resetPassword(email, newPassword, OTP) {
+    const user = await User.findOne({ "email": email });
+    if (!user) {
+        throw new CustomError(errorCode.NOT_FOUND, "Could not find your email!");
+    }
+
+    const isOTPValid = await user.verifyOTP(OTP, newPassword);
+    if (!isOTPValid) {
+        throw new CustomError(errorCode.UNAUTHORIZED, "OTP is not valid!");
+    }
+
+    return user;
+}
+
 module.exports = {
     createAdminUser,
     createModUser,
@@ -107,5 +132,7 @@ module.exports = {
     logOut,
     logOutAll,
     updateUser,
-    deleteUser
+    deleteUser,
+    forgotPassword,
+    resetPassword
 };

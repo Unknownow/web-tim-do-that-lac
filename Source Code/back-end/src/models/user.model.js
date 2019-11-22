@@ -51,10 +51,6 @@ const UserSchema = mongoose.Schema(
             type: String,
             required: false
         },
-        // imgLink: {
-        //     type: [String],
-        //     required: false
-        // },
         tokens: [
             {
                 token: {
@@ -62,7 +58,16 @@ const UserSchema = mongoose.Schema(
                     required: true,
                 },
             },
-        ]
+        ],
+        // isVerified: {
+        //     type: Boolean,
+        //     required: true,
+        //     default: false
+        // },
+        otp:{
+            type:String,
+            require:false
+        }
     },
     {
         timestamps: true
@@ -78,6 +83,30 @@ UserSchema.methods.generateAuthToken = async function () {
 
     return token;
 };
+
+UserSchema.methods.generateOTP = async function () {
+    const user = this;
+    let digits = '0123456789'; 
+    let OTP = ''; 
+    for (let i = 0; i < 6; i++ ) { 
+        OTP += digits[Math.floor(Math.random() * 10)]; 
+    }
+    user.otp = OTP;
+    await user.save();
+
+    return OTP;
+}
+
+UserSchema.methods.verifyOTP = async function (OTP, password) {
+    const user = this;
+    if(user.otp.toString() === OTP.toString()){
+        user.otp = "";
+        user.password = password;
+        await user.save();
+        return true;
+    }
+    return false;
+}
 
 UserSchema.methods.toJSON = function () {
     const user = this;

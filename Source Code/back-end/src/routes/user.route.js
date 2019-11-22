@@ -10,7 +10,9 @@ const {
     logOutAllToken,
     getUserInfo,
     updateUserInfo,
-    deleteUser
+    deleteUser,
+    getOTP,
+    resetPassword
 } = require("../controllers/user.controller");
 
 router.post("/web_management/createUser/admin", auth, asyncMiddleware(createAdminUser));
@@ -23,5 +25,7 @@ router.post("/logoutAll", auth, asyncMiddleware(logOutAllToken));
 router.get("/me", auth, asyncMiddleware(getUserInfo));
 router.patch("/me", auth, asyncMiddleware(updateUserInfo));
 router.delete('/me', auth, asyncMiddleware(deleteUser));
+router.post("/forgotPassword/:email", asyncMiddleware(getOTP));
+router.post("/resetPassword/:email", asyncMiddleware(resetPassword));
 
 module.exports = router;

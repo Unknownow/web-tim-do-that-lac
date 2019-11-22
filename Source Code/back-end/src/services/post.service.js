@@ -23,8 +23,12 @@ async function createPost(idUser, postDetail, files) {
         for (let i = 0; i < files.length; i++) {
             let fileName = idUser + "_image_" + i.toString() + "_" + Date.now();
             try {
-                let result = await cloudinary.uploader.upload(files[i].path, { public_id: fileName, folder: folderName });
-                postDetail.imgLinks = postDetail.imgLinks.concat(result.url);
+                let result = await cloudinary.uploader.upload(files[i].path, {
+                    public_id: fileName,
+                    folder: folderName,
+                    eager: { width: 800, height: 800, crop: "pad" }
+                });
+                postDetail.imgLinks = postDetail.imgLinks.concat(result.eager[0].url);
 
             } catch (error) {
                 throw new CustomError(errorCode.INTERNAL_SERVER_ERROR, "Upload images failed");
@@ -91,14 +95,14 @@ async function updatePost(_id, user, updatedInfo, files) {
                 throw new CustomError(errorCode.INTERNAL_SERVER_ERROR, "Upload images failed");
             }
         }
-        if(post.imgLinks)
+        if (post.imgLinks)
             updatedInfo.imgLinks = updatedInfo.imgLinks.concat(post.imgLinks);
     }
 
-    if(updatedInfo.time){
+    if (updatedInfo.time) {
         updatedInfo.time = new Date(updatedInfo.time + ":00Z");
     }
-    
+
 
     const updatedPost = Post.findByIdAndUpdate(_id, { ...updatedInfo }, { new: true });
     return updatedPost;
@@ -195,18 +199,6 @@ async function searchPost(keyword) {
     return listPosts.docs;
 }
 
-async function uploadFile(files, user) {
-    for (let i = 0; i < files.length; i++) {
-        let fileName = user._id + "_image_" + i.toString() + "_" + Date.now();
-        console.log(fileName);
-        try {
-            console.log(await cloudinary.uploader.upload(files[i].path, { public_id: fileName }));
-        } catch (error) {
-            error.FileUpload = 'Error Upload Image';
-            console.log(error);
-        }
-    }
-}
 
 module.exports = {
     createPost,
@@ -216,6 +208,5 @@ module.exports = {
     deletePostByID,
     finishPost,
     getPostByIndex,
-    searchPost,
-    uploadFile
+    searchPost
 }
