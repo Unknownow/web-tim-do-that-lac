@@ -2,7 +2,7 @@
   <div>
     <div>
       <div
-        id="vlxx"
+        id="cmtFB"
         class="fb-comments"
         data-href="linkCommentFB"
         data-width="500"
@@ -20,7 +20,7 @@ export default {
   mounted() {
     this.init();
     document
-      .getElementById("vlxx")
+      .getElementById("cmtFB")
       .setAttribute(
         "data-href",
         "http://localhost:8080/" + this.$router.history.current.params.idPost

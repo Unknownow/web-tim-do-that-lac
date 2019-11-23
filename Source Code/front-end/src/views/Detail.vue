@@ -6,18 +6,20 @@
         id="leftContent"
         style="font-size: 20px; margin-left: 60px; color: white"
       >
-        <div style="font-size: 30px; margin-left: 360px;">
-          Đánh rơi ví màu nâu chứa 50 nghìn VNĐ
+        <div style="font-size: 30px;">
+          {{ this.title }}
         </div>
-        <div style="margin-left: 30px">
+        <div style="margin-left: 0px;">
           <a-icon theme="filled" type="phone" />
-          <span style="margin-left: 10px">Đức Mập: 032748123</span>
+          <span style="margin-left: 10px">
+            {{ this.nameContact }}: {{ this.tel }}</span
+          >
         </div>
-        <div style="margin-left: 140px">
+        <div style="margin-left: 0px;">
           <a-icon theme="filled" type="compass" />
-          <span style="margin-left: 10px"> 25/111 Hoàng Huynh, Nam Định</span>
+          <span style="margin-left: 10px"> {{ this.address }}</span>
         </div>
-        <div id="category" style="margin-left: -100px">Ví</div>
+        <!-- <div id="category" style="margin-left: 0px">Ví</div> -->
       </div>
       <div id="rightContent">
         <div style="font-size: 25px; color: white">
@@ -51,11 +53,7 @@
           </div>
         </div>
         <div id="description" style="width: 100%; text-align: left">
-          Góc nhờ vả! Vào lúc 18h15 Trên đường đi nguyễn lương bằng tới khúc
-          hoàng quốc việt q7 hcm. Mình có đánh rơi 1 chiếc ví trong đó có 1 pass
-          port, 1 cmnd mang tên đinh ngọc khánh, 1 bằng lái xe và vài cmnd khác,
-          và thẻ ngân hàng các thứ với hơn 500k. Ai nhặt được vui lòng liên hệ
-          0935424362. Mình cảm ơn và hậu tạ.
+          {{ this.description }}
         </div>
       </div>
       <div style="display:inline-block; float: left">
@@ -67,29 +65,55 @@
           <div>
             <hr style="width: 50%; margin-top: 3px; margin-left: 20%" />
           </div>
-          <div style="margin-top: 15px;">
-            <a-checkbox-group>
-              <a-row>
-                <a-col :span="12" :style="{ align: 'left' }">
-                  <a-checkbox value="A">{{ $t("navbar.wallet") }}</a-checkbox>
-                </a-col>
-                <a-col :span="12" :style="{ align: 'left' }"
-                  ><a-checkbox value="B">{{
-                    $t("navbar.paper")
-                  }}</a-checkbox></a-col
-                >
-                <a-col :span="12" :style="{ align: 'left' }"
-                  ><a-checkbox value="C">{{
-                    $t("navbar.phone")
-                  }}</a-checkbox></a-col
-                >
-                <a-col :span="12" :style="{ align: 'left' }"
-                  ><a-checkbox value="D">{{
-                    $t("navbar.other")
-                  }}</a-checkbox></a-col
-                >
-              </a-row>
-            </a-checkbox-group>
+          <div style="margin-top: 15px; margin-left: 100px">
+            <!-- <a-checkbox-group>
+              <div>
+                <a-checkbox value="wallet">{{
+                  $t("navbar.wallet")
+                }}</a-checkbox>
+              </div>
+              <div>
+                <a-checkbox value="paper">{{ $t("navbar.paper") }}</a-checkbox>
+              </div>
+              <div>
+                <a-checkbox value="phone">{{ $t("navbar.phone") }}</a-checkbox>
+              </div>
+              <div>
+                <a-checkbox value="other">{{ $t("navbar.other") }}</a-checkbox>
+              </div>
+            </a-checkbox-group> -->
+            <div style="width: 100px">
+              <a-checkbox
+                style="float:left"
+                :checked="checkWallet"
+                value="wallet"
+                >{{ $t("navbar.wallet") }}</a-checkbox
+              >
+            </div>
+            <div style="width: 100px">
+              <a-checkbox
+                style="float:left"
+                :checked="checkPaper"
+                value="paper"
+                >{{ $t("navbar.paper") }}</a-checkbox
+              >
+            </div>
+            <div style="width: 100px">
+              <a-checkbox
+                style="float:left"
+                :checked="checkPhone"
+                value="phone"
+                >{{ $t("navbar.phone") }}</a-checkbox
+              >
+            </div>
+            <div style="width: 100px">
+              <a-checkbox
+                style="float:left"
+                :checked="checkOther"
+                value="other"
+                >{{ $t("navbar.other") }}</a-checkbox
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -106,7 +130,18 @@ import CommentFacebook from "../components/CommentFacebook.vue";
 import axios from "axios";
 export default {
   data() {
-    return {};
+    return {
+      title: null,
+      nameContact: null,
+      tel: null,
+      address: null,
+      categories: null,
+      description: null,
+      checkWallet: false,
+      checkPaper: false,
+      checkPhone: false,
+      checkOther: false
+    };
   },
   components: {
     "comment-facebook": CommentFacebook
@@ -124,7 +159,26 @@ export default {
         }
       })
       .then(response => {
-        console.log(response);
+        // console.log(response);
+        this.title = response.data.results.title;
+        this.nameContact = response.data.results.title;
+        this.tel = response.data.results.title;
+        this.address = response.data.results.address;
+        this.description = response.data.results.description;
+        this.categories = response.data.results.categories;
+
+        //set check box
+        this.categories.map(category => {
+          if (category === "wallet") {
+            this.checkWallet = true;
+          } else if (category === "paper") {
+            this.checkPaper = true;
+          } else if (category === "phone") {
+            this.checkPhone = true;
+          } else if (category === "other") {
+            this.checkOther = true;
+          }
+        });
       })
       .catch(error => {
         console.log(error);
@@ -174,9 +228,5 @@ hr {
   width: 100%;
   margin-top: 40px;
   float: left;
-}
-#xx {
-  background-color: blue !important;
-  align-items: flex-end !important;
 }
 </style>
