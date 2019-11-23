@@ -43,6 +43,9 @@
             </a-select>
           </a-input>
         </a-form-item>
+        <a-form-item v-bind="tailFormItemLayout" style="margin-top: -50px">
+          <a style="cursor: pointer">Thay đổi mật khẩu</a>
+        </a-form-item>
         <a-form-item v-bind="tailFormItemLayout" style="margin-top: -50px;">
           <a-button type="primary" v-on:click="getData">Xác nhận</a-button>
         </a-form-item>
@@ -91,7 +94,7 @@ export default {
 
     //get infor current user
     axios
-      .patch("http://localhost:3000/user/me", {
+      .get("http://localhost:3000/user/me", {
         headers: {
           Authorization: this.$store.state.token
         }

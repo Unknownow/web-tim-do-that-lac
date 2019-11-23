@@ -4,7 +4,7 @@
       <img src="/category/headerpost.jpg" width="100%" />
       <div class="centered">Đăng tin</div>
     </div>
-    <div id="formPostNews">
+    <div id="formPostNews" style="margin-top: 30px">
       <a-form :form="form" @submit="handleSubmit">
         <a-form-item
           label="Loại tin"
@@ -13,7 +13,7 @@
         >
           <a-select
             v-decorator="[
-              'gender',
+              'typePost',
               {
                 rules: [
                   { required: true, message: 'Please select your gender!' }
@@ -24,10 +24,10 @@
             @change="handleSelectChange"
           >
             <a-select-option value="male">
-              male
+              Tìm đồ
             </a-select-option>
             <a-select-option value="female">
-              female
+              Nhặt được đồ
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -38,7 +38,7 @@
         >
           <a-input
             v-decorator="[
-              'note',
+              'titlePost',
               {
                 rules: [{ required: true, message: 'Please input your note!' }]
               }
@@ -50,14 +50,15 @@
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
-          <a-input
-            style="height: 100px"
+          <a-textarea
+            placeholder="Nội dung bài viết"
             v-decorator="[
-              'note',
+              'content',
               {
                 rules: [{ required: true, message: 'Please input your note!' }]
               }
             ]"
+            autosize
           />
         </a-form-item>
         <a-form-item
@@ -68,20 +69,19 @@
           <a-select
             showSearch
             v-decorator="[
-              'gender1',
+              'ward',
               {
-                rules: [
-                  { required: true, message: 'Please select your gender!' }
-                ]
+                rules: [{ required: true, message: 'Please select your Ward!' }]
               }
             ]"
             placeholder="Select a option and change input text above"
+            @change="handleChangeWard"
           >
-            <a-select-option value="male">
-              male
+            <a-select-option value="BackKhoa">
+              Bách Khoa
             </a-select-option>
-            <a-select-option value="female">
-              female
+            <a-select-option value="DongDa">
+              Đống Đa
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -92,7 +92,7 @@
         >
           <a-input
             v-decorator="[
-              'note',
+              'address',
               {
                 rules: [{ required: true, message: 'Please input your note!' }]
               }
@@ -105,22 +105,15 @@
           :wrapper-col="{ span: 12 }"
         >
           <a-select
-            showSearch
-            v-decorator="[
-              'gender1',
-              {
-                rules: [
-                  { required: true, message: 'Please select your gender!' }
-                ]
-              }
-            ]"
-            placeholder="Select a option and change input text above"
+            mode="multiple"
+            size="default"
+            placeholder="Please select"
+            :defaultValue="[]"
+            style="width: 100%"
+            @change="handleChangeCategory"
           >
-            <a-select-option value="male">
-              male
-            </a-select-option>
-            <a-select-option value="female">
-              female
+            <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">
+              {{ (i + 9).toString(36) + i }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -160,7 +153,7 @@
         >
           <a-input
             v-decorator="[
-              'note',
+              'nameContact',
               {
                 rules: [{ required: true, message: 'Please input your note!' }]
               }
@@ -174,7 +167,7 @@
         >
           <a-input
             v-decorator="[
-              'note',
+              'phoneContact',
               {
                 rules: [{ required: true, message: 'Please input your note!' }]
               }
@@ -188,7 +181,7 @@
         >
           <a-input
             v-decorator="[
-              'note',
+              'emailContact',
               {
                 rules: [{ required: true, message: 'Please input your note!' }]
               }
@@ -215,6 +208,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import { UploadImage } from "../functions/UploadImage";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -241,7 +235,23 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          axios
+            .post("http://localhost:3000/post/create", {
+              headers: {
+                Authorization: this.$store.state.token
+              }
+            })
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error);
+            })
+            .finally(() => {
+              // always executed
+            });
           console.log("Received values of form: ", values);
+          console.log("Received values of form: ", this.$store.state.token);
         }
       });
     },
@@ -261,6 +271,12 @@ export default {
       console.log(file);
       this.previewImage = file.url || file.thumbUrl;
       this.previewVisible = true;
+    },
+    handleChangeCategory(value) {
+      console.log(`Selected: ${value}`);
+    },
+    handleChangeWard(value) {
+      console.log(`Ward: ${value}`);
     },
     handleChange({ fileList }) {
       //   console.log("------------------");

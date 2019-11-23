@@ -2,7 +2,10 @@
   <div style="width: 100%; background-color: #ffffff; margin-top: 50px;">
     <div style="position: relative">
       <img src="/category/headerdetail.jpg" width="100%" />
-      <div id="leftContent" style="font-size: 20px; margin-left: 60px; color: white">
+      <div
+        id="leftContent"
+        style="font-size: 20px; margin-left: 60px; color: white"
+      >
         <div style="font-size: 30px; margin-left: 360px;">
           Đánh rơi ví màu nâu chứa 50 nghìn VNĐ
         </div>
@@ -100,15 +103,39 @@
 
 <script>
 import CommentFacebook from "../components/CommentFacebook.vue";
+import axios from "axios";
 export default {
+  data() {
+    return {};
+  },
   components: {
     "comment-facebook": CommentFacebook
   },
-  methods: {
+  methods: {},
+  beforeCreate() {
+    // console.log(this.$router);
+    let idPost = this.$router.history.current.params.idPost;
+    let url = "http://localhost:3000/post/getPost/" + idPost;
+
+    axios
+      .get(url, {
+        headers: {
+          Authorization: this.$store.state.token
+        }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        // always executed
+      });
   },
   created() {
     // console.log(this.$router);
-    console.log(this.$router.history.current.params.idPost);
+    // console.log(this.$router.history.current.params.idPost);
   }
 };
 </script>

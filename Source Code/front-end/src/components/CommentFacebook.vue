@@ -1,19 +1,30 @@
 <template>
   <div>
-    <div
-      class="fb-comments"
-      data-href="http://localhost:8080/vi/detail/123"
-      data-width="500"
-      data-numposts="5"
-    ></div>
+    <div>
+      <div
+        id="vlxx"
+        class="fb-comments"
+        data-href="linkCommentFB"
+        data-width="500"
+        data-numposts="5"
+      ></div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "FacebookComments",
+  data() {
+    return {};
+  },
   mounted() {
     this.init();
+    document
+      .getElementById("vlxx")
+      .setAttribute(
+        "data-href",
+        "http://localhost:8080/" + this.$router.history.current.params.idPost
+      );
   },
   methods: {
     init() {

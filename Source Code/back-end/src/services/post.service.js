@@ -63,9 +63,9 @@ async function getPostByID(_id) {
         throw new CustomError(errorCode.NOT_FOUND, "Could not find user!");
     }
 
-    post = { userName: user.name, userTel: user.tel, userEmail: user.email, ...post };
+    const currentPost = { userName: user.name, userTel: user.tel, userEmail: user.email, ...post };
 
-    return post;
+    return currentPost;
 }
 
 async function updatePost(_id, user, updatedInfo, files) {

@@ -65,7 +65,9 @@
         </a-row>
       </div>
     </div>
-    <news-component v-bind:dataPost="dataPost"></news-component>
+    <div style="margin-bottom: 330px">
+      <news-component v-bind:dataPost="dataPost"></news-component>
+    </div>
   </div>
 </template>
 
@@ -88,7 +90,7 @@ export default {
       .get("http://localhost:3000/post/getPost?start=0&end=5")
       .then(response => {
         this.dataPost = response.data.results;
-        console.log(this.dataPost);
+        // console.log(this.dataPost);
       })
       .catch(error => {
         console.log(error);
