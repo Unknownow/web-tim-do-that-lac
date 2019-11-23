@@ -49,7 +49,6 @@ async function getPostByID(req, res) {
     }
 
     const post = await postService.getPostByID(id);
-
     res.status(201).send({
         status: 1,
         results: post,
@@ -58,8 +57,6 @@ async function getPostByID(req, res) {
 
 async function updatePost(req, res) {
     const { id } = req.params;
-
-    
 
     if (!validator.isMongoId(id)) {
         throw new CustomError(errorCode.BAD_REQUEST, 'Invalid ID');
