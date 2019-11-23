@@ -51,19 +51,19 @@ async function getAllPost(idUser) {
 }
 
 async function getPostByID(_id) {
-    const post = Post.findById({ _id });
+    const post = await Post.findById({ _id });
     
     if (!post) {
         throw new CustomError(errorCode.NOT_FOUND, "Could not find post!");
     }
 
-    const user = User.findById(post.idUser);
+    const user = await User.findById(post.idUser);
 
     if(!user) {
         throw new CustomError(errorCode.NOT_FOUND, "Could not find user!");
     }
 
-    const currentPost = { userName: user.name, userTel: user.tel, userEmail: user.email, ...post };
+    const currentPost = { userName: user.name, userTel: user.tel, userEmail: user.email, ...post._doc };
 
     return currentPost;
 }
