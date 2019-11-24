@@ -126,6 +126,21 @@ export default new Router({
             import(/* webpackChunkName: "about" */ "./views/Profile.vue")
         },
         {
+          path: "/news/:category",
+          redirect: `/${i18n.locale}/news/:category`
+        },
+        {
+          path: "news/:category",
+          name: "news",
+          meta: { title: "News" },
+          // redirect: `/${i18n.locale}/login`,
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () =>
+            import(/* webpackChunkName: "about" */ "./views/NewsCategory.vue")
+        },
+        {
           path: "/test",
           redirect: `/${i18n.locale}/test`
         },

@@ -161,8 +161,8 @@ export default {
       .then(response => {
         // console.log(response);
         this.title = response.data.results.title;
-        this.nameContact = response.data.results.title;
-        this.tel = response.data.results.title;
+        this.nameContact = response.data.results.userName;
+        this.tel = response.data.results.userTel;
         this.address = response.data.results.address;
         this.description = response.data.results.description;
         this.categories = response.data.results.categories;

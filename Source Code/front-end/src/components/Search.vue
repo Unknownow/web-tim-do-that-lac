@@ -5,7 +5,7 @@
       <h2 style="color: #ffffff">Tìm đồ thất lạc của bạn</h2>
       <a-form layout="inline">
         <a-form-item>
-          <a-input :placeholder="$t('searchbar.keyword')">
+          <a-input :placeholder="$t('searchbar.keyword')" id="keyword">
             <!-- <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /> -->
           </a-input>
         </a-form-item>
@@ -16,8 +16,7 @@
             optionFilterProp="children"
             style="width: 200px"
             @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChange"
+            @change="handleChangeAddress"
             :filterOption="filterOption"
           >
             <a-select-option
@@ -35,8 +34,7 @@
             optionFilterProp="children"
             style="width: 200px"
             @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChange"
+            @change="handleChangeCategory"
             :filterOption="filterOption"
           >
             <a-select-option
@@ -48,8 +46,8 @@
           </a-select>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" html-type="submit">
-           {{$t('searchbar.search')}}
+          <a-button type="primary" html-type="submit" v-on:click="handleSearch">
+            {{ $t("searchbar.search") }}
           </a-button>
         </a-form-item>
       </a-form>
@@ -58,17 +56,26 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      data: ["england", "Cali", "AS"],
+      valueKeyword: null,
+      valueAddress: null,
+      valueCategory: null,
+      data: ["Trương Định", "Cali", "AS"],
       categoryData: ["Ví", "Giấy tờ", "Điện thoại", "Laptop", "Thẻ ATM"]
     };
   },
 
   methods: {
-    handleChange(value) {
-      console.log(`selected ${value}`);
+    handleChangeAddress(value) {
+      // console.log(`selected ${value}`);
+      this.valueAddress = value;
+    },
+    handleChangeCategory(value) {
+      // console.log(`selected ${value}`);
+      this.valueCategory = value;
     },
     filterOption(input, option) {
       return (
@@ -76,9 +83,6 @@ export default {
           .toLowerCase()
           .indexOf(input.toLowerCase()) >= 0
       );
-    },
-    handleBlur() {
-      console.log("blur");
     },
     handleFocus() {
       if (this.$i18n.locale == "en") {
@@ -90,14 +94,35 @@ export default {
           "ATM Card"
         ];
       } else {
-        this.categoryData = [
-          "Ví",
-          "Giấy tờ",
-          "Điện thoại",
-          "Laptop",
-          "Thẻ ATM"
-        ];
+        this.categoryData = ["Ví", "paper", "Điện thoại", "Laptop", "Thẻ ATM"];
       }
+    },
+    handleSearch: function() {
+      this.valueKeyword = document.getElementById("keyword").value;
+      let newKeyword = this.valueKeyword.replace(/ /g, "+");
+      let newAddress = this.valueAddress.replace(/ /g, "+");
+      let newCategory = this.valueCategory.replace(/ /g, "+");
+      let url =
+        "http://localhost:3000/post/search?keywords=" +
+        newKeyword +
+        "&address=" +
+        newAddress +
+        "&category=" +
+        newCategory +
+        "&start=0&end=9";
+      axios
+        .get(url)
+        .then(response => {
+          // this.dataPost = response.data.results;
+          this.$store.state.dataPost = response.data.results;
+          // console.log(this.dataPost);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          // always executed
+        });
     }
   }
 };

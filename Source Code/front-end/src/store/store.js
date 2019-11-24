@@ -7,7 +7,8 @@ export const store = new Vuex.Store({
   state: {
     loginState: false,
     nameCurrentUser: 'Dat ngu si',
-    token: null
+    token: null,
+    dataPost: null
   },
   getters: {},
   mutations: {

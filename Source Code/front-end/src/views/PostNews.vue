@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="position: relative;">
+    <div style="position: relative; margin: 50px;">
       <img src="/category/headerpost.jpg" width="100%" />
       <div class="centered">Đăng tin</div>
     </div>
@@ -210,6 +210,7 @@
 import { UploadImage } from "../functions/UploadImage";
 import axios from "axios";
 export default {
+  components: {},
   data() {
     return {
       formLayout: "horizontal",
