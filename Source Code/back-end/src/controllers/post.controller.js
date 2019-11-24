@@ -112,10 +112,10 @@ async function getPostByIndex(req, res) {
 
 async function searchPost(req, res) {
     const keyword = req.query;
-    const listPosts = await postService.searchPost(keyword);
+    const { listPosts, countDocuments } = await postService.searchPost(keyword);
     res.status(201).send({
         status: 1,
-        results: listPosts
+        results: { countDocuments, listPosts }
     });
 }
 

@@ -187,6 +187,7 @@ async function searchPost(keyword) {
 
     keyword = await keywordFormatter(keyword);
 
+    const countDocuments = await Post.countDocuments();
     let listPosts = await Post.paginate(
         {
             address: keyword.address,
@@ -210,7 +211,7 @@ async function searchPost(keyword) {
         listPosts[i] = { userName: tempUser.name, userTel: tempUser.tel, userEmail: tempUser.email, ...listPosts[i]._doc};
     }
 
-    return listPosts;
+    return {listPosts, countDocuments};
 }
 
 
