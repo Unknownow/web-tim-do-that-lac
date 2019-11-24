@@ -203,7 +203,14 @@ async function searchPost(keyword) {
         }
     );
 
-    return listPosts.docs;
+    listPosts = listPosts.docs;
+    
+    for(let i = 0; i < listPosts.length; i++) {
+        const tempUser = await User.findById(listPosts[i].idUser);
+        listPosts[i] = { userName: tempUser.name, userTel: tempUser.tel, userEmail: tempUser.email, ...listPosts[i]._doc};
+    }
+
+    return listPosts;
 }
 
 
