@@ -63,6 +63,7 @@ export default {
       CookieFunctions.deleteCookie("sessionId");
       CookieFunctions.deleteCookie("sessionUserName");
       this.$store.state.loginState = false;
+      this.$store.state.token = null;
       this.$router.push("/login");
     },
     routeToProfile: function() {

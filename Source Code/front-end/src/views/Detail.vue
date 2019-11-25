@@ -33,8 +33,15 @@
           </div>
         </div>
         <div style="margin-top: 30px">
-          <a-button type="primary" v-scroll-to="'#elementComment'">
+          <a-button type="primary" v-scroll-to="'#endPage'">
             {{ $t("detail.comment") }}</a-button
+          >
+          <a-button
+            type="primary"
+            style="margin-left: 30px"
+            v-if="this.canModify"
+          >
+            Sửa bài viết</a-button
           >
         </div>
       </div>
@@ -54,6 +61,27 @@
         </div>
         <div id="description" style="width: 100%; text-align: left">
           {{ this.description }}
+          <div style="margin-top: 50px">
+            <a-carousel arrows>
+              <div
+                slot="prevArrow"
+                class="custom-slick-arrow"
+                style="left: 10px;zIndex: 1"
+              >
+                <a-icon type="left-circle" />
+              </div>
+              <div
+                slot="nextArrow"
+                class="custom-slick-arrow"
+                style="right: 10px"
+              >
+                <a-icon type="right-circle" />
+              </div>
+              <div v-for="imgLink in imageLinks" :key="imgLink.index">
+                <img :src="imgLink" width="100%" />
+              </div>
+            </a-carousel>
+          </div>
         </div>
       </div>
       <div style="display:inline-block; float: left">
@@ -90,7 +118,7 @@
                 >{{ $t("navbar.wallet") }}</a-checkbox
               >
             </div>
-            <div style="width: 100px">
+            <div style="width: 115px">
               <a-checkbox
                 style="float:left"
                 :checked="checkPaper"
@@ -98,7 +126,7 @@
                 >{{ $t("navbar.paper") }}</a-checkbox
               >
             </div>
-            <div style="width: 100px">
+            <div style="width: 120px">
               <a-checkbox
                 style="float:left"
                 :checked="checkPhone"
@@ -120,8 +148,9 @@
     </div>
     <comment-facebook
       id="elementComment"
-      style="margin-top: 200px; margin-bottom: 60px;"
+      style="margin-bottom: 60px;"
     ></comment-facebook>
+    <div id="endPage"></div>
   </div>
 </template>
 
@@ -135,12 +164,14 @@ export default {
       nameContact: null,
       tel: null,
       address: null,
+      imageLinks: null,
       categories: null,
       description: null,
       checkWallet: false,
       checkPaper: false,
       checkPhone: false,
-      checkOther: false
+      checkOther: false,
+      canModify: false
     };
   },
   components: {
@@ -150,7 +181,13 @@ export default {
   beforeCreate() {
     // console.log(this.$router);
     let idPost = this.$router.history.current.params.idPost;
-    let url = "http://localhost:3000/post/getPost/" + idPost;
+    let url;
+    if (this.$store.state.token === null || this.$store.state.token === "") {
+      // nếu chưa đăng nhập thì k cần check xem bài viết có chỉnh sửa được hay không
+      url = "http://localhost:3000/post/getPost/" + idPost;
+    } else {
+      url = "http://localhost:3000/post/getPost/loggedIn/" + idPost;
+    }
 
     axios
       .get(url, {
@@ -166,6 +203,7 @@ export default {
         this.address = response.data.results.address;
         this.description = response.data.results.description;
         this.categories = response.data.results.categories;
+        this.imageLinks = response.data.results.imgLinks;
 
         //set check box
         this.categories.map(category => {
@@ -175,10 +213,14 @@ export default {
             this.checkPaper = true;
           } else if (category === "phone") {
             this.checkPhone = true;
-          } else if (category === "other") {
+          } else {
             this.checkOther = true;
           }
         });
+
+        if (response.data.canModify !== null) {
+          this.canModify = response.data.canModify;
+        }
       })
       .catch(error => {
         console.log(error);
@@ -186,10 +228,6 @@ export default {
       .finally(() => {
         // always executed
       });
-  },
-  created() {
-    // console.log(this.$router);
-    // console.log(this.$router.history.current.params.idPost);
   }
 };
 </script>
@@ -228,5 +266,32 @@ hr {
   width: 100%;
   margin-top: 40px;
   float: left;
+}
+
+.ant-carousel >>> .slick-slide {
+  text-align: center;
+  height: 800px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel >>> .custom-slick-arrow {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: #fff;
+  background-color: rgba(31, 45, 61, 0.11);
+  opacity: 0.3;
+}
+.ant-carousel >>> .custom-slick-arrow:before {
+  display: none;
+}
+.ant-carousel >>> .custom-slick-arrow:hover {
+  opacity: 0.5;
+}
+
+.ant-carousel >>> .slick-slide img {
+  color: #fff;
 }
 </style>

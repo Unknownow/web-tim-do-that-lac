@@ -23,10 +23,10 @@
             placeholder="Select a option and change input text above"
             @change="handleSelectChange"
           >
-            <a-select-option value="male">
+            <a-select-option value="lost">
               Tìm đồ
             </a-select-option>
-            <a-select-option value="female">
+            <a-select-option value="pick">
               Nhặt được đồ
             </a-select-option>
           </a-select>
@@ -105,10 +105,17 @@
           :wrapper-col="{ span: 12 }"
         >
           <a-select
+            v-decorator="[
+              'category',
+              {
+                rules: [
+                  { required: true, message: 'Please select your category!' }
+                ]
+              }
+            ]"
             mode="multiple"
             size="default"
             placeholder="Please select"
-            :defaultValue="[]"
             style="width: 100%"
             @change="handleChangeCategory"
           >
@@ -207,7 +214,7 @@
 </template>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-import { UploadImage } from "../functions/UploadImage";
+// import { UploadImage } from "../functions/UploadImage";
 import axios from "axios";
 export default {
   components: {},
@@ -236,12 +243,46 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          let currentTime;
+          let today = new Date();
+          let date =
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            today.getDate();
+          let time = today.getHours() + ":" + today.getMinutes();
+          currentTime = date + "T" + time;
+
+          let formData = new FormData();
+          formData.append("type", values.typePost);
+          formData.append("title", values.titlePost);
+          formData.append("description", values.content);
+          formData.append("address", values.address);
+          formData.append("time", currentTime);
+          formData.append("categories", values.category[0]);
+          formData.append("images", this.fileList[0].originFileObj);
+
+          console.log(formData);
           axios
-            .post("http://localhost:3000/post/create", {
-              headers: {
-                Authorization: this.$store.state.token
+            .post(
+              "http://localhost:3000/post/create",
+              // {
+              //   type: values.typePost,
+              //   title: values.titlePost,
+              //   description: values.content,
+              //   address: values.address,
+              //   time: currentTime,
+              //   categories: values.category[0],
+              //   formData
+              // },
+              formData,
+              {
+                headers: {
+                  Authorization: this.$store.state.token
+                }
               }
-            })
+            )
             .then(response => {
               console.log(response);
             })
@@ -286,16 +327,21 @@ export default {
       this.fileList = fileList;
     },
     uploadImage: function() {
-      this.uid += 1;
-      let newImage = {
-        uid: this.uid,
-        name: "xxx.png",
-        status: "done",
-        url:
-          "https://res.cloudinary.com/soict-hust/image/upload/v1567571813/sample.jpg"
-      };
-      this.fileList.push(newImage);
-      console.log(this.fileList);
+      // this.uid += 1;
+      // let newImage = {
+      //   uid: this.uid,
+      //   name: "xxx.png",
+      //   status: "done",
+      //   url:
+      //     "https://res.cloudinary.com/soict-hust/image/upload/v1567571813/sample.jpg"
+      // };
+      // this.fileList.push(newImage);
+      // const formData = new FormData();
+      // formData.append("test", this.fileList[0], this.fileList[0].name);
+      // var formData = new FormData();
+      // formData.append("image", this.fileList[0]);
+      // console.log(formData);
+      console.log(this.fileList[0]);
     }
   }
 };
