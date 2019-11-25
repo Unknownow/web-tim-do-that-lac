@@ -160,9 +160,9 @@ export default {
       axios
         .get(url)
         .then(response => {
-          this.$store.state.dataPost = response.data.results;
+          this.$store.state.dataPost = response.data.results.listPosts;
           // console.log(this.dataPost);
-          this.totalPost = this.$store.state.dataPost.length;
+          this.totalPost = response.data.results.countDocuments;
           console.log(this.$store.state.dataPost.length);
         })
         .catch(error => {

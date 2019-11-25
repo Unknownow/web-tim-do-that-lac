@@ -65,54 +65,13 @@
         <!-- <a href>register now!</a> -->
       </a-form-item>
     </a-form>
-    <div>
-      <a-modal
-        title="Nhập địa chỉ Email của bạn"
-        v-model="visibleDialog"
-        okText="Xác nhận"
-        @ok="handleOk1"
-      >
-        <a-alert
-          v-if="stateSendOTP"
-          message="Mã OTP đã được gửi đến email của bạn!"
-          type="success"
-          showIcon
-        />
-        <a-form-item
-          id="emailOTP"
-          v-if="!stateSendOTP"
-          v-bind="formItemLayout"
-          style="margin-left: -60px"
-          label="Email"
-        >
-          <a-input v-decorator="['email']" placeholder="Email">
-            <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-          </a-input>
-        </a-form-item>
-        <a-form-item
-          v-if="stateSendOTP"
-          style="margin-left: -60px"
-          v-bind="formItemLayout"
-          :label="$t('formRegister.password')"
-        >
-          <a-input type="password" />
-        </a-form-item>
-        <a-form-item
-          v-if="stateSendOTP"
-          style="margin-left: -60px"
-          v-bind="formItemLayout"
-          :label="$t('formRegister.confirmPassword')"
-        >
-          <a-input type="password" />
-        </a-form-item>
-      </a-modal>
-    </div>
   </div>
 </template>
 
 <script>
 import { CookieFunctions } from "../functions/CookieFunctions";
 import axios from "axios";
+// import i18n from "../i18n";
 export default {
   data() {
     return {
@@ -120,6 +79,7 @@ export default {
       stateSendOTP: false,
       failLogin: false,
       wrongPass: false,
+      okText: "Gửi OTP",
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
@@ -179,22 +139,9 @@ export default {
       });
     },
     showModal() {
-      this.visibleDialog = true;
-    },
-    handleOk1() {
-      console.log("csdflasd");
-      let emailSendOTP = "vutuandat811@gmail.com";
-      let url = "http://localhost:3000/user/resetPassword/" + emailSendOTP;
-      axios
-        .post(url, {})
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => {
-          console.log(err.message);
-        });
-      // this.visibleDialog = false;
-      this.stateSendOTP = true;
+      this.$router.push({
+        name: "resetpassword"
+      });
     },
     storeToken: function(token, username) {
       // login sẽ thực hiện trước hàm handleSubmit nên cần để router phía trên

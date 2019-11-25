@@ -16,13 +16,16 @@
               <a-icon type="question-circle-o" />
             </a-tooltip>
           </span>
-          <a-input id="nameCurrentUser" :defaultValue="this.nameCurrentUser" />
+          <a-input id="nameCurrentUser" :placeholder="this.nameCurrentUser" />
         </a-form-item>
         <a-form-item
           v-bind="formItemLayout"
           :label="$t('formRegister.address')"
         >
-          <a-input id="addressCurrentUser" />
+          <a-input
+            id="addressCurrentUser"
+            :placeholder="this.addressCurrentUser"
+          />
         </a-form-item>
         <a-form-item
           v-bind="formItemLayout"
@@ -30,7 +33,7 @@
         >
           <a-input
             id="phoneCurrentUser"
-            :value="this.numberphoneCurrentUser"
+            :placeholder="this.numberphoneCurrentUser"
             style="width: 100%"
           >
             <a-select
@@ -62,6 +65,7 @@ export default {
       emailCurrentUser: null,
       nameCurrentUser: null,
       numberphoneCurrentUser: null,
+      addressCurrentUser: null,
       confirmDirty: false,
       autoCompleteResult: [],
       formItemLayout: {
@@ -103,7 +107,7 @@ export default {
         this.emailCurrentUser = response.data.results.email;
         this.nameCurrentUser = response.data.results.name;
         this.numberphoneCurrentUser = response.data.results.tel;
-        // console.log(response);
+        this.addressCurrentUser = response.data.results.address;
       })
       .catch(error => {
         console.log(error);
@@ -114,21 +118,26 @@ export default {
   },
   methods: {
     getData: function() {
-      // let nameCurrentUser = document.getElementById("nameCurrentUser").value;
-      // let addressCurrentUser = document.getElementById("addressCurrentUser")
-      //   .value;
-      // let phoneCurrentUser = document.getElementById("phoneCurrentUser").value;
+      let nameCurrentUser = document.getElementById("nameCurrentUser").value;
+      let addressCurrentUser = document.getElementById("addressCurrentUser")
+        .value;
+      let phoneCurrentUser = document.getElementById("phoneCurrentUser").value;
 
       console.log(this.$store.state.token);
       axios
-        .patch("http://localhost:3000/user/me", {
-          headers: {
-            Authorization: this.$store.state.token
+        .patch(
+          "http://localhost:3000/user/me",
+          {
+            name: nameCurrentUser,
+            tel: phoneCurrentUser,
+            address: addressCurrentUser
           },
-          name: "nameCurrentUser",
-          tel: "phoneCurrentUser",
-          address: "addressCurrentUser"
-        })
+          {
+            headers: {
+              Authorization: this.$store.state.token
+            }
+          }
+        )
         .then(response => {
           console.log(response);
         })
