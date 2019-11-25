@@ -1,14 +1,13 @@
 require("./database/connect");
 const express = require("express");
 const errorHandler = require("./middlewares/errorHandler");
-
 const cors = require("cors");
 const app = express();
 
 
 app.use(cors());
-app.options('*', cors());
 app.use(express.json());
+
 
 // main routes here:
 app.use("/categoryManagement", require("./routes/category.route"));

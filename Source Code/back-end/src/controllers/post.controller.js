@@ -5,7 +5,9 @@ const errorCode = require("../errors/errorCode");
 
 async function createPost(req, res) {
     req.body = JSON.parse(JSON.stringify(req.body));
-    const newPost = await postService.createPost(req.user._id, req.body, req.files);
+    const postInfo = req.body;
+    const images = req.files;
+    const newPost = await postService.createPost(req.user._id, postInfo, images);
 
     res.status(201).send({
         status: 1,
@@ -119,16 +121,6 @@ async function searchPost(req, res) {
     });
 }
 
-async function uploadFile(req, res) {
-    req.body = JSON.parse(JSON.stringify(req.body));
-    const files = req.files;
-    postService.uploadFile(files, req.user);
-    res.status(201).send({
-        status: 1,
-        results: req.files[0].buffer
-    })
-}
-
 module.exports = {
     createPost,
     getAllPost,
@@ -139,5 +131,4 @@ module.exports = {
     getPostByIndex,
     getPostByIDAfterLogin,
     searchPost,
-    uploadFile
 }

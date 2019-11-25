@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
-const otpEmailSender = require("./otpEmail.service");
+const Post = require('../models/post.model');
+const Reply = require('../models/reply.model');
+const otpEmailSender = require("./email.service").otpEmailSender;
 const errorCode = require('../errors/errorCode');
 const CustomError = require('../errors/CustomError');
 
@@ -96,6 +98,8 @@ async function updateUser(user, updatedInfo) {
 }
 
 async function deleteUser(user) {
+    await Reply.deleteMany({ idUser: user._id });
+    await Post.deleteMany({ idUser: user._id });
     user.remove();
     await user.save();
 }
