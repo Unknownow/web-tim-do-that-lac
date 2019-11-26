@@ -9,54 +9,58 @@
     </div>
     <div class="centered">
       <h2 style="color: #ffffff">Tìm đồ thất lạc của bạn</h2>
-      <a-form layout="inline">
-        <a-form-item>
-          <a-input :placeholder="$t('searchbar.keyword')" id="keyword">
-            <!-- <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /> -->
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-select
-            showSearch
-            :placeholder="$t('category.select') + ' ' + $t('searchbar.address')"
-            optionFilterProp="children"
-            style="width: 200px"
-            @focus="handleFocus"
-            @change="handleChangeAddress"
-            :filterOption="filterOption"
+      <a-form layout="inline" style="width: 100%">
+        <a-input
+          :placeholder="$t('searchbar.keyword')"
+          id="keyword"
+          style="width: 20%; margin-right:3%"
+        >
+          <!-- <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /> -->
+        </a-input>
+
+        <a-select
+          showSearch
+          :placeholder="$t('category.select') + ' ' + $t('searchbar.address')"
+          optionFilterProp="children"
+          style="width: 20%; margin-right:3%"
+          @focus="handleFocus"
+          @change="handleChangeAddress"
+          :filterOption="filterOption"
+        >
+          <a-select-option
+            v-for="address in dataAddress"
+            :key="address"
+            v-bind:value="address"
+            >{{ address }}</a-select-option
           >
-            <a-select-option
-              v-for="address in dataAddress"
-              :key="address"
-              v-bind:value="address"
-              >{{ address }}</a-select-option
-            >
-          </a-select>
-        </a-form-item>
-        <a-form-item>
-          <a-select
-            mode="multiple"
-            showSearch
-            :placeholder="$t('category.select') + ' ' + $t('navbar.category')"
-            optionFilterProp="children"
-            style="width: 200px"
-            @focus="handleFocus"
-            @change="handleChangeCategory"
-            :filterOption="filterOption"
+        </a-select>
+
+        <a-select
+          mode="multiple"
+          showSearch
+          :placeholder="$t('category.select') + ' ' + $t('navbar.category')"
+          optionFilterProp="children"
+          style="width:20%;margin-right:3%"
+          @focus="handleFocus"
+          @change="handleChangeCategory"
+          :filterOption="filterOption"
+        >
+          <a-select-option
+            v-for="nameCategory in categoryData"
+            :key="nameCategory"
+            v-bind:value="nameCategory"
+            >{{ nameCategory }}</a-select-option
           >
-            <a-select-option
-              v-for="nameCategory in categoryData"
-              :key="nameCategory"
-              v-bind:value="nameCategory"
-              >{{ nameCategory }}</a-select-option
-            >
-          </a-select>
-        </a-form-item>
-        <a-form-item>
-          <a-button type="primary" html-type="submit" v-on:click="handleSearch">
-            {{ $t("searchbar.search") }}
-          </a-button>
-        </a-form-item>
+        </a-select>
+
+        <a-button
+          type="primary"
+          html-type="submit"
+          style="width:20%;margin-left:3%"
+          v-on:click="handleSearch"
+        >
+          {{ $t("searchbar.search") }}
+        </a-button>
       </a-form>
     </div>
   </div>

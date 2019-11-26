@@ -40,6 +40,7 @@
             type="primary"
             style="margin-left: 30px"
             v-if="this.canModify"
+            v-on:click="routeEdit"
           >
             Sửa bài viết</a-button
           >
@@ -146,10 +147,9 @@
         </div>
       </div>
     </div>
-    <comment-facebook
-      id="elementComment"
-      style="margin-bottom: 60px;"
-    ></comment-facebook>
+     <div style="margin-top: 150px">
+      <comment-facebook id="elementComment"></comment-facebook>
+    </div>
     <div id="endPage"></div>
   </div>
 </template>
@@ -160,6 +160,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      idPost: null,
       title: null,
       nameContact: null,
       tel: null,
@@ -177,16 +178,27 @@ export default {
   components: {
     "comment-facebook": CommentFacebook
   },
-  methods: {},
+  methods: {
+    routeEdit: function() {
+      this.$router.push({
+        name: "editPost",
+        params: { idPost: this.$router.history.current.params.idPost }
+      });
+    }
+  },
   beforeCreate() {
     // console.log(this.$router);
-    let idPost = this.$router.history.current.params.idPost;
+    this.idPost = this.$router.history.current.params.idPost;
     let url;
     if (this.$store.state.token === null || this.$store.state.token === "") {
       // nếu chưa đăng nhập thì k cần check xem bài viết có chỉnh sửa được hay không
-      url = "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/" + idPost;
+      url =
+        "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/" +
+        this.idPost;
     } else {
-      url = "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/loggedIn/" + idPost;
+      url =
+        "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/loggedIn/" +
+        this.idPost;
     }
 
     axios

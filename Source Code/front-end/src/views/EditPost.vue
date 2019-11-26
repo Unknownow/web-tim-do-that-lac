@@ -12,15 +12,8 @@
           :wrapper-col="{ span: 12 }"
         >
           <a-select
-            v-decorator="[
-              'typePost',
-              {
-                rules: [
-                  { required: true, message: 'Loại tin không được để trống!' }
-                ]
-              }
-            ]"
-            placeholder="Loại bài đăng"
+            v-decorator="['typePost', {}]"
+            :placeholder="this.typePost"
             @change="handleSelectChange"
           >
             <a-select-option value="lost">
@@ -36,16 +29,7 @@
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
-          <a-input
-            v-decorator="[
-              'titlePost',
-              {
-                rules: [
-                  { required: true, message: 'Tiêu đề không được để trống!' }
-                ]
-              }
-            ]"
-          />
+          <a-input :placeholder="this.title" v-decorator="['titlePost', {}]" />
         </a-form-item>
         <a-form-item
           label="Nội dung"
@@ -53,18 +37,8 @@
           :wrapper-col="{ span: 12 }"
         >
           <a-textarea
-            placeholder="Nội dung bài viết"
-            v-decorator="[
-              'content',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Nội dung bài viết không được để trống!'
-                  }
-                ]
-              }
-            ]"
+            :placeholder="this.description"
+            v-decorator="['content', {}]"
             autosize
           />
         </a-form-item>
@@ -75,14 +49,7 @@
         >
           <a-select
             showSearch
-            v-decorator="[
-              'ward',
-              {
-                rules: [
-                  { required: true, message: 'Quận không được để trống!' }
-                ]
-              }
-            ]"
+            v-decorator="['ward', {}]"
             placeholder="Quận"
             @change="handleChangeWard"
           >
@@ -99,16 +66,7 @@
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
-          <a-input
-            v-decorator="[
-              'address',
-              {
-                rules: [
-                  { required: true, message: 'Địa chỉ không được để trống!' }
-                ]
-              }
-            ]"
-          />
+          <a-input :placeholder="this.address" v-decorator="['address', {}]" />
         </a-form-item>
         <a-form-item
           label="Danh mục đồ thất lạc"
@@ -116,33 +74,26 @@
           :wrapper-col="{ span: 12 }"
         >
           <a-select
-            v-decorator="[
-              'category',
-              {
-                rules: [
-                  { required: true, message: 'Please select your category!' }
-                ]
-              }
-            ]"
+            v-decorator="['category', {}]"
             mode="multiple"
+            :placeholder="this.stringCategory"
             size="default"
-            placeholder="Danh mục"
             style="width: 100%"
             @change="handleChangeCategory"
           >
-            <a-select-option value="wallet">
+            <a-select-option value="wallet" key="wallet">
               Ví
             </a-select-option>
-            <a-select-option value="paper">
+            <a-select-option value="paper" key="paper">
               Giấy tờ
             </a-select-option>
-            <a-select-option value="phone">
+            <a-select-option value="phone" key="phone">
               Điện thoại
             </a-select-option>
-            <a-select-option value="laptop">
+            <a-select-option value="laptop" key="laptop">
               Laptop
             </a-select-option>
-            <a-select-option value="other">
+            <a-select-option value="other" key="other">
               Khác
             </a-select-option>
           </a-select>
@@ -200,16 +151,61 @@ export default {
       previewImage: "",
       uid: 0,
       lisCategory: null,
-      fileList: [
-        {
-          uid: -1,
-          name: "xxx.png",
-          status: "done",
-          url:
-            "https://res.cloudinary.com/soict-hust/image/upload/v1567571813/sample.jpg"
-        }
-      ]
+      fileList: [],
+      typePost: null,
+      title: null,
+      nameContact: null,
+      tel: null,
+      address: null,
+      imageLinks: null,
+      stringCategory: "",
+      description: null
     };
+  },
+  beforeCreate() {
+    let idPost = this.$router.history.current.params.idPost;
+    let url =
+      "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/" + idPost;
+    axios
+      .get(url, {
+        headers: {
+          Authorization: this.$store.state.token
+        }
+      })
+      .then(response => {
+        console.log(response);
+        this.typePost = response.data.results.type;
+        this.title = response.data.results.title;
+        this.nameContact = response.data.results.name;
+        this.tel = response.data.results.tel;
+        this.address = response.data.results.address;
+        this.description = response.data.results.description;
+        let categories = response.data.results.categories;
+        this.imageLinks = response.data.results.imgLinks;
+
+        for (let index = 0; index < categories.length; index++) {
+          this.stringCategory += categories[index] + " ";
+        }
+
+        if (this.imageLinks !== null) {
+          for (let index = 0; index < this.imageLinks.length; index++) {
+            let objImage = {
+              uid: index,
+              url: this.imageLinks[index]
+            };
+            this.fileList.push(objImage);
+          }
+          console.log(this.fileList);
+        }
+
+        // console.log(this.stringCategory);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        // always executed
+      });
   },
   methods: {
     handleSubmit(e) {
@@ -232,30 +228,53 @@ export default {
             time = today.getHours() + ":" + today.getMinutes();
           }
           currentTime = date + "T" + time;
-          console.log(currentTime);
+          // console.log(currentTime);
           let formData = new FormData();
-          formData.append("type", values.typePost);
-          formData.append("title", values.titlePost);
-          formData.append("description", values.content);
-          formData.append("address", values.address);
+          // if (values.typePost) {
+          //   console.log(values.typePost);
+          //   formData.append("type", values.typePost);
+          // }
+          if (values.titlePost) {
+            // console.log(values.titlePost);
+            formData.append("title", values.titlePost);
+          }
+          if (values.content) {
+            // console.log("description");
+            formData.append("description", values.content);
+          }
+          if (values.address) {
+            // console.log("address");
+            formData.append("address", values.address);
+          }
           formData.append("time", currentTime);
-          this.lisCategory.map(childCategory => {
-            formData.append("categories", childCategory);
-          });
+
+          if (values.category) {
+            // console.log(values.category);
+            values.category.map(childCategory => {
+              formData.append("categories", childCategory);
+            });
+          }
+          // console.log(this.fileList);
           if (this.fileList !== null) {
             this.fileList.map(image => {
               if (image.originFileObj !== null) {
+                console.log(image);
                 formData.append("images", image.originFileObj);
               }
             });
           }
-
+          let idPost = this.$router.history.current.params.idPost;
           axios
-            .post("https://tim-do-that-lac-backend.herokuapp.com/post/create", formData, {
-              headers: {
-                Authorization: this.$store.state.token
+            .patch(
+              "https://tim-do-that-lac-backend.herokuapp.com/post/update/" +
+                idPost,
+              formData,
+              {
+                headers: {
+                  Authorization: this.$store.state.token
+                }
               }
-            })
+            )
             .then(response => {
               console.log(response);
             })

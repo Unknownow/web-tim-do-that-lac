@@ -96,7 +96,7 @@ async function updatePost(_id, user, updatedInfo, files) {
         updatedInfo.imgLinks = [];
         const folderName = user._id + "_folder/post/" + post._id;
         for (let i = 0; i < files.length; i++) {
-            let fileName = "image_" + i.toString() + "_" + Date.now();
+            let imagesName = "image_" + i.toString() + "_" + Date.now();
             try {
                 let result = await cloudinary.uploader.upload(images[i].path, {
                     public_id: imagesName,

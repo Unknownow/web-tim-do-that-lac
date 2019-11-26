@@ -27,7 +27,7 @@
         v-if="this.$store.state.loginState"
         style="float: right; margin-top: 23px; cursor: pointer"
         v-on:click="routeToProfile"
-        >{{  this.$store.state.nameCurrentUser }}</span
+        >{{ this.$store.state.nameCurrentUser }}</span
       >
       <languageSwitch></languageSwitch>
     </div>
@@ -52,7 +52,9 @@ export default {
       CookieFunctions.readCookie("sessionUserName") !== null &&
       CookieFunctions.readCookie("sessionUserName") !== ""
     ) {
-      this.$store.state.nameCurrentUser = CookieFunctions.readCookie("sessionUserName");
+      this.$store.state.nameCurrentUser = CookieFunctions.readCookie(
+        "sessionUserName"
+      );
     }
   },
   created: function() {
@@ -62,8 +64,10 @@ export default {
       CookieFunctions.readCookie("sessionId") !== ""
     ) {
       this.$store.state.loginState = true;
+      this.$store.state.token = CookieFunctions.readCookie("sessionId");
     } else {
       this.$store.state.loginState = false;
+      this.$store.state.token = CookieFunctions.readCookie("sessionId");
     }
   },
   components: {
