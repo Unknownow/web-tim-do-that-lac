@@ -5,12 +5,9 @@ const CustomError = require("../errors/CustomError");
 const errorCode = require("../errors/errorCode");
 const cloudinary = require("cloudinary").v2;
 const keywordFormatter = require("./post.keywordFormatter");
+const config = require("../config");
 
-cloudinary.config({
-    cloud_name: 'webtt20191',
-    api_key: '136924572142265',
-    api_secret: 'Xl3Es1W3G8Hg1F3Y16riLdxX8G0'
-});
+cloudinary.config(config.cloudinaryConfig);
 
 async function createPost(idUser, postDetail, images) {
     for (let i = 0; i < postDetail.categories.length; i++) {
@@ -120,7 +117,7 @@ async function updatePost(_id, user, updatedInfo, files) {
     }
 
 
-    const updatedPost = Post.findByIdAndUpdate(_id, { ...updatedInfo }, { new: true });
+    const updatedPost = Post.findByIdAndUpdate(_id, {...updatedInfo }, { new: true });
     return updatedPost;
 }
 
@@ -197,21 +194,18 @@ async function searchPost(keyword) {
     keyword = await keywordFormatter(keyword);
 
     const countDocuments = await Post.countDocuments();
-    let listPosts = await Post.paginate(
-        {
-            address: keyword.address,
-            categories: keyword.categories,
-            $or: [
-                { description: keyword.description },
-                { title: keyword.title },
-            ],
-            finishedFlag: false
-        },
-        {
-            offset: start,
-            limit
-        }
-    );
+    let listPosts = await Post.paginate({
+        address: keyword.address,
+        categories: keyword.categories,
+        $or: [
+            { description: keyword.description },
+            { title: keyword.title },
+        ],
+        finishedFlag: false
+    }, {
+        offset: start,
+        limit
+    });
 
     listPosts = listPosts.docs;
 
