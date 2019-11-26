@@ -69,7 +69,7 @@ async function getPostByID(_id) {
     return currentPost;
 }
 
-async function updatePost(_id, user, updatedInfo, files) {
+async function updatePost(_id, user, updatedInfo, images) {
     const post = await Post.findById(_id);
     if (!post) {
         throw new CustomError(errorCode.NOT_FOUND, "Could not find this post!");
@@ -92,10 +92,10 @@ async function updatePost(_id, user, updatedInfo, files) {
         for (let i = 0; i < updatedInfo.categories.length; i++) {
             updatedInfo.categories[i] = updatedInfo.categories[i].toLowerCase();
         }
-    if (files) {
+    if (images) {
         updatedInfo.imgLinks = [];
         const folderName = user._id + "_folder/post/" + post._id;
-        for (let i = 0; i < files.length; i++) {
+        for (let i = 0; i < images.length; i++) {
             let imagesName = "image_" + i.toString() + "_" + Date.now();
             try {
                 let result = await cloudinary.uploader.upload(images[i].path, {
