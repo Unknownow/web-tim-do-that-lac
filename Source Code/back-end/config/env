@@ -1,3 +1,0 @@
-PORT= 3000
-MONGODB_URL=
-JWT_SECRET= "https://stackoverflow.com/questions/52412131/secretorprivatekey-must-have-a-value/52413055"
