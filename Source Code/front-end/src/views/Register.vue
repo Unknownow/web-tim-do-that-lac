@@ -235,7 +235,7 @@ export default {
     },
     register: function(values) {
       axios
-        .post("http://localhost:3000/user/register", {
+        .post("https://tim-do-that-lac-backend.herokuapp.com/user/register", {
           role: "member",
           name: values.Username,
           email: values.email,

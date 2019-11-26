@@ -18,7 +18,11 @@
               style="cursor: pointer"
               v-on:click="handleRenderPostCategory('phone')"
             >
-              <img src="/category/phone.jpg" width="100%" />
+              <img
+                src="/category/phone.jpg"
+                style="filter: brightness(70%); margin-bottom: 5px"
+                width="100%"
+              />
               <div class="centered">{{ $t("category.phone") }}</div>
             </div>
           </a-col>
@@ -33,7 +37,11 @@
               style="cursor: pointer"
               v-on:click="handleRenderPostCategory('paper')"
             >
-              <img src="/category/personaldocument.jpg" width="100%" />
+              <img
+                src="/category/personaldocument.jpg"
+                style="filter: brightness(70%); margin-bottom: 5px"
+                width="100%"
+              />
               <div class="centered">{{ $t("category.paper") }}</div>
             </div>
           </a-col>
@@ -48,7 +56,11 @@
               style="cursor: pointer"
               v-on:click="handleRenderPostCategory('wallet')"
             >
-              <img src="/category/wallet.jpg" width="100%" />
+              <img
+                src="/category/wallet.jpg"
+                style="filter: brightness(70%);"
+                width="100%"
+              />
               <div class="centered">{{ $t("category.wallet") }}</div>
             </div>
           </a-col>
@@ -63,7 +75,11 @@
               style="cursor: pointer"
               v-on:click="handleRenderPostCategory('atm')"
             >
-              <img src="/category/atm.png" width="100%" />
+              <img
+                src="/category/atm.png"
+                style="filter: brightness(70%);"
+                width="100%"
+              />
               <div class="centered">{{ $t("category.atm") }}</div>
             </div>
           </a-col>
@@ -78,7 +94,11 @@
               style="cursor: pointer"
               v-on:click="handleRenderPostCategory('laptop')"
             >
-              <img src="/category/laptop.jpg" width="100%" />
+              <img
+                src="/category/laptop.jpg"
+                style="filter: brightness(70%);"
+                width="100%"
+              />
               <div class="centered">{{ $t("category.laptop") }}</div>
             </div>
           </a-col>
@@ -90,6 +110,7 @@
         v-bind:dataPost="this.$store.state.dataPost"
       ></news-component>
     </div>
+    <div style="color: white">.....</div>
   </div>
 </template>
 
@@ -110,7 +131,7 @@ export default {
   },
   beforeCreate() {
     axios
-      .get("http://localhost:3000/post/getPost?start=0&end=5")
+      .get("https://tim-do-that-lac-backend.herokuapp.com/post/getPost?start=0&end=5")
       .then(response => {
         if (
           CookieFunctions.readCookie("sessionId") === null ||

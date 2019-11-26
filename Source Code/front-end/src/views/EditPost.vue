@@ -5,9 +5,6 @@
       <div class="centered">Đăng tin</div>
     </div>
     <div id="formPostNews" style="margin-top: 30px">
-      <h1 style="color: red" v-if="errorPost">
-        Bạn cần đăng nhập để thực hiện chức năng này
-      </h1>
       <a-form :form="form" @submit="handleSubmit">
         <a-form-item
           label="Loại tin"
@@ -179,15 +176,6 @@
             </div>
           </div>
         </a-form-item>
-        <div style="margin-bottom: 15px">
-          <a-alert
-            style="width: 60%; margin: auto;"
-            v-if="successPost"
-            message="Bài viết của bạn đã được đăng thành công"
-            type="success"
-            showIcon
-          />
-        </div>
         <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
           <a-button type="primary" html-type="submit">
             Submit
@@ -220,9 +208,7 @@ export default {
           url:
             "https://res.cloudinary.com/soict-hust/image/upload/v1567571813/sample.jpg"
         }
-      ],
-      successPost: false,
-      errorPost: false
+      ]
     };
   },
   methods: {
@@ -246,7 +232,7 @@ export default {
             time = today.getHours() + ":" + today.getMinutes();
           }
           currentTime = date + "T" + time;
-          // console.log(currentTime);
+          console.log(currentTime);
           let formData = new FormData();
           formData.append("type", values.typePost);
           formData.append("title", values.titlePost);
@@ -270,13 +256,11 @@ export default {
                 Authorization: this.$store.state.token
               }
             })
-            .then(() => {
-              // console.log(response);
-              this.successPost = true;
+            .then(response => {
+              console.log(response);
             })
             .catch(error => {
               console.log(error);
-              this.errorPost = true;
             })
             .finally(() => {
               // always executed

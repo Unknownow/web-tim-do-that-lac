@@ -52,7 +52,7 @@ export default {
   },
   // beforeCreate(){
   //    axios
-  //     .get("http://localhost:3000/post/getPost?start=0&end=5")
+  //     .get("https://tim-do-that-lac-backend.herokuapp.com/post/getPost?start=0&end=5")
   //     .then(response => {
   //       this.dataPost = response.data.results;
   //       console.log(this.dataPost);

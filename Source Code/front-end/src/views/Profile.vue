@@ -98,7 +98,7 @@ export default {
 
     //get infor current user
     axios
-      .get("http://localhost:3000/user/me", {
+      .get("https://tim-do-that-lac-backend.herokuapp.com/user/me", {
         headers: {
           Authorization: this.$store.state.token
         }
@@ -126,7 +126,7 @@ export default {
       console.log(this.$store.state.token);
       axios
         .patch(
-          "http://localhost:3000/user/me",
+          "https://tim-do-that-lac-backend.herokuapp.com/user/me",
           {
             name: nameCurrentUser,
             tel: phoneCurrentUser,

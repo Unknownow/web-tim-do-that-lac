@@ -184,9 +184,9 @@ export default {
     let url;
     if (this.$store.state.token === null || this.$store.state.token === "") {
       // nếu chưa đăng nhập thì k cần check xem bài viết có chỉnh sửa được hay không
-      url = "http://localhost:3000/post/getPost/" + idPost;
+      url = "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/" + idPost;
     } else {
-      url = "http://localhost:3000/post/getPost/loggedIn/" + idPost;
+      url = "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/loggedIn/" + idPost;
     }
 
     axios
@@ -198,8 +198,8 @@ export default {
       .then(response => {
         // console.log(response);
         this.title = response.data.results.title;
-        this.nameContact = response.data.results.userName;
-        this.tel = response.data.results.userTel;
+        this.nameContact = response.data.results.name;
+        this.tel = response.data.results.tel;
         this.address = response.data.results.address;
         this.description = response.data.results.description;
         this.categories = response.data.results.categories;

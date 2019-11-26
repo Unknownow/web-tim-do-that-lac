@@ -1,6 +1,12 @@
 <template>
-  <div style="position: relative">
-    <img src="/category/phone_copy.jpg" width="100%" />
+  <div style="position: relative;">
+    <div>
+      <img
+        src="/category/iphoneHeader.png"
+        style="filter: brightness(70%); "
+        width="100%"
+      />
+    </div>
     <div class="centered">
       <h2 style="color: #ffffff">Tìm đồ thất lạc của bạn</h2>
       <a-form layout="inline">
@@ -20,15 +26,16 @@
             :filterOption="filterOption"
           >
             <a-select-option
-              v-for="name in data"
-              :key="name"
-              v-bind:value="name"
-              >{{ name }}</a-select-option
+              v-for="address in dataAddress"
+              :key="address"
+              v-bind:value="address"
+              >{{ address }}</a-select-option
             >
           </a-select>
         </a-form-item>
         <a-form-item>
           <a-select
+            mode="multiple"
             showSearch
             :placeholder="$t('category.select') + ' ' + $t('navbar.category')"
             optionFilterProp="children"
@@ -63,7 +70,16 @@ export default {
       valueKeyword: null,
       valueAddress: null,
       valueCategory: null,
-      data: ["Trương Định", "Cali", "AS"],
+      dataAddress: [
+        "Trương Định",
+        "Bạch Mai",
+        "Trần Đại Nghĩa",
+        "Minh Khai",
+        "Giải Phóng",
+        "Đại Cồ Việt",
+        "Trường Chinh",
+        "Xã Đàn"
+      ],
       categoryData: ["Ví", "Giấy tờ", "Điện thoại", "Laptop", "Thẻ ATM"]
     };
   },
@@ -76,6 +92,7 @@ export default {
     handleChangeCategory(value) {
       // console.log(`selected ${value}`);
       this.valueCategory = value;
+      // console.log(value);
     },
     filterOption(input, option) {
       return (
@@ -99,23 +116,47 @@ export default {
     },
     handleSearch: function() {
       this.valueKeyword = document.getElementById("keyword").value;
-      let newKeyword = this.valueKeyword.replace(/ /g, "+");
-      let newAddress = this.valueAddress.replace(/ /g, "+");
-      let newCategory = this.valueCategory.replace(/ /g, "+");
-      let url =
-        "http://localhost:3000/post/search?keywords=" +
-        newKeyword +
-        "&address=" +
-        newAddress +
-        "&category=" +
-        newCategory +
-        "&start=0&end=9";
+      let newKeyword = "";
+      let newAddress = "";
+      if (this.valueKeyword !== null && this.valueKeyword !== "") {
+        newKeyword = this.valueKeyword.replace(/ /g, "+");
+      }
+      if (this.valueAddress !== null && this.valueAddress !== "") {
+        newAddress = this.valueAddress.replace(/ /g, "+");
+      }
+
+      let urlCategory = "";
+      if (this.valueCategory !== null) {
+        this.valueCategory.map(childCategory => {
+          if (childCategory !== null && childCategory !== "") {
+            let newCategory = childCategory.replace(/ /g, "+");
+            urlCategory += "&categories=" + newCategory;
+          }
+        });
+      }
+      let url;
+      if (newKeyword === "" && urlCategory === "") {
+        url =
+          "https://tim-do-that-lac-backend.herokuapp.com/post/search?" +
+          "address=" +
+          newAddress +
+          "&start=0&end=8";
+      } else {
+        url =
+          "https://tim-do-that-lac-backend.herokuapp.com/post/search?keywords=" +
+          newKeyword +
+          "&address=" +
+          newAddress +
+          urlCategory +
+          "&start=0&end=9";
+      }
+
       axios
         .get(url)
         .then(response => {
           // this.dataPost = response.data.results;
-          this.$store.state.dataPost = response.data.results;
-          // console.log(this.dataPost);
+          this.$store.state.dataPost = response.data.results.listPosts;
+          // console.log(response.data);
         })
         .catch(error => {
           console.log(error);

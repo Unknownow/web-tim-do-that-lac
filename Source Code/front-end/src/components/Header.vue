@@ -27,7 +27,7 @@
         v-if="this.$store.state.loginState"
         style="float: right; margin-top: 23px; cursor: pointer"
         v-on:click="routeToProfile"
-        >{{ this.$store.state.nameCurrentUser }}</span
+        >{{  this.$store.state.nameCurrentUser }}</span
       >
       <languageSwitch></languageSwitch>
     </div>
@@ -43,12 +43,25 @@ import NavBar from "./NavBar.vue";
 import { CookieFunctions } from "../functions/CookieFunctions";
 export default {
   data() {
-    return {};
+    return {
+      nameCurrentUser: null
+    };
+  },
+  beforeCreate() {
+    if (
+      CookieFunctions.readCookie("sessionUserName") !== null &&
+      CookieFunctions.readCookie("sessionUserName") !== ""
+    ) {
+      this.$store.state.nameCurrentUser = CookieFunctions.readCookie("sessionUserName");
+    }
   },
   created: function() {
     // `this` points to the vm instance
-    if (CookieFunctions.readCookie("sessionId") !== null) {
-      // this.$store.state.loginState = true;
+    if (
+      CookieFunctions.readCookie("sessionId") !== null &&
+      CookieFunctions.readCookie("sessionId") !== ""
+    ) {
+      this.$store.state.loginState = true;
     } else {
       this.$store.state.loginState = false;
     }
@@ -78,7 +91,7 @@ export default {
 
 <style scoped>
 #headerBar {
-  background: pink;
+  background: #e66767;
   height: 80px;
   color: white;
   position: relative;

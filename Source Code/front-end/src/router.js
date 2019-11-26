@@ -100,6 +100,21 @@ export default new Router({
             import(/* webpackChunkName: "about" */ "./views/Detail.vue")
         },
         {
+          path: "/detail/:idPost",
+          redirect: `/${i18n.locale}/detail/:idPost`
+        },
+        {
+          path: "editPost/:idPost",
+          name: "editPost",
+          meta: { title: "Edit Post" },
+          // redirect: `/${i18n.locale}/login`,
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () =>
+            import(/* webpackChunkName: "about" */ "./views/EditPost.vue")
+        },
+        {
           path: "/post",
           redirect: `/${i18n.locale}/post`
         },
