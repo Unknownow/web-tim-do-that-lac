@@ -55,12 +55,7 @@ const UserSchema = mongoose.Schema({
             type: String,
             required: true,
         },
-    }, ],
-    // isVerified: {
-    //     type: Boolean,
-    //     required: true,
-    //     default: false
-    // },
+    }],
     otp: {
         type: String,
         require: false
@@ -69,7 +64,7 @@ const UserSchema = mongoose.Schema({
     timestamps: true
 });
 
-UserSchema.methods.generateAuthToken = async function() {
+UserSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign({ _id: user.id.toString() }, config.jwtKey, { expiresIn: "2 days" }); // return String
 
@@ -79,7 +74,7 @@ UserSchema.methods.generateAuthToken = async function() {
     return token;
 };
 
-UserSchema.methods.generateOTP = async function() {
+UserSchema.methods.generateOTP = async function () {
     const user = this;
     let digits = '0123456789';
     let OTP = '';
@@ -92,7 +87,7 @@ UserSchema.methods.generateOTP = async function() {
     return OTP;
 }
 
-UserSchema.methods.verifyOTP = async function(OTP, password) {
+UserSchema.methods.verifyOTP = async function (OTP, password) {
     const user = this;
     if (user.otp.toString() === OTP.toString()) {
         user.otp = "";
@@ -103,7 +98,7 @@ UserSchema.methods.verifyOTP = async function(OTP, password) {
     return false;
 }
 
-UserSchema.methods.toJSON = function() {
+UserSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
 
@@ -113,7 +108,7 @@ UserSchema.methods.toJSON = function() {
     return userObject;
 };
 
-UserSchema.pre('save', async function(next) {
+UserSchema.pre('save', async function (next) {
     const user = this;
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8);

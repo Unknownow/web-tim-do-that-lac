@@ -102,6 +102,7 @@ async function resetPassword(req, res) {
     })
 }
 
+
 module.exports = {
     createAdminUser,
     createModUser,
@@ -113,5 +114,5 @@ module.exports = {
     updateUserInfo,
     deleteUser,
     getOTP,
-    resetPassword
+    resetPassword,
 }
