@@ -26,13 +26,13 @@ async function deleteReply(req, res) {
 }
 
 async function getAllRepliesOfPost(req, res) {
-    const { idPost } = req.params;
+    const { idPost, start, end } = req.query;
     const user = req.user;
-    const replies = await replyService.getAllRepliesOfPost(idPost, user);
+    const results = await replyService.getAllRepliesOfPost(idPost, user, start, end);
 
     res.status(201).send({
         status: 1,
-        results: replies
+        results
     });
 }
 
@@ -49,11 +49,12 @@ async function getReplyByID(req, res) {
 
 async function getAllRepliesOfUser(req, res) {
     const user = req.user;
-    const replies = await replyService.getAllRepliesOfUser(user);
+    const { start, end } = req.query;
+    const results = await replyService.getAllRepliesOfUser(user, start, end);
 
     res.status(201).send({
         status: 1,
-        results: replies
+        results
     });
 }
 

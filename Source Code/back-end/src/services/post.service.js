@@ -193,7 +193,15 @@ async function searchPost(keyword) {
 
     keyword = await keywordFormatter(keyword);
 
-    const countDocuments = await Post.countDocuments();
+    const countDocuments = await Post.countDocuments({
+        address: keyword.address,
+        categories: keyword.categories,
+        $or: [
+            { description: keyword.description },
+            { title: keyword.title },
+        ],
+        finishedFlag: false
+    });
     let listPosts = await Post.paginate({
         address: keyword.address,
         categories: keyword.categories,

@@ -62,7 +62,7 @@ async function deleteReply(idReply, user) {
     return reply;
 }
 
-async function getAllRepliesOfPost(idPost, user) {
+async function getAllRepliesOfPost(idPost, user, start, end) {
     const permittedRole = ["admin", "mod"];
     let isValidToGetAllReplies = false;
     let post = await Post.findById(idPost);
@@ -78,19 +78,27 @@ async function getAllRepliesOfPost(idPost, user) {
             throw new CustomError(errorCode.UNAUTHORIZED, "You could not get all replies of this post!");
         }
     }
-
+    const limit = end - start + 1;
     const postOwner = await User.findById(post.idUser);
-    let replies = await Reply.find({ "idPost": idPost });
+    const countReplies = await Reply.countDocuments({ "idPost": idPost })
+    let replies = await Reply.paginate({
+        "idPost": idPost
+    }, {
+        offset: start,
+        limit
+    });
+    replies = replies.docs;
     for (let i = 0; i < replies.length; i++) {
         const replyOwner = await User.findById(replies[i].idUser);
         replies[i] = { name: replyOwner.name, tel: replyOwner.tel, email: replyOwner.email, ...replies[i]._doc };
     }
     delete post.idUser;
     post = { name: postOwner.name, tel: postOwner.tel, email: postOwner.email, ...post._doc };
-    return { post, replies };
+    return { countReplies, post, replies };
 }
 
-async function getReplyByID(idReply, user) {
+async function getReplyByID(idReply, user, start, end) {
+    const limit = keyword.end - keyword.start + 1;
     const permittedRole = ["admin", "mod"];
     let isValidToDelete = false;
     const reply = await Reply.findById(idReply);
@@ -118,9 +126,17 @@ async function getReplyByID(idReply, user) {
     return { post, reply };
 }
 
-async function getAllRepliesOfUser(user) {
-    const replies = await Reply.find({ idUser: user._id });
-    return replies;
+async function getAllRepliesOfUser(user, start, end) {
+    const limit = end - start + 1;
+    const countReplies = await Reply.countDocuments({ idUser: user._id });
+    let replies = await Reply.paginate({
+        idUser: user._id
+    }, {
+        offset: start,
+        limit
+    });
+    replies = replies.docs;
+    return { countReplies, replies };
 }
 
 module.exports = {
@@ -129,4 +145,4 @@ module.exports = {
     getAllRepliesOfPost,
     getReplyByID,
     getAllRepliesOfUser
-}
+};

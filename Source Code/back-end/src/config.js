@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 
 dotenv.config();
-// console.log(process.env.CLOUDINARY_CONFIG)
 const cloudinaryConfig = JSON.parse(process.env.CLOUDINARY_CONFIG);
 
 module.exports = {
