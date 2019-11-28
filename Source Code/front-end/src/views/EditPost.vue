@@ -165,7 +165,7 @@ export default {
   beforeCreate() {
     let idPost = this.$router.history.current.params.idPost;
     let url =
-      "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/" + idPost;
+      "http://localhost:8002/post/getPost/" + idPost;
     axios
       .get(url, {
         headers: {
@@ -266,7 +266,7 @@ export default {
           let idPost = this.$router.history.current.params.idPost;
           axios
             .patch(
-              "https://tim-do-that-lac-backend.herokuapp.com/post/update/" +
+              "http://localhost:8002/post/update/" +
                 idPost,
               formData,
               {

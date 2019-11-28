@@ -1,8 +1,16 @@
 <template>
   <div>
-    <div style="position: relative;">
+    <div style="position: relative; margin-top: 50px">
       <img src="/category/headerpost.jpg" width="100%" />
       <div class="centered">Quản lý tài khoản</div>
+    </div>
+    <div style="cursor: pointer">
+      <p
+        style="float: left; margin-left: 100px; margin-top: 35px; color: #0abde3;"
+        v-on:click="showListReply"
+      >
+        Danh sách các phản hồi
+      </p>
     </div>
     <div id="formRegister">
       <a-form>
@@ -54,6 +62,53 @@
         </a-form-item>
       </a-form>
     </div>
+    <modal name="modal-listReply" :height="300" :width="600">
+      <div
+        style="text-align: center; margin-top: 10px; font-size: 20px; color: black"
+      >
+        Danh sách các phản hồi của bài viết
+      </div>
+      <div
+        id="listReply"
+        style="overflow-y: auto; max-height: 300px; margin-left: 20px"
+      >
+        <a-list
+          style="margin-bottom: 30px"
+          itemLayout="horizontal"
+          :dataSource="dataReply"
+        >
+          <a-list-item slot="renderItem" slot-scope="item, index">
+            <div style="margin-left: 10px; width: 100%">
+              <div class="clearfix">
+                <a-upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  :fileList="fileListImagereply[index]"
+                  @preview="handlePreview"
+                  @change="handleChange"
+                >
+                </a-upload>
+                <a-modal
+                  :visible="previewVisible"
+                  :footer="null"
+                  @cancel="handleCancel"
+                >
+                  <img alt="example" style="width: 100%" :src="previewImage" />
+                </a-modal>
+              </div>
+            </div>
+
+            <a-list-item-meta :description="item.description">
+              <a slot="title" href="https://vue.ant.design/">{{ item.name }}</a>
+              <a-avatar
+                slot="avatar"
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              />
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -63,7 +118,7 @@ export default {
   data() {
     return {
       emailCurrentUser: null,
-      nameCurrentUser: null,
+      nameCurrentUser: "",
       numberphoneCurrentUser: null,
       addressCurrentUser: null,
       confirmDirty: false,
@@ -90,7 +145,11 @@ export default {
             offset: 8
           }
         }
-      }
+      },
+      dataReply: null,
+      fileListImagereply: [],
+      previewVisible: false,
+      previewImage: ""
     };
   },
   beforeCreate() {
@@ -98,7 +157,7 @@ export default {
 
     //get infor current user
     axios
-      .get("https://tim-do-that-lac-backend.herokuapp.com/user/me", {
+      .get("http://localhost:8002/user/me", {
         headers: {
           Authorization: this.$store.state.token
         }
@@ -126,7 +185,7 @@ export default {
       console.log(this.$store.state.token);
       axios
         .patch(
-          "https://tim-do-that-lac-backend.herokuapp.com/user/me",
+          "http://localhost:8002/user/me",
           {
             name: nameCurrentUser,
             tel: phoneCurrentUser,
@@ -144,6 +203,64 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    showListReply: function() {
+      this.getListReply();
+    },
+    getListReply: function() {
+      axios
+        .get("http://localhost:8002/reply/getAllReplies/me?start=0&end=100", {
+          headers: {
+            Authorization: this.$store.state.token
+          }
+        })
+        .then(response => {
+          this.dataReply = response.data.results.replies;
+          if (this.dataReply !== null) {
+            this.dataReply.map(reply => {
+              reply.name = this.nameCurrentUser;
+              // console.log(reply);
+            });
+            for (
+              let indexReply = 0;
+              indexReply < this.dataReply.length;
+              indexReply++
+            ) {
+              let arrayImage = [];
+              for (
+                let indexImg = 0;
+                indexImg < this.dataReply[indexReply].imgLinks.length;
+                indexImg++
+              ) {
+                let imgObject = {
+                  uid: indexImg,
+                  url: this.dataReply[indexReply].imgLinks[indexImg]
+                };
+                arrayImage.push(imgObject);
+              }
+              this.fileListImagereply.push(arrayImage);
+            }
+            // console.log(this.fileListImagereply);
+          }
+          // console.log(response);
+          this.showListReplyModal();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          // always executed
+        });
+    },
+    showListReplyModal: function() {
+      this.$modal.show("modal-listReply");
+    },
+    handleCancel() {
+      this.previewVisible = false;
+    },
+    handlePreview(file) {
+      this.previewImage = file.url || file.thumbUrl;
+      this.previewVisible = true;
     }
   }
 };

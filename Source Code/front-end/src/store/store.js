@@ -8,7 +8,9 @@ export const store = new Vuex.Store({
     loginState: false,
     nameCurrentUser: 'Dat ngu si',
     token: null,
-    dataPost: null
+    dataPost: null,
+    currentPage: 1,
+    totalPost: 0
   },
   getters: {},
   mutations: {

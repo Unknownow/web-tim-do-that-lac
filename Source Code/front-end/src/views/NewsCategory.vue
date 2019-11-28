@@ -112,8 +112,8 @@
     </div>
     <div>
       <a-pagination
-        v-model="currentPage"
-        :total="totalPost"
+        v-model="this.$store.state.currentPage"
+        :total="this.$store.state.totalPost"
         style="margin-top: 500px"
         :defaultPageSize="9"
         @change="changePage"
@@ -126,6 +126,7 @@
 import News from "../components/News.vue";
 import Search from "../components/Search.vue";
 import axios from "axios";
+import { CookieFunctions } from "../functions/CookieFunctions";
 export default {
   components: {
     "news-component": News,
@@ -135,13 +136,10 @@ export default {
     return {
       // dataPost: null
       category: null,
-      totalPost: 0,
       indexStart: 0,
-      indexEnd: 8,
-      currentPage: 1
+      indexEnd: 8
     };
   },
-  beforeCreate() {},
   beforeMount() {
     this.$store.state.dataPost = null;
     this.category = this.$router.history.current.params.category;
@@ -156,6 +154,8 @@ export default {
   },
   methods: {
     handleRenderPostCategory(category) {
+      this.$store.state.currentPage = 1;
+      this.$store.state.totalPost = 0;
       // console.log("renders");
       this.$router.push({
         name: "news",
@@ -163,27 +163,33 @@ export default {
       });
     },
     changePage: function(page) {
-      this.currentPage = page;
-      this.indexStart = (this.currentPage - 1) * 6;
-      this.indexEnd = this.currentPage * 6 - 1;
+      this.$store.state.currentPage = page;
+      this.indexStart = (page - 1) * 6;
+      this.indexEnd = page * 6 - 1;
       this.getPostCategory(this.category, this.indexStart, this.indexEnd);
     },
     getPostCategory: function(category, start, end) {
       let url =
-        "https://tim-do-that-lac-backend.herokuapp.com/post/search?&categories=" +
+        "http://localhost:8002/post/search?&categories=" +
         category +
         "&start=" +
         start +
         "&end=" +
         end;
-      console.log(url);
+      // console.log(url);
       axios
         .get(url)
         .then(response => {
+          if (
+            CookieFunctions.readCookie("sessionId") === null ||
+            CookieFunctions.readCookie("sessionId") === ""
+          ) {
+            // nếu chưa đăng nhập sẽ che số điện thoại đi
+            this.encodeTel(response.data.results.listPosts);
+          }
           this.$store.state.dataPost = response.data.results.listPosts;
           // console.log(this.dataPost);
-          this.totalPost = response.data.results.countDocuments;
-          console.log(this.$store.state.dataPost.length);
+          this.$store.state.totalPost = response.data.results.countDocuments;
         })
         .catch(error => {
           console.log(error);
@@ -191,6 +197,13 @@ export default {
         .finally(() => {
           // always executed
         });
+    },
+    encodeTel: function(dataPost) {
+      dataPost.map(post => {
+        post.tel = post.tel.slice(0, post.tel.length - 3);
+        post.tel = post.tel + "xxx";
+        // console.log("xaxs");
+      });
     }
   }
 };
