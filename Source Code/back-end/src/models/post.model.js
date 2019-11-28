@@ -6,17 +6,17 @@ const PostSchema = new mongoose.Schema(
         idUser: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            trim:true
+            trim: true
         },
         type: {
             type: String,
             required: true,
-            trim:true
+            trim: true
         },
         title: {
             type: String,
             required: true,
-            trim:true
+            trim: true
         },
         description: {
             type: String,
@@ -25,7 +25,7 @@ const PostSchema = new mongoose.Schema(
         address: {
             type: String,
             required: true,
-            trim:true
+            trim: true
         },
         time: {
             type: Date,
@@ -34,16 +34,21 @@ const PostSchema = new mongoose.Schema(
         categories: [{
             type: String,
             required: true,
-            trim:true
+            trim: true
         }],
         imgLinks: [{
-            type:String,
-            required:false
+            type: String,
+            required: false
         }],
         finishedFlag: {
-            type:Boolean,
-            required:true,
-            default:false
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        expireAt: {
+            type: Date,
+            default: Date.now,
+            index: { expires: 7776000 },
         }
     },
     {
