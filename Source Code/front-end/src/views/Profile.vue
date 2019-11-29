@@ -209,7 +209,7 @@ export default {
     },
     getListReply: function() {
       axios
-        .get("http://localhost:8002/reply/getAllReplies/me?start=0&end=100", {
+        .get("http://localhost:8002/reply/getAllReplies/me", {
           headers: {
             Authorization: this.$store.state.token
           }
