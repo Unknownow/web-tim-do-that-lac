@@ -141,18 +141,18 @@ export default {
       let url;
       if (newKeyword === "" && urlCategory === "") {
         url =
-          "https://tim-do-that-lac-backend.herokuapp.com/post/search?" +
+          "http://localhost:8002/post/search?" +
           "address=" +
           newAddress +
           "&start=0&end=8";
       } else {
         url =
-          "https://tim-do-that-lac-backend.herokuapp.com/post/search?keywords=" +
+          "http://localhost:8002/post/search?keywords=" +
           newKeyword +
           "&address=" +
           newAddress +
           urlCategory +
-          "&start=0&end=9";
+          "&start=0&end=8";
       }
 
       axios
@@ -160,6 +160,10 @@ export default {
         .then(response => {
           // this.dataPost = response.data.results;
           this.$store.state.dataPost = response.data.results.listPosts;
+
+          //reset lai pagination
+          this.$store.state.currentPage = 1;
+          this.$store.state.totalPost = 0;
           // console.log(response.data);
         })
         .catch(error => {

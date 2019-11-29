@@ -43,6 +43,8 @@ export default {
   },
   methods: {
     handleRenderPostCategory(values) {
+      // this.$store.state.currentPage = 1;
+      // this.$store.state.totalPost = 0;
       // console.log("renders");
       this.$router.push({
         name: "news",

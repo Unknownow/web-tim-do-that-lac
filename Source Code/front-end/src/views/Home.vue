@@ -131,7 +131,7 @@ export default {
   },
   beforeCreate() {
     axios
-      .get("https://tim-do-that-lac-backend.herokuapp.com/post/getPost?start=0&end=5")
+      .get("http://localhost:8002/post/getPost?start=0&end=5")
       .then(response => {
         if (
           CookieFunctions.readCookie("sessionId") === null ||

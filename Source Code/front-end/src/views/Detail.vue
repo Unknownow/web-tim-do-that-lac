@@ -23,13 +23,28 @@
       </div>
       <div id="rightContent">
         <div style="font-size: 25px; color: white">
-          <div style="display:inline-block">
+          <div style="display:inline-block; cursor: pointer">
             <a-icon theme="filled" type="message" />
-            <span style="margin-left: 10px">{{ $t("detail.reply") }}</span>
+            <span style="margin-left: 10px;" v-on:click="show">{{
+              $t("detail.reply")
+            }}</span>
           </div>
           <div style="display:inline-block; margin-left: 40px">
-            <a-icon type="share-alt" />
-            <span style="margin-left: 10px">{{ $t("detail.share") }}</span>
+            <div>
+              <div
+                class="fb-share-button"
+                data-href="https://developers.facebook.com/docs/plugins/"
+                data-layout="button"
+                data-size="large"
+              >
+                <a
+                  target="_blank"
+                  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                  class="fb-xfbml-parse-ignore"
+                  >Chia sẻ</a
+                >
+              </div>
+            </div>
           </div>
         </div>
         <div style="margin-top: 30px">
@@ -62,7 +77,15 @@
         </div>
         <div id="description" style="width: 100%; text-align: left">
           {{ this.description }}
+
           <div style="margin-top: 50px">
+            <div
+              v-if="this.canModify"
+              style="margin-bottom: 20px; color: #0abde3; cursor: pointer"
+              v-on:click="showListReply"
+            >
+              Danh sách phản hồi của bài viết
+            </div>
             <a-carousel arrows>
               <div
                 slot="prevArrow"
@@ -147,13 +170,138 @@
         </div>
       </div>
     </div>
-     <div style="margin-top: 150px">
+    <div style="margin-top: 1000px">
       <comment-facebook id="elementComment"></comment-facebook>
     </div>
     <div id="endPage"></div>
+    <modal name="modal-reply" :height="300" :width="600">
+      <div
+        style="text-align: center; margin-top: 10px; font-size: 20px; color: black"
+      >
+        Phản hồi bài viết
+        <a-alert
+          v-if="this.errorReply"
+          type="error"
+          message="Bạn cần đăng nhập để thực hiện chức năng này"
+          banner
+        />
+        <a-alert
+          v-if="this.successReply"
+          message="Bạn đã phản hồi bài đăng thành công"
+          type="success"
+          showIcon
+        />
+      </div>
+
+      <div id="formPostNews" style="margin-top: 0px; margin-left: 30px">
+        <a-form :form="form" @submit="handleSubmit">
+          <a-form-item
+            label="Nội dung phản hồi"
+            :label-col="{ span: 5 }"
+            :wrapper-col="{ span: 12 }"
+          >
+            <a-textarea
+              style="margin-left: 10px"
+              placeholder="Nội dung"
+              v-decorator="['contentReply', {}]"
+              autosize
+            />
+          </a-form-item>
+          <a-form-item
+            label="Hình ảnh minh họa"
+            :label-col="{ span: 5 }"
+            :wrapper-col="{ span: 12 }"
+          >
+            <div style="margin-left: 10px; width: 100%">
+              <div class="clearfix">
+                <a-upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  :fileList="fileList"
+                  @preview="handlePreview"
+                  @change="handleChange"
+                >
+                  <div v-if="fileList.length < 2">
+                    <a-icon type="plus" />
+                    <div class="ant-upload-text">Upload</div>
+                  </div>
+                </a-upload>
+                <a-modal
+                  :visible="previewVisible"
+                  :footer="null"
+                  @cancel="handleCancel"
+                >
+                  <img alt="example" style="width: 100%" :src="previewImage" />
+                </a-modal>
+              </div>
+            </div>
+          </a-form-item>
+          <a-form-item
+            :wrapper-col="{ span: 12, offset: 5 }"
+            style="margin-left: 150px;"
+          >
+            <a-button type="primary" html-type="submit">
+              Phản hồi
+            </a-button>
+          </a-form-item>
+        </a-form>
+      </div>
+    </modal>
+    <modal name="modal-listReply" :height="300" :width="600">
+      <div
+        style="text-align: center; margin-top: 10px; font-size: 20px; color: black"
+      >
+        Danh sách các phản hồi của bài viết
+      </div>
+      <div
+        id="listReply"
+        style="overflow-y: auto; max-height: 300px; margin-left: 20px"
+      >
+        <a-list
+          style="margin-bottom: 30px"
+          itemLayout="horizontal"
+          :dataSource="dataReply"
+        >
+          <a-list-item slot="renderItem" slot-scope="item, index">
+            <div style="margin-left: 10px; width: 100%">
+              <div class="clearfix">
+                <a-upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  :fileList="fileListImagereply[index]"
+                  @preview="handlePreview"
+                  @change="handleChange"
+                >
+                </a-upload>
+                <a-modal
+                  :visible="previewVisible"
+                  :footer="null"
+                  @cancel="handleCancel"
+                >
+                  <img alt="example" style="width: 100%" :src="previewImage" />
+                </a-modal>
+              </div>
+            </div>
+
+            <a-list-item-meta :description="item.description">
+              <a slot="title" href="https://vue.ant.design/">{{ item.name }}</a>
+              <a-avatar
+                slot="avatar"
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              />
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
+      </div>
+    </modal>
   </div>
 </template>
-
+<script
+  async
+  defer
+  crossorigin="anonymous"
+  src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v5.0&appId=2298226020420324&autoLogAppEvents=1"
+></script>
 <script>
 import CommentFacebook from "../components/CommentFacebook.vue";
 import axios from "axios";
@@ -172,7 +320,16 @@ export default {
       checkPaper: false,
       checkPhone: false,
       checkOther: false,
-      canModify: false
+      canModify: false,
+      previewVisible: false,
+      previewImage: "",
+      fileList: [],
+      formLayout: "horizontal",
+      form: this.$form.createForm(this, { name: "coordinated" }),
+      errorReply: false,
+      successReply: false,
+      dataReply: null,
+      fileListImagereply: []
     };
   },
   components: {
@@ -184,6 +341,130 @@ export default {
         name: "editPost",
         params: { idPost: this.$router.history.current.params.idPost }
       });
+    },
+    show: function() {
+      this.$modal.show("modal-reply");
+    },
+    hide() {
+      this.$modal.hide("modal-reply");
+    },
+    showListReply: function() {
+      this.getListReply();
+    },
+    showListReplyModal: function() {
+      this.$modal.show("modal-listReply");
+    },
+    hideListReply() {
+      this.$modal.hide("modal-listReply");
+    },
+    handleCancel() {
+      this.previewVisible = false;
+    },
+    handlePreview(file) {
+      this.previewImage = file.url || file.thumbUrl;
+      this.previewVisible = true;
+    },
+    handleChange({ fileList }) {
+      //   console.log("------------------");
+      //   console.log(fileList[0]);
+      this.fileList = fileList;
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          let idPost = this.$router.history.current.params.idPost;
+          if (
+            this.$store.state.token !== null &&
+            this.$store.state.token !== ""
+          ) {
+            let formData = new FormData();
+            formData.append("description", values.contentReply);
+            if (this.fileList !== null) {
+              this.fileList.map(image => {
+                if (image.originFileObj !== null) {
+                  formData.append("images", image.originFileObj);
+                }
+              });
+            }
+            axios
+              .post("http://localhost:8002/reply/create/" + idPost, formData, {
+                headers: {
+                  Authorization: this.$store.state.token
+                }
+              })
+              .then(response => {
+                console.log(response);
+                this.successReply = true;
+              })
+              .catch(error => {
+                console.log(error);
+              })
+              .finally(() => {
+                // always executed
+              });
+          } else {
+            this.error = true;
+          }
+          console.log(values);
+        }
+      });
+    },
+    getListReply: function() {
+      let idPost = this.$router.history.current.params.idPost;
+      axios
+        .get("http://localhost:8002/reply/getAllReplies/" + idPost, {
+          headers: {
+            Authorization: this.$store.state.token
+          }
+        })
+        .then(response => {
+          this.dataReply = response.data.results.replies;
+          if (this.dataReply !== null) {
+            // this.dataReply.map((reply, indexReply) => {
+            //   reply.imgLinks.map((imageLink, indexImg) => {
+            //     let imageObject = {
+            //       uid: indexImg,
+            //       url: imageLink
+            //     };
+            //     // console.log(fileListImagereply);
+            //     // this.fileListImagereply[indexReply].push(imageObject);
+            //     console.log(imageObject);
+            //     console.log(indexReply);
+            //   });
+            //   // console.log(reply);
+            // });
+
+            for (
+              let indexReply = 0;
+              indexReply < this.dataReply.length;
+              indexReply++
+            ) {
+              let arrayImage = [];
+              for (
+                let indexImg = 0;
+                indexImg < this.dataReply[indexReply].imgLinks.length;
+                indexImg++
+              ) {
+                let imgObject = {
+                  uid: indexImg,
+                  url: this.dataReply[indexReply].imgLinks[indexImg]
+                };
+                arrayImage.push(imgObject);
+              }
+              this.fileListImagereply.push(arrayImage);
+            }
+            console.log(this.fileListImagereply);
+          }
+          console.log(response);
+          this.showListReplyModal();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          // always executed
+        });
     }
   },
   beforeCreate() {
@@ -192,13 +473,9 @@ export default {
     let url;
     if (this.$store.state.token === null || this.$store.state.token === "") {
       // nếu chưa đăng nhập thì k cần check xem bài viết có chỉnh sửa được hay không
-      url =
-        "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/" +
-        this.idPost;
+      url = "http://localhost:8002/post/getPost/" + this.idPost;
     } else {
-      url =
-        "https://tim-do-that-lac-backend.herokuapp.com/post/getPost/loggedIn/" +
-        this.idPost;
+      url = "http://localhost:8002/post/getPost/loggedIn/" + this.idPost;
     }
 
     axios

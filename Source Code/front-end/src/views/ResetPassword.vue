@@ -120,7 +120,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           let url =
-            "https://tim-do-that-lac-backend.herokuapp.com/user/forgotPassword/" + values.emailOTP;
+            "http://localhost:8002/user/forgotPassword/" + values.emailOTP;
           axios
             .post(url, {})
             .then(() => {
@@ -177,7 +177,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           let url =
-            "https://tim-do-that-lac-backend.herokuapp.com/user/resetPassword/" + this.emailSenOTP;
+            "http://localhost:8002/user/resetPassword/" + this.emailSenOTP;
           axios
             .post(url, {
               otp: values.codeOTP,

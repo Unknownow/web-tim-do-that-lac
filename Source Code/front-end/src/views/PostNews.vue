@@ -265,7 +265,7 @@ export default {
           }
 
           axios
-            .post("https://tim-do-that-lac-backend.herokuapp.com/post/create", formData, {
+            .post("http://localhost:8002/post/create", formData, {
               headers: {
                 Authorization: this.$store.state.token
               }

@@ -1,5 +1,5 @@
 // const axios = require("axios");
-// let url = "https://tim-do-that-lac-backend.herokuapp.com/user/resetPassword/vutuandat811@gmail.com";
+// let url = "http://localhost:8002/user/resetPassword/vutuandat811@gmail.com";
 // axios
 //   .post(url, {})
 //   .then(response => {
@@ -33,10 +33,13 @@
 
 let abcd = ["abc 123", "def 234", "mnp 1223", "lks 217", "xmj 122"];
 let urlCategory = "";
+let xx = [];
 
-abcd.map(item => {
+abcd.map((item, index) => {
   let childCategory = item.replace(/ /g, "+");
-  console.log(childCategory);
+  if (item) {
+    xx.push(item);
+  }
   urlCategory += "&&" + childCategory;
 });
-console.log(urlCategory);
+console.log(xx);
