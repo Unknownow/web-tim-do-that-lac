@@ -102,6 +102,14 @@ async function resetPassword(req, res) {
     })
 }
 
+async function facebookLogin(req, res) {
+    const facebookUser = req.user;
+    const results = await userService.facebookLogin(facebookUser);
+    res.send({
+        status: 1,
+        results
+    })
+}
 
 module.exports = {
     createAdminUser,
@@ -115,4 +123,5 @@ module.exports = {
     deleteUser,
     getOTP,
     resetPassword,
+    facebookLogin
 }

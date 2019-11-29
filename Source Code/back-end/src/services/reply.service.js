@@ -7,6 +7,11 @@ const cloudinary = require("cloudinary").v2;
 const replyEmailSender = require("./email.service").replyEmailSender;
 
 async function createReply(idPost, idUser, description, images) {
+    const currentUser = await User.findOne(idUser);
+    if(currentUser.tel === "null" || currentUser.address === "null"){
+        throw new CustomError(errorCode.FORBIDDEN, "Your account is not verified. Please update your tel and address!");
+    }
+
     const newReply = await Reply.create({
         "idPost": idPost,
         "idUser": idUser,
@@ -62,7 +67,7 @@ async function deleteReply(idReply, user) {
     return reply;
 }
 
-async function getAllRepliesOfPost(idPost, user, start, end) {
+async function getAllRepliesOfPost(idPost, user) {
     const permittedRole = ["admin", "mod"];
     let isValidToGetAllReplies = false;
     let post = await Post.findById(idPost);
@@ -78,23 +83,15 @@ async function getAllRepliesOfPost(idPost, user, start, end) {
             throw new CustomError(errorCode.UNAUTHORIZED, "You could not get all replies of this post!");
         }
     }
-    const limit = end - start + 1;
     const postOwner = await User.findById(post.idUser);
-    const countReplies = await Reply.countDocuments({ "idPost": idPost })
-    let replies = await Reply.paginate({
-        "idPost": idPost
-    }, {
-        offset: start,
-        limit
-    });
-    replies = replies.docs;
+    let replies = await Reply.find({ "idPost": idPost });
     for (let i = 0; i < replies.length; i++) {
         const replyOwner = await User.findById(replies[i].idUser);
         replies[i] = { name: replyOwner.name, tel: replyOwner.tel, email: replyOwner.email, ...replies[i]._doc };
     }
     delete post.idUser;
     post = { name: postOwner.name, tel: postOwner.tel, email: postOwner.email, ...post._doc };
-    return { countReplies, post, replies };
+    return { post, replies };
 }
 
 async function getReplyByID(idReply, user, start, end) {
@@ -126,17 +123,9 @@ async function getReplyByID(idReply, user, start, end) {
     return { post, reply };
 }
 
-async function getAllRepliesOfUser(user, start, end) {
-    const limit = end - start + 1;
-    const countReplies = await Reply.countDocuments({ idUser: user._id });
-    let replies = await Reply.paginate({
-        idUser: user._id
-    }, {
-        offset: start,
-        limit
-    });
-    replies = replies.docs;
-    return { countReplies, replies };
+async function getAllRepliesOfUser(user) {
+    let replies = await Reply.find({ idUser: user._id });
+    return { replies };
 }
 
 module.exports = {

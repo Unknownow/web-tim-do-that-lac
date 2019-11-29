@@ -128,6 +128,52 @@ async function resetPassword(email, newPassword, OTP) {
     return user;
 }
 
+async function facebookLogin(facebookUser) {
+    const tempUser = await User.findOne({
+        email: facebookUser.email,
+        idFacebook: { $ne: facebookUser.id }
+    })
+
+    if (tempUser) {
+        throw new CustomError(errorCode.EMAIL_ALREADY_EXIST, "Email is already existed");
+    }
+
+    const user = await User.findOne({
+        email: facebookUser.email,
+        idFacebook: facebookUser.id
+    })
+
+    if (user !== null) {
+        const token = await user.generateAuthToken();
+        const role = user.role;
+        let isVerified = true;
+        if (user.tel === "null" || user.address === "null") {
+            isVerified = false;
+        }
+        return { isVerified, role, token };
+    }
+
+    Object.defineProperty(facebookUser, "idFacebook",
+        Object.getOwnPropertyDescriptor(facebookUser, "id"));
+    delete facebookUser["id"];
+
+    const newFacebookUser = await User.create({
+        ...facebookUser,
+        password: "facebook" + facebookUser.id,
+        role: "member",
+        tel: "null",
+        address: "null"
+    })
+
+    const token = await newFacebookUser.generateAuthToken();
+
+    return {
+        isVerified: false,
+        token,
+        newFacebookUser
+    };
+}
+
 module.exports = {
     createAdminUser,
     createModUser,
@@ -138,5 +184,6 @@ module.exports = {
     updateUser,
     deleteUser,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    facebookLogin
 };

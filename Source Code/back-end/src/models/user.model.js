@@ -56,6 +56,10 @@ const UserSchema = mongoose.Schema({
             required: true,
         },
     }],
+    idFacebook: {
+        type: String,
+        required: false
+    },
     otp: {
         type: String,
         require: false

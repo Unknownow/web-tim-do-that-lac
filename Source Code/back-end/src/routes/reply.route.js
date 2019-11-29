@@ -16,8 +16,9 @@ const {
 router.post('/create/:idPost', auth, upload.array("images"), asyncMiddleWare(createReply));
 router.delete('/delete/:idReply', auth, asyncMiddleWare(deleteReply));
 
-router.get('/getAllReplies/', auth, asyncMiddleWare(getAllRepliesOfPost));
-router.get("/getAllReplies/me/", auth, asyncMiddleWare(getAllRepliesOfUser));
+
+router.get("/getAllReplies/me", auth, asyncMiddleWare(getAllRepliesOfUser));
+router.get('/getAllReplies/:idPost', auth, asyncMiddleWare(getAllRepliesOfPost));
 router.get("/getReply/:idReply", auth, asyncMiddleWare(getReplyByID));
 
 

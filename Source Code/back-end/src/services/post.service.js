@@ -10,6 +10,11 @@ const config = require("../config");
 cloudinary.config(config.cloudinaryConfig);
 
 async function createPost(idUser, postDetail, images) {
+    const currentUser = await User.findOne(idUser);
+    if(currentUser.tel === "null" || currentUser.address === "null"){
+        throw new CustomError(errorCode.FORBIDDEN, "Your account is not verified. Please update your tel and address!");
+    }
+
     for (let i = 0; i < postDetail.categories.length; i++) {
         postDetail.categories[i] = postDetail.categories[i].toLowerCase();
     }
