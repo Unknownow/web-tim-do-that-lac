@@ -36,6 +36,7 @@
         "wallet": "Ví",
         "paper": "Giấy tờ",
         "phone": "Điện thoại",
+        "laptop": "Laptop",
         "other": "Khác"
     },
     "searchbar": {
@@ -62,5 +63,25 @@
         "comment": "Bình luận",
         "detail": "Chi tiết",
         "category": "Danh mục"
+    },
+    "postnews":{
+        "titlePostNews": "Đăng tin",
+        "error": " Bạn cần đăng nhập để thực hiện chức năng này",
+        "typePost": "Loại tin",
+        "errorTypePost": "Loại tin không được để trống!",
+        "lost": "Tìm đồ",
+        "pick": "Nhặt được đồ",
+        "title": "Tiêu đề",
+        "errorTitle": "Tiêu đề không được để trống",
+        "content": "Nội dung",
+        "contentPost": "Nội dung bài viết",
+        "errorcontentPost": "Nội dung bài viết không được để trống",
+        "address": "Địa chỉ",
+        "errorAddress": "Địa chỉ không được để trống",
+        "category": "Danh mục đồ thất lạc",
+        "errorCategory": "Xin hãy chọn danh mục đồ thất lạc",
+        "imageDescription": "Hình ảnh minh họa",
+        "upload": "Tải ảnh",
+        "successPostNews": "Bài viết của bạn đã được đăng thành công"
     }
 }

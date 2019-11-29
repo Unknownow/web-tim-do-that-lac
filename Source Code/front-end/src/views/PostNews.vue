@@ -2,15 +2,15 @@
   <div>
     <div style="position: relative; margin: 50px;">
       <img src="/category/headerpost.jpg" width="100%" />
-      <div class="centered">Đăng tin</div>
+      <div class="centered">{{ $t("postnews.titlePostNews") }}</div>
     </div>
     <div id="formPostNews" style="margin-top: 30px">
       <h1 style="color: red" v-if="errorPost">
-        Bạn cần đăng nhập để thực hiện chức năng này
+        {{ $t("postnews.error") }}
       </h1>
       <a-form :form="form" @submit="handleSubmit">
         <a-form-item
-          label="Loại tin"
+          :label="$t('postnews.typePost')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
@@ -19,23 +19,23 @@
               'typePost',
               {
                 rules: [
-                  { required: true, message: 'Loại tin không được để trống!' }
+                  { required: true, message: $t('postnews.errorTypePost') }
                 ]
               }
             ]"
-            placeholder="Loại bài đăng"
+            :placeholder="$t('postnews.typePost')"
             @change="handleSelectChange"
           >
             <a-select-option value="lost">
-              Tìm đồ
+              {{ $t("postnews.lost") }}
             </a-select-option>
             <a-select-option value="pick">
-              Nhặt được đồ
+              {{ $t("postnews.pick") }}
             </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item
-          label="Tiêu đề"
+          :label="$t('postnews.title')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
@@ -43,27 +43,25 @@
             v-decorator="[
               'titlePost',
               {
-                rules: [
-                  { required: true, message: 'Tiêu đề không được để trống!' }
-                ]
+                rules: [{ required: true, message: $t('postnews.errorTitle') }]
               }
             ]"
           />
         </a-form-item>
         <a-form-item
-          label="Nội dung"
+          :label="$t('postnews.content')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
           <a-textarea
-            placeholder="Nội dung bài viết"
+            :placeholder="$t('postnews.contentPost')"
             v-decorator="[
               'content',
               {
                 rules: [
                   {
                     required: true,
-                    message: 'Nội dung bài viết không được để trống!'
+                    message: $t('postnews.errorcontentPost')
                   }
                 ]
               }
@@ -71,7 +69,7 @@
             autosize
           />
         </a-form-item>
-        <a-form-item
+        <!-- <a-form-item
           label="Quận"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
@@ -96,9 +94,9 @@
               Đống Đa
             </a-select-option>
           </a-select>
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item
-          label="Địa chỉ (Số nhà,ngõ, đường,...)"
+          :label="$t('postnews.address')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
@@ -107,14 +105,14 @@
               'address',
               {
                 rules: [
-                  { required: true, message: 'Địa chỉ không được để trống!' }
+                  { required: true, message: $t('postnews.errorAddress') }
                 ]
               }
             ]"
           />
         </a-form-item>
         <a-form-item
-          label="Danh mục đồ thất lạc"
+          :label="$t('postnews.category')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
@@ -123,35 +121,35 @@
               'category',
               {
                 rules: [
-                  { required: true, message: 'Please select your category!' }
+                  { required: true, message: $t('postnews.errorCategory') }
                 ]
               }
             ]"
             mode="multiple"
             size="default"
-            placeholder="Danh mục"
+            :placeholder="$t('detail.category')"
             style="width: 100%"
             @change="handleChangeCategory"
           >
             <a-select-option value="wallet">
-              Ví
+              {{ $t("navbar.wallet") }}
             </a-select-option>
             <a-select-option value="paper">
-              Giấy tờ
+              {{ $t("navbar.paper") }}
             </a-select-option>
             <a-select-option value="phone">
-              Điện thoại
+              {{ $t("navbar.phone") }}
             </a-select-option>
             <a-select-option value="laptop">
-              Laptop
+              {{ $t("navbar.laptop") }}
             </a-select-option>
             <a-select-option value="other">
-              Khác
+              {{ $t("navbar.other") }}
             </a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item
-          label="Hình ảnh minh họa"
+          :label="$t('postnews.imageDescription')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
@@ -166,7 +164,7 @@
               >
                 <div v-if="fileList.length < 5">
                   <a-icon type="plus" />
-                  <div class="ant-upload-text">Upload</div>
+                  <div class="ant-upload-text">{{ $t("postnews.upload") }}</div>
                 </div>
               </a-upload>
               <a-modal
@@ -182,8 +180,8 @@
         <div style="margin-bottom: 15px">
           <a-alert
             style="width: 60%; margin: auto;"
-            v-if="successPost"
-            message="Bài viết của bạn đã được đăng thành công"
+            v-if="successPost" 
+            :message='$t("postnews.successPostNews")'
             type="success"
             showIcon
           />

@@ -64,14 +64,6 @@
         }}</router-link>
         <!-- <a href>register now!</a> -->
       </a-form-item>
-      <a-form-item>
-        <a-button
-          type="primary"
-          class="login-form-button"
-          v-on:click="loginFacebook"
-          >Đăng nhập bằng facebook</a-button
-        ></a-form-item
-      >
     </a-form>
   </div>
 </template>
@@ -157,16 +149,6 @@ export default {
       this.$store.state.token = token;
       CookieFunctions.writeCookie("sessionId", token, 3);
       CookieFunctions.writeCookie("sessionUserName", username, 3);
-    },
-    loginFacebook: function() {
-      axios
-        .get("http://localhost:8002/user/login/facebook")
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
   }
 };
