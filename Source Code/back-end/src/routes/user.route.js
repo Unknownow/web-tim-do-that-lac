@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const asyncMiddleware = require("../middlewares/asyncMiddleware");
 const auth = require("../middlewares/auth");
-const passport = require("passport");
+// const passport = require("passport");
 const {
     createAdminUser,
     createModUser,
@@ -30,7 +30,7 @@ router.delete('/me', auth, asyncMiddleware(deleteUser));
 router.post("/forgotPassword/:email", asyncMiddleware(getOTP));
 router.post("/resetPassword/:email", asyncMiddleware(resetPassword));
 
-router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
-router.get("/login/facebook/callback", passport.authenticate("facebook"), asyncMiddleware(facebookLogin));
+// router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+// router.get("/login/facebook/callback", passport.authenticate("facebook"), asyncMiddleware(facebookLogin));
 
 module.exports = router;
