@@ -15,7 +15,6 @@ const {
     getOTP,
     resetPassword,
     facebookLogin,
-    facebookRegister
 } = require("../controllers/user.controller");
 
 router.post("/web_management/createUser/admin", auth, asyncMiddleware(createAdminUser));
@@ -33,6 +32,5 @@ router.post("/resetPassword/:email", asyncMiddleware(resetPassword));
 
 router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get("/login/facebook/callback", passport.authenticate("facebook"), asyncMiddleware(facebookLogin));
-router.get("login/facebook/register", auth, )
 
 module.exports = router;
