@@ -140,16 +140,20 @@ export default {
       indexEnd: 8
     };
   },
-  beforeMount() {
+  mounted() {
     this.$store.state.dataPost = null;
+    this.$store.state.currentPage = 1;
+    this.$store.state.totalPost = 0;
     this.category = this.$router.history.current.params.category;
     this.getPostCategory(this.category, this.indexStart, this.indexEnd);
   },
   beforeRouteUpdate(to, from, next) {
-    // console.log(to.params.category);
+    // console.log("asdsaj", to.params.category);
     this.$store.state.dataPost = null;
+    this.$store.state.currentPage = 1;
+    this.$store.state.totalPost = 0;
     this.category = to.params.category;
-    this.getPostCategory(this.category, this.indexStart, this.indexEnd);
+    this.getPostCategory(this.category, 0, 8);
     next();
   },
   methods: {
@@ -162,13 +166,13 @@ export default {
         params: { category: category }
       });
     },
-    changePage: function(page) {
+    changePage(page) {
       this.$store.state.currentPage = page;
       this.indexStart = (page - 1) * 6;
       this.indexEnd = page * 6 - 1;
       this.getPostCategory(this.category, this.indexStart, this.indexEnd);
     },
-    getPostCategory: function(category, start, end) {
+    getPostCategory(category, start, end) {
       let url =
         "http://localhost:8002/post/search?&categories=" +
         category +

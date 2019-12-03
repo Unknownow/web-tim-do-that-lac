@@ -36,6 +36,7 @@
     "wallet": "Wallet",
     "paper": "Personal documents",
     "phone": "Mobile Phone",
+    "laptop": "Laptop",
     "other": "Other"
   },
   "searchbar": {
