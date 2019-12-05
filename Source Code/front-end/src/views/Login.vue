@@ -135,7 +135,8 @@ export default {
               this.$store.state.loginState = true;
               this.$router.push("/home");
             })
-            .catch(() => {
+            .catch(err => {
+              console.log(err);
               // if (this.$i18n.locale == "vi") {
               //   alert("Tên đăng nhập hoặc mật khẩu không đúng");
               // } else {

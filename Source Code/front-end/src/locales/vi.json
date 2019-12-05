@@ -82,7 +82,9 @@
         "errorCategory": "Xin hãy chọn danh mục đồ thất lạc",
         "imageDescription": "Hình ảnh minh họa",
         "upload": "Tải ảnh",
-        "successPostNews": "Bài viết của bạn đã được đăng thành công"
+        "successPostNews": "Bài viết của bạn đã được đăng thành công",
+        "street": "Tên đường",
+        "ward": "Quận"
     },
     "titleSearch": "Tìm đồ thất lạc của bạn"
 }

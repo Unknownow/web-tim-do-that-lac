@@ -82,7 +82,9 @@
     "errorCategory": "Please choose a category for the item.",
     "imageDescription": "Image of the item",
     "upload": "Upload an Image",
-    "successPostNews": "Post created successfully."
+    "successPostNews": "Post created successfully.",
+    "street": "Street",
+    "ward": "Ward"
   },
   "titleSearch": "Search for your missing item"
 }

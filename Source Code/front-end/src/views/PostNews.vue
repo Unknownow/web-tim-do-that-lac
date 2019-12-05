@@ -86,7 +86,7 @@
           />
         </a-form-item>
         <a-form-item
-          label="Tên đường"
+          :label="$t('postnews.street')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
@@ -100,7 +100,7 @@
                 ]
               }
             ]"
-            placeholder="Tên đường"
+            :placeholder="$t('postnews.street')"
             @change="handleChangeWard"
           >
             <a-select-option value="Bạch Mai">
@@ -118,7 +118,7 @@
           </a-select>
         </a-form-item>
         <a-form-item
-          label="Quận"
+          :label="$t('postnews.ward')"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
         >
@@ -132,7 +132,7 @@
                 ]
               }
             ]"
-            placeholder="Quận"
+            :placeholder="$t('postnews.ward')"
             @change="handleChangeWard"
           >
             <a-select-option value="Bách Khoa">
@@ -266,12 +266,21 @@ export default {
           this.lisCategory = values.category;
           let currentTime;
           let today = new Date();
+
+          let day;
+          let month;
+          if (today.getDate() < 10) {
+            day = "0" + today.getDate();
+          } else {
+            day = today.getDate();
+          }
+          if (today.getMonth() + 1 < 10) {
+            month = "0" + (today.getMonth() + 1);
+          } else {
+            month = today.getMonth() + 1;
+          }
           let date =
-            today.getFullYear() +
-            "-" +
-            (today.getMonth() + 1) +
-            "-" +
-            today.getDate();
+            today.getFullYear() + "-" + month + "-" + day;
           let time;
           if (today.getHours() >= 0 && today.getHours() <= 9) {
             time = "0" + today.getHours() + ":" + today.getMinutes();
@@ -279,10 +288,8 @@ export default {
             time = today.getHours() + ":" + today.getMinutes();
           }
           currentTime = date + "T" + time;
-          // console.log(currentTime);
           let address =
             values.address + "-" + values.street + "-" + values.ward;
-          console.log(this.$store.state.token);
 
           let formData = new FormData();
           formData.append("type", values.typePost);
