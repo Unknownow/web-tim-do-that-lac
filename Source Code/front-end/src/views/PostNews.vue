@@ -300,7 +300,7 @@ export default {
               }
             });
           }
-          console.log(formData);
+          // console.log(formData);
 
           axios
             .post("http://localhost:8002/post/create", formData, {
