@@ -52,7 +52,7 @@ export default {
   },
   // beforeCreate(){
   //    axios
-  //     .get("http://localhost:8002/post/getPost?start=0&end=5")
+  //     .get("http://202.191.56.159:2828/post/getPost?start=0&end=5")
   //     .then(response => {
   //       this.dataPost = response.data.results;
   //       console.log(this.dataPost);

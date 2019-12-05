@@ -1,5 +1,5 @@
 // const axios = require("axios");
-// let url = "http://localhost:8002/user/resetPassword/vutuandat811@gmail.com";
+// let url = "http://202.191.56.159:2828/user/resetPassword/vutuandat811@gmail.com";
 // axios
 //   .post(url, {})
 //   .then(response => {
@@ -49,12 +49,14 @@
 // console.log(date.toUTCString());
 
 const axios = require("axios");
-axios.get("https://vms.bkav.com:9443/vms/api/monitors?mode=special", {
-            headers: {
-                Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJab25lTWluZGVyIiwiaWF0IjoxNTc1NTA5NzMyLCJleHAiOjE1NzU1MTMzMzIsInVzZXIiOiJhZG1pbiIsInR5cGUiOiJhY2Nlc3MifQ.19fxTUJrH_M2-dbmA2bl__WFsuBAcGMlCAmYrarD_Y8"
-            }
-        }).then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.log(err.message);
-        })
+axios
+  .post("http://202.191.56.159:2828/user/login", {
+    email: "dat.luuthanh@gmail.com",
+    password: "luuthanhdat"
+  })
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.log(err.message);
+  });

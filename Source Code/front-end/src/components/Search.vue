@@ -144,13 +144,13 @@ export default {
       let url;
       if (newKeyword === "" && urlCategory === "") {
         url =
-          "http://localhost:8002/post/search?" +
+          "http://202.191.56.159:2828/post/search?" +
           "address=" +
           newAddress +
           "&start=0&end=8";
       } else {
         url =
-          "http://localhost:8002/post/search?keywords=" +
+          "http://202.191.56.159:2828/post/search?keywords=" +
           newKeyword +
           "&address=" +
           newAddress +

@@ -121,9 +121,8 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          // console.log(values);
           axios
-            .post("http://localhost:8002/user/login", {
+            .post("http://202.191.56.159:2828/user/login", {
               email: values.email,
               password: values.password
             })

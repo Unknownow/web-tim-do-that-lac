@@ -120,7 +120,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           let url =
-            "http://localhost:8002/user/forgotPassword/" + values.emailOTP;
+            "http://202.191.56.159:2828/user/forgotPassword/" + values.emailOTP;
           axios
             .post(url, {})
             .then(() => {
@@ -177,7 +177,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           let url =
-            "http://localhost:8002/user/resetPassword/" + this.emailSenOTP;
+            "http://202.191.56.159:2828/user/resetPassword/" + this.emailSenOTP;
           axios
             .post(url, {
               otp: values.codeOTP,

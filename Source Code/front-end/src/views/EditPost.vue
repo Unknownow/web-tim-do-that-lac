@@ -165,7 +165,7 @@ export default {
   beforeCreate() {
     let idPost = this.$router.history.current.params.idPost;
     let url =
-      "http://localhost:8002/post/getPost/" + idPost;
+      "http://202.191.56.159:2828/post/getPost/" + idPost;
     axios
       .get(url, {
         headers: {
@@ -266,7 +266,7 @@ export default {
           let idPost = this.$router.history.current.params.idPost;
           axios
             .patch(
-              "http://localhost:8002/post/update/" +
+              "http://202.191.56.159:2828/post/update/" +
                 idPost,
               formData,
               {

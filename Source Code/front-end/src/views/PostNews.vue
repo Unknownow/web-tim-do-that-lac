@@ -310,7 +310,7 @@ export default {
           // console.log(formData);
 
           axios
-            .post("http://localhost:8002/post/create", formData, {
+            .post("http://202.191.56.159:2828/post/create", formData, {
               headers: {
                 Authorization: this.$store.state.token
               }

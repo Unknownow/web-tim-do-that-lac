@@ -185,7 +185,7 @@ export default {
     getPostCategory(category, start, end) {
       this.spinning = true;
       let url =
-        "http://localhost:8002/post/search?&categories=" +
+        "http://202.191.56.159:2828/post/search?&categories=" +
         category +
         "&start=" +
         start +

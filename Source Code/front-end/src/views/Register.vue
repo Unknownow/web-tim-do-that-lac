@@ -235,7 +235,7 @@ export default {
     },
     register: function(values) {
       axios
-        .post("http://localhost:8002/user/register", {
+        .post("http://202.191.56.159:2828/user/register", {
           role: "member",
           name: values.Username,
           email: values.email,

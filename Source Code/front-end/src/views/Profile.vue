@@ -157,7 +157,7 @@ export default {
 
     //get infor current user
     axios
-      .get("http://localhost:8002/user/me", {
+      .get("http://202.191.56.159:2828/user/me", {
         headers: {
           Authorization: this.$store.state.token
         }
@@ -185,7 +185,7 @@ export default {
       console.log(this.$store.state.token);
       axios
         .patch(
-          "http://localhost:8002/user/me",
+          "http://202.191.56.159:2828/user/me",
           {
             name: nameCurrentUser,
             tel: phoneCurrentUser,
@@ -209,7 +209,7 @@ export default {
     },
     getListReply: function() {
       axios
-        .get("http://localhost:8002/reply/getAllReplies/me", {
+        .get("http://202.191.56.159:2828/reply/getAllReplies/me", {
           headers: {
             Authorization: this.$store.state.token
           }

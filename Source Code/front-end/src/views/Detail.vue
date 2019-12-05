@@ -388,7 +388,7 @@ export default {
               });
             }
             axios
-              .post("http://localhost:8002/reply/create/" + idPost, formData, {
+              .post("http://202.191.56.159:2828/reply/create/" + idPost, formData, {
                 headers: {
                   Authorization: this.$store.state.token
                 }
@@ -413,7 +413,7 @@ export default {
     getListReply: function() {
       let idPost = this.$router.history.current.params.idPost;
       axios
-        .get("http://localhost:8002/reply/getAllReplies/" + idPost, {
+        .get("http://202.191.56.159:2828/reply/getAllReplies/" + idPost, {
           headers: {
             Authorization: this.$store.state.token
           }
@@ -473,9 +473,9 @@ export default {
     let url;
     if (this.$store.state.token === null || this.$store.state.token === "") {
       // nếu chưa đăng nhập thì k cần check xem bài viết có chỉnh sửa được hay không
-      url = "http://localhost:8002/post/getPost/" + this.idPost;
+      url = "http://202.191.56.159:2828/post/getPost/" + this.idPost;
     } else {
-      url = "http://localhost:8002/post/getPost/loggedIn/" + this.idPost;
+      url = "http://202.191.56.159:2828/post/getPost/loggedIn/" + this.idPost;
     }
 
     axios
