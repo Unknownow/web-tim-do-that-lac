@@ -23,12 +23,13 @@
       >
         <router-link :to="{ name: 'login' }">{{ $t("logout") }}</router-link>
       </a-button>
-      <span
+      <div
         v-if="this.$store.state.loginState"
-        style="float: right; margin-top: 23px; cursor: pointer"
+        style=" width: 12%;float: right; margin-top: 23px; cursor: pointer;text-overflow: ellipsis; overflow: hidden;"
         v-on:click="routeToProfile"
-        >{{ this.$store.state.nameCurrentUser }}</span
       >
+        {{ this.$store.state.nameCurrentUser }}
+      </div>
       <languageSwitch></languageSwitch>
     </div>
     <div>
@@ -96,9 +97,12 @@ export default {
 <style scoped>
 #headerBar {
   background: #e66767;
-  height: 80px;
+  height: 120px;
   color: white;
   position: relative;
+  width: 100%;
+  /* max-width: 100%;
+  min-width: 600px; */
 }
 #nameWebsite {
   float: left;

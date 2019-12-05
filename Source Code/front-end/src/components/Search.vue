@@ -8,7 +8,7 @@
       />
     </div>
     <div class="centered">
-      <h2 style="color: #ffffff">Tìm đồ thất lạc của bạn</h2>
+      <h2 style="color: #ffffff">{{ $t("titleSearch") }}</h2>
       <a-form layout="inline" style="width: 100%">
         <a-input
           :placeholder="$t('searchbar.keyword')"
@@ -56,10 +56,13 @@
         <a-button
           type="primary"
           html-type="submit"
-          style="width:20%;margin-left:3%"
+          style="width:20%;margin-left:3%; text-align: center; overflow: hidden;
+  text-overflow: ellipsis;"
           v-on:click="handleSearch"
         >
-          {{ $t("searchbar.search") }}
+          <span style="overflow-wrap: break-word">
+            {{ $t("searchbar.search") }}</span
+          >
         </a-button>
       </a-form>
     </div>

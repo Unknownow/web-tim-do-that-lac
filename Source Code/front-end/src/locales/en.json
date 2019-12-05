@@ -9,28 +9,28 @@
     "phoneNumber": "Phone Number",
     "ihaveread": "I have read the",
     "agreement": "agreement",
-    "notValidEmail": "The input is not valid E-mail!",
-    "nullEmail": "Please input your E-mail!",
-    "nullPassword": "Please input your password!",
+    "notValidEmail": "The Email you have entered is not valid!",
+    "nullEmail": "Please enter your E-mail!",
+    "nullPassword": "Please enter a password!",
     "nullConfirmPassword": "Please confirm your password!",
     "tooltipUsername": "What do you want others to call you?",
-    "nullUsername": "Please input your Username!",
-    "nullPhoneNumber": "Please input your phone number!",
+    "nullUsername": "Please enter your Username!",
+    "nullPhoneNumber": "Please enter your phone number!",
     "address": "Address"
   },
   "formLogin": {
     "username": "Username",
-    "nullUsername": "Please input your username!",
+    "nullUsername": "Please enter your Username!",
     "password": "Password",
-    "nullPassword": "Please input your Password!",
+    "nullPassword": "Please enter your Password!",
     "rememberme": "Remember me",
-    "forgotPassword": "Forgot password",
-    "registernow": "register now!",
+    "forgotPassword": "Forgot password?",
+    "registernow": "Register now!",
     "or": "Or",
-    "wrongPassText": "The Username or Password is incorrect"
+    "wrongPassText": "The Username or Password is incorrect."
   },
   "navbar": {
-    "category": "Category",
+    "category": "Categories",
     "post": "Post",
     "about": "About",
     "wallet": "Wallet",
@@ -47,7 +47,7 @@
   },
   "category": {
     "select": "Select",
-    "title": "Featured category",
+    "title": "Featured Categories",
     "atm": "ATM Card",
     "wallet": "Wallet",
     "laptop": "Laptop",
@@ -55,7 +55,7 @@
     "paper": "Personal documents"
   },
   "news": {
-    "title": "Latest news"
+    "title": "Latest News"
   },
   "detail": {
     "reply": "Reply",
@@ -63,5 +63,26 @@
     "comment": "Comment",
     "detail": "Detail",
     "category": "Category"
-  }
+  },
+  "postnews": {
+    "titlePostNews": "New Post",
+    "error": "You must log in to do this!",
+    "typePost": "Post Type",
+    "errorTypePost": "You must choose a Post Type!",
+    "lost": "Lost",
+    "pick": "Found",
+    "title": "Title",
+    "errorTitle": "Post Title can not be empty.",
+    "content": "Content",
+    "contentPost": "Post Content",
+    "errorcontentPost": "The content of the Post can not be empty.",
+    "address": "Address",
+    "errorAddress": "Address can not be empty.",
+    "category": "Item Category",
+    "errorCategory": "Please choose a category for the item.",
+    "imageDescription": "Image of the item",
+    "upload": "Upload an Image",
+    "successPostNews": "Post created successfully."
+  },
+  "titleSearch": "Search for your missing item"
 }

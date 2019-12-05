@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #ffffff; margin: 50px;">
+  <div style="background-color: #ffffff; margin: 50px">
     <div>
       <search-component></search-component>
       <div>
@@ -110,15 +110,24 @@
         v-bind:dataPost="this.$store.state.dataPost"
       ></news-component>
     </div>
-    <div>
+    <div style="width: 100%; height: 100%; margin: 0 auto;">
+      <a-spin :spinning="spinning" size="large"> </a-spin>
+    </div>
+    <a-pagination
+      style="width: 100%; height: 100%; margin-top: 66%"
+      v-model="this.$store.state.currentPage"
+      :total="this.$store.state.totalPost"
+      :defaultPageSize="9"
+      @change="changePage"
+    />
+    <!-- <div style="position: relative;">
       <a-pagination
         v-model="this.$store.state.currentPage"
         :total="this.$store.state.totalPost"
-        style="margin-top: 500px"
         :defaultPageSize="9"
         @change="changePage"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -137,7 +146,8 @@ export default {
       // dataPost: null
       category: null,
       indexStart: 0,
-      indexEnd: 8
+      indexEnd: 4,
+      spinning: true
     };
   },
   mounted() {
@@ -168,11 +178,12 @@ export default {
     },
     changePage(page) {
       this.$store.state.currentPage = page;
-      this.indexStart = (page - 1) * 6;
-      this.indexEnd = page * 6 - 1;
+      this.indexStart = (page - 1) * 9;
+      this.indexEnd = page * 9 - 1;
       this.getPostCategory(this.category, this.indexStart, this.indexEnd);
     },
     getPostCategory(category, start, end) {
+      this.spinning = true;
       let url =
         "http://localhost:8002/post/search?&categories=" +
         category +
@@ -201,6 +212,7 @@ export default {
         .finally(() => {
           // always executed
         });
+      this.spinning = false;
     },
     encodeTel: function(dataPost) {
       dataPost.map(post => {

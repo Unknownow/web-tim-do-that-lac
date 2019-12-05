@@ -130,7 +130,8 @@ export default {
 }
 #formLanguage {
   float: right;
-  margin-right: 20px;
+  width: 30%;
+  /* margin-right: 1%; */
   margin-top: 22px;
 }
 </style>

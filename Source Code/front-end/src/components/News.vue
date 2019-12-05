@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="width: 100%">
       <div>
         <h1>{{ $t("news.title") }}</h1>
       </div>
@@ -10,7 +10,7 @@
           :key="post._id"
           :bordered="true"
           v-on:click="clickPost(post._id)"
-          style=" min-width: 200px; width: 25%; height: 300px; border: 1px solid black; margin: 50px;"
+          style=" min-width: 200px; width: 25%; height: 300px; border: 1px solid black; margin: 50px; "
         >
           <h2 style="margin-top: -10px">{{ post.title }}</h2>
           <img
@@ -77,4 +77,4 @@ export default {
   }
 };
 </script>
-<style scoped></style>>
+<style scoped></style>

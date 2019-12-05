@@ -65,6 +65,14 @@
         <!-- <a href>register now!</a> -->
       </a-form-item>
     </a-form>
+    <div
+      class="fb-login-button"
+      data-width=""
+      data-size="large"
+      data-button-type="continue_with"
+      data-auto-logout-link="false"
+      data-use-continue-as="true"
+    ></div>
   </div>
 </template>
 

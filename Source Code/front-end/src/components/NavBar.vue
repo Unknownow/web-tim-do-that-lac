@@ -1,6 +1,12 @@
 <template>
   <div>
-    <a-menu id="navBar" v-model="current" mode="horizontal">
+    <a-menu
+      id="navBar"
+      mode="horizontal"
+      align="left"
+      style="margin-left: 3%"
+      :selectable="false"
+    >
       <a-sub-menu @click="handleRenderPostCategory">
         <span slot="title" class="submenu-title-wrapper">
           <a-icon type="menu" /><span style="color:#595959">{{
@@ -34,6 +40,7 @@
     </a-menu>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -55,10 +62,11 @@ export default {
 };
 </script>
 <style>
-#navBar {
+/* #navBar {
   background: white;
-  border: none;
-  float: left;
-  margin-left: 60px;
-}</style
->>
+  float: left; */
+/* border: none;
+  float: left; */
+/* margin-left: 60px;
+} */
+</style>
