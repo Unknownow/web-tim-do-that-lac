@@ -69,7 +69,55 @@
             autosize
           />
         </a-form-item>
-        <!-- <a-form-item
+        <a-form-item
+          :label="$t('postnews.address')"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-input
+            v-decorator="[
+              'address',
+              {
+                rules: [
+                  { required: true, message: $t('postnews.errorAddress') }
+                ]
+              }
+            ]"
+          />
+        </a-form-item>
+        <a-form-item
+          label="Tên đường"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-select
+            showSearch
+            v-decorator="[
+              'street',
+              {
+                rules: [
+                  { required: true, message: 'tên đường không được để trống!' }
+                ]
+              }
+            ]"
+            placeholder="Tên đường"
+            @change="handleChangeWard"
+          >
+            <a-select-option value="Bạch Mai">
+              Bạch Mai
+            </a-select-option>
+            <a-select-option value="Lê Thanh Nghị">
+              Lê Thanh Nghị
+            </a-select-option>
+            <a-select-option value="Trương Định">
+              Trương Định
+            </a-select-option>
+            <a-select-option value="Trần Đại Nghĩa">
+              Trần Đại Nghĩa
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
           label="Quận"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
@@ -87,29 +135,16 @@
             placeholder="Quận"
             @change="handleChangeWard"
           >
-            <a-select-option value="BackKhoa">
+            <a-select-option value="Bách Khoa">
               Bách Khoa
             </a-select-option>
-            <a-select-option value="DongDa">
+            <a-select-option value="Đống Đa">
               Đống Đa
             </a-select-option>
+            <a-select-option value="Hoàng Mai">
+              Hoàng Mai
+            </a-select-option>
           </a-select>
-        </a-form-item> -->
-        <a-form-item
-          :label="$t('postnews.address')"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 12 }"
-        >
-          <a-input
-            v-decorator="[
-              'address',
-              {
-                rules: [
-                  { required: true, message: $t('postnews.errorAddress') }
-                ]
-              }
-            ]"
-          />
         </a-form-item>
         <a-form-item
           :label="$t('postnews.category')"
@@ -180,8 +215,8 @@
         <div style="margin-bottom: 15px">
           <a-alert
             style="width: 60%; margin: auto;"
-            v-if="successPost" 
-            :message='$t("postnews.successPostNews")'
+            v-if="successPost"
+            :message="$t('postnews.successPostNews')"
             type="success"
             showIcon
           />
@@ -245,12 +280,16 @@ export default {
           }
           currentTime = date + "T" + time;
           // console.log(currentTime);
+          let address =
+            values.address + "-" + values.street + "-" + values.ward;
+          console.log(this.$store.state.token);
+
           let formData = new FormData();
           formData.append("type", values.typePost);
           formData.append("title", values.titlePost);
           formData.append("description", values.content);
           formData.append("address", values.address);
-          formData.append("time", currentTime);
+          formData.append("time", "2019-11-25T20:48");
           this.lisCategory.map(childCategory => {
             formData.append("categories", childCategory);
           });
@@ -261,6 +300,7 @@ export default {
               }
             });
           }
+          console.log(formData);
 
           axios
             .post("http://localhost:8002/post/create", formData, {
@@ -283,7 +323,7 @@ export default {
       });
     },
     handleSelectChange(value) {
-      console.log(value);
+      // console.log(value);
       this.form.setFieldsValue({
         // note: `Hi, ${value === "male" ? "man" : "lady"}!`
       });
