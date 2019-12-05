@@ -1,7 +1,11 @@
 const dotenv = require("dotenv");
 
 dotenv.config();
-const cloudinaryConfig = JSON.parse(process.env.CLOUDINARY_CONFIG);
+const cloudinaryConfig = {
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+}
 
 module.exports = {
     dbURL: process.env.MONGODB_URL,
