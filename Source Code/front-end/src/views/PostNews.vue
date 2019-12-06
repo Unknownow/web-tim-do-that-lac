@@ -213,13 +213,15 @@
           </div>
         </a-form-item>
         <div style="margin-bottom: 15px">
-          <a-alert
-            style="width: 60%; margin: auto;"
-            v-if="successPost"
-            :message="$t('postnews.successPostNews')"
-            type="success"
-            showIcon
-          />
+          <a-spin :spinning="spinning" size="large">
+            <a-alert
+              style="width: 60%; margin: auto;"
+              v-if="successPost"
+              :message="$t('postnews.successPostNews')"
+              type="success"
+              showIcon
+            />
+          </a-spin>
         </div>
         <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
           <a-button type="primary" html-type="submit">
@@ -255,7 +257,8 @@ export default {
         }
       ],
       successPost: false,
-      errorPost: false
+      errorPost: false,
+      spinning: false
     };
   },
   methods: {
@@ -263,6 +266,7 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          this.spinning = true;
           this.lisCategory = values.category;
           let currentTime;
           let today = new Date();
@@ -279,8 +283,7 @@ export default {
           } else {
             month = today.getMonth() + 1;
           }
-          let date =
-            today.getFullYear() + "-" + month + "-" + day;
+          let date = today.getFullYear() + "-" + month + "-" + day;
           let time;
           if (today.getHours() >= 0 && today.getHours() <= 9) {
             time = "0" + today.getHours() + ":" + today.getMinutes();
@@ -295,7 +298,7 @@ export default {
           formData.append("type", values.typePost);
           formData.append("title", values.titlePost);
           formData.append("description", values.content);
-          formData.append("address", values.address);
+          formData.append("address", address);
           formData.append("time", "2019-11-25T20:48");
           this.lisCategory.map(childCategory => {
             formData.append("categories", childCategory);
@@ -317,6 +320,7 @@ export default {
             })
             .then(() => {
               // console.log(response);
+              this.spinning = false;
               this.successPost = true;
             })
             .catch(error => {

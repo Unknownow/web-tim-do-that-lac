@@ -105,14 +105,15 @@
         </a-row>
       </div>
     </div>
-    <div>
-      <news-component
-        v-bind:dataPost="this.$store.state.dataPost"
-      ></news-component>
-    </div>
-    <div style="width: 100%; height: 100%; margin: 0 auto;">
-      <a-spin :spinning="spinning" size="large"> </a-spin>
-    </div>
+    <!-- <div style="width: 100%; height: 100%; margin: 0 auto;"> -->
+    <a-spin :spinning="spinning" size="large">
+      <!-- </div> -->
+      <div>
+        <news-component
+          v-bind:dataPost="this.$store.state.dataPost"
+        ></news-component>
+      </div>
+    </a-spin>
     <a-pagination
       style="width: 100%; height: 100%; margin-top: 66%"
       v-model="this.$store.state.currentPage"

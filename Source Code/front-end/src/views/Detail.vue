@@ -66,47 +66,49 @@
       <div
         style="display:inline-block; width: 60%; float:left; margin-left: 50px;"
       >
-        <div id="description">
-          <div style="float: left; font-size: 25px">
-            <a-icon type="info-circle" />
-            <span style="margin-left: 10px;">{{ $t("detail.detail") }}</span>
-          </div>
-          <div>
-            <hr />
-          </div>
-        </div>
-        <div id="description" style="width: 100%; text-align: left">
-          {{ this.description }}
-
-          <div style="margin-top: 50px">
-            <div
-              v-if="this.canModify"
-              style="margin-bottom: 20px; color: #0abde3; cursor: pointer"
-              v-on:click="showListReply"
-            >
-              Danh sách phản hồi của bài viết
+        <a-spin :spinning="spinning" size="large">
+          <div id="description">
+            <div style="float: left; font-size: 25px">
+              <a-icon type="info-circle" />
+              <span style="margin-left: 10px;">{{ $t("detail.detail") }}</span>
             </div>
-            <a-carousel arrows>
-              <div
-                slot="prevArrow"
-                class="custom-slick-arrow"
-                style="left: 10px;zIndex: 1"
-              >
-                <a-icon type="left-circle" />
-              </div>
-              <div
-                slot="nextArrow"
-                class="custom-slick-arrow"
-                style="right: 10px"
-              >
-                <a-icon type="right-circle" />
-              </div>
-              <div v-for="imgLink in imageLinks" :key="imgLink.index">
-                <img :src="imgLink" width="100%" />
-              </div>
-            </a-carousel>
+            <div>
+              <hr />
+            </div>
           </div>
-        </div>
+          <div id="description" style="width: 100%; text-align: left">
+            {{ this.description }}
+
+            <div style="margin-top: 50px">
+              <div
+                v-if="this.canModify"
+                style="margin-bottom: 20px; color: #0abde3; cursor: pointer"
+                v-on:click="showListReply"
+              >
+                Danh sách phản hồi của bài viết
+              </div>
+              <a-carousel arrows>
+                <div
+                  slot="prevArrow"
+                  class="custom-slick-arrow"
+                  style="left: 10px;zIndex: 1"
+                >
+                  <a-icon type="left-circle" />
+                </div>
+                <div
+                  slot="nextArrow"
+                  class="custom-slick-arrow"
+                  style="right: 10px"
+                >
+                  <a-icon type="right-circle" />
+                </div>
+                <div v-for="imgLink in imageLinks" :key="imgLink.index">
+                  <img :src="imgLink" width="100%" />
+                </div>
+              </a-carousel>
+            </div>
+          </div>
+        </a-spin>
       </div>
       <div style="display:inline-block; float: left">
         <div id="category">
@@ -329,7 +331,8 @@ export default {
       errorReply: false,
       successReply: false,
       dataReply: null,
-      fileListImagereply: []
+      fileListImagereply: [],
+      spinning: true
     };
   },
   components: {
@@ -388,11 +391,15 @@ export default {
               });
             }
             axios
-              .post("http://202.191.56.159:2828/reply/create/" + idPost, formData, {
-                headers: {
-                  Authorization: this.$store.state.token
+              .post(
+                "http://202.191.56.159:2828/reply/create/" + idPost,
+                formData,
+                {
+                  headers: {
+                    Authorization: this.$store.state.token
+                  }
                 }
-              })
+              )
               .then(response => {
                 console.log(response);
                 this.successReply = true;
@@ -406,7 +413,7 @@ export default {
           } else {
             this.error = true;
           }
-          console.log(values);
+          // console.log(values);
         }
       });
     },
@@ -454,9 +461,9 @@ export default {
               }
               this.fileListImagereply.push(arrayImage);
             }
-            console.log(this.fileListImagereply);
+            // console.log(this.fileListImagereply);
           }
-          console.log(response);
+          // console.log(response);
           this.showListReplyModal();
         })
         .catch(error => {
@@ -469,6 +476,7 @@ export default {
   },
   beforeCreate() {
     // console.log(this.$router);
+    this.spinning = true;
     this.idPost = this.$router.history.current.params.idPost;
     let url;
     if (this.$store.state.token === null || this.$store.state.token === "") {
@@ -505,6 +513,7 @@ export default {
           } else {
             this.checkOther = true;
           }
+          this.spinning = false;
         });
 
         if (response.data.canModify !== null) {

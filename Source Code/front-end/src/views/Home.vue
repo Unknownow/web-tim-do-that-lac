@@ -105,11 +105,13 @@
         </a-row>
       </div>
     </div>
-    <div style="margin-bottom: 830px">
-      <news-component
-        v-bind:dataPost="this.$store.state.dataPost"
-      ></news-component>
-    </div>
+    <a-spin :spinning="spinning" size="large">
+      <div style="margin-bottom: 830px">
+        <news-component
+          v-bind:dataPost="this.$store.state.dataPost"
+        ></news-component>
+      </div>
+    </a-spin>
     <div style="color: white">.....</div>
   </div>
 </template>
@@ -127,6 +129,7 @@ export default {
   data() {
     return {
       // dataPost: null
+      spinning: true
     };
   },
   beforeCreate() {
@@ -142,6 +145,7 @@ export default {
         }
         this.$store.state.dataPost = response.data.results;
         // console.log(response.data.results);
+        this.spinning = false;
       })
       .catch(error => {
         console.log(error);
