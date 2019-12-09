@@ -98,7 +98,7 @@ export default {
         { name: "Máy tính bảng", key: "tablet" },
         { name: "Thẻ nhớ", key: "memory" },
         { name: "Hộ chiếu", key: "passport" },
-        { name: "Khác", key: "other" }
+        { name: "Khác", key: "others" }
       ]
     };
   },
@@ -133,7 +133,7 @@ export default {
           { name: "Tablet", key: "tablet" },
           { name: "Memory", key: "memory" },
           { name: "Passport", key: "passport" },
-          { name: "Other", key: "other" }
+          { name: "Others", key: "others" }
         ];
       } else {
         this.categoryData = [
@@ -147,7 +147,7 @@ export default {
           { name: "Máy tính bảng", key: "tablet" },
           { name: "Thẻ nhớ", key: "memory" },
           { name: "Hộ chiếu", key: "passport" },
-          { name: "Khác", key: "other" }
+          { name: "Khác", key: "others" }
         ];
       }
     },

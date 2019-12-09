@@ -136,6 +136,13 @@ export default {
     axios
       .get("http://202.191.56.159:2828/post/getPost?start=0&end=5")
       .then(response => {
+        // check image null
+        response.data.results.map(post => {
+          if (post.imgLinks[0] == null) {
+            post.imgLinks[0] = "/flag_en.svg";
+          }
+        });
+
         if (
           CookieFunctions.readCookie("sessionId") === null ||
           CookieFunctions.readCookie("sessionId") === ""
