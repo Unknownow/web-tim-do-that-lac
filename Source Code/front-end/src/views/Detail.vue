@@ -87,25 +87,23 @@
               >
                 Danh sách phản hồi của bài viết
               </div>
-              <a-carousel arrows>
-                <div
-                  slot="prevArrow"
-                  class="custom-slick-arrow"
-                  style="left: 10px;zIndex: 1"
+              <div class="clearfix">
+                <a-upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  :fileList="fileListImagePost"
+                  @preview="handlePreview"
+                  @change="handleChange"
                 >
-                  <a-icon type="left-circle" />
-                </div>
-                <div
-                  slot="nextArrow"
-                  class="custom-slick-arrow"
-                  style="right: 10px"
+                </a-upload>
+                <a-modal
+                  :visible="previewVisible"
+                  :footer="null"
+                  @cancel="handleCancel"
                 >
-                  <a-icon type="right-circle" />
-                </div>
-                <div v-for="imgLink in imageLinks" :key="imgLink.index">
-                  <img :src="imgLink" width="100%" />
-                </div>
-              </a-carousel>
+                  <img alt="example" style="width: 100%;" :src="previewImage" />
+                </a-modal>
+              </div>
             </div>
           </div>
         </a-spin>
@@ -172,7 +170,7 @@
         </div>
       </div>
     </div>
-    <div style="margin-top: 1000px">
+    <div>
       <comment-facebook id="elementComment"></comment-facebook>
     </div>
     <div id="endPage"></div>
@@ -321,7 +319,7 @@ export default {
       nameContact: null,
       tel: null,
       address: null,
-      imageLinks: null,
+      imageLinks: [],
       categories: null,
       description: null,
       checkWallet: false,
@@ -339,7 +337,8 @@ export default {
       dataReply: null,
       fileListImagereply: [],
       spinning: true,
-      spinningReply: false
+      spinningReply: false,
+      fileListImagePost: [{}]
     };
   },
   components: {
@@ -513,6 +512,14 @@ export default {
         this.categories = response.data.results.categories;
         this.imageLinks = response.data.results.imgLinks;
 
+        for (let index = 0; index < this.imageLinks.length; index++) {
+          let obj = {
+            uid: index,
+            url: this.imageLinks[index]
+          };
+          this.fileListImagePost.push(obj);
+        }
+
         //set check box
         this.categories.map(category => {
           if (category === "wallet") {
@@ -540,7 +547,10 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
+.anticon-delete {
+  display: none !important;
+}
 #leftContent {
   position: absolute;
   top: 70%;
@@ -575,32 +585,5 @@ hr {
   width: 100%;
   margin-top: 40px;
   float: left;
-}
-
-.ant-carousel >>> .slick-slide {
-  text-align: center;
-  height: 800px;
-  line-height: 160px;
-  background: #364d79;
-  overflow: hidden;
-}
-
-.ant-carousel >>> .custom-slick-arrow {
-  width: 25px;
-  height: 25px;
-  font-size: 25px;
-  color: #fff;
-  background-color: rgba(31, 45, 61, 0.11);
-  opacity: 0.3;
-}
-.ant-carousel >>> .custom-slick-arrow:before {
-  display: none;
-}
-.ant-carousel >>> .custom-slick-arrow:hover {
-  opacity: 0.5;
-}
-
-.ant-carousel >>> .slick-slide img {
-  color: #fff;
 }
 </style>
