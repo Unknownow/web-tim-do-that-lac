@@ -1,0 +1,2 @@
+# Command for env setup:
+export PORT=2828 MONGODB_URL="mongodb://202.191.56.159:27017/tim-do-that-lac?retryWrites=true&w=majority" JWT_SECRET="https://stackoverflow.com/questions/52412131/secretorprivatekey-must-have-a-value/52413055" CLOUDINARY_NAME="webtt20191" CLOUDINARY_API_KEY="136924572142265" CLOUDINARY_API_SECRET="Xl3Es1W3G8Hg1F3Y16riLdxX8G0"
