@@ -3,7 +3,9 @@
     <div id="headerBar">
       <div id="nameWebsite">
         <!-- <a href="/home" style="color: #ffffff">ReturnMe</a> -->
-        <router-link :to="{ name: 'home' }" style="color: #ffffff"
+        <router-link
+          :to="{ name: 'home' }"
+          style="color: #ffffff; font-size: 48px"
           >ReturnMe</router-link
         >
       </div>

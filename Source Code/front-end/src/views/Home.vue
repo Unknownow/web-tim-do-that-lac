@@ -139,7 +139,7 @@ export default {
         // check image null
         response.data.results.map(post => {
           if (post.imgLinks[0] == null) {
-            post.imgLinks[0] = "/flag_en.svg";
+            post.imgLinks[0] = "/bphone3pro.png";
           }
         });
 

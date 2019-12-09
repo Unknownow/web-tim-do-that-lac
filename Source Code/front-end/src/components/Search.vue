@@ -59,6 +59,7 @@
           style="width:20%;margin-left:3%; text-align: center; overflow: hidden;
   text-overflow: ellipsis;"
           v-on:click="handleSearch"
+          v-scroll-to="{ el: '#element', offset: 500 }"
         >
           <span style="overflow-wrap: break-word">
             {{ $t("searchbar.search") }}</span
@@ -66,6 +67,7 @@
         </a-button>
       </a-form>
     </div>
+    <div id="element"></div>
   </div>
 </template>
 
