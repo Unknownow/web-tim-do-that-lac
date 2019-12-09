@@ -15,7 +15,6 @@
           <h2 style="margin-top: -10px">{{ post.title }}</h2>
           <img
             :src="post.imgLinks[0]"
-            alt="/flag_en.svg"
             width="100%"
             height="70%"
             style="margin-left: 0 px"
