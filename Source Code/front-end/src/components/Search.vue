@@ -195,8 +195,14 @@ export default {
       axios
         .get(url)
         .then(response => {
+          // console.log(response);
           // this.dataPost = response.data.results;
           this.$store.state.dataPost = response.data.results.listPosts;
+          this.$store.state.dataPost.map(post => {
+            if (post.imgLinks[0] == null) {
+              post.imgLinks[0] = "/bphone3pro.png";
+            }
+          });
 
           //reset lai pagination
           this.$store.state.currentPage = 1;
