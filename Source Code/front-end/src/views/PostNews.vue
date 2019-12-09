@@ -103,18 +103,12 @@
             :placeholder="$t('postnews.street')"
             @change="handleChangeWard"
           >
-            <a-select-option value="Bạch Mai">
-              Bạch Mai
-            </a-select-option>
-            <a-select-option value="Lê Thanh Nghị">
-              Lê Thanh Nghị
-            </a-select-option>
-            <a-select-option value="Trương Định">
-              Trương Định
-            </a-select-option>
-            <a-select-option value="Trần Đại Nghĩa">
-              Trần Đại Nghĩa
-            </a-select-option>
+            <a-select-option
+              v-for="address in dataAddress"
+              :key="address"
+              v-bind:value="address"
+              >{{ address }}</a-select-option
+            >
           </a-select>
         </a-form-item>
         <a-form-item
@@ -135,15 +129,12 @@
             :placeholder="$t('postnews.ward')"
             @change="handleChangeWard"
           >
-            <a-select-option value="Bách Khoa">
-              Bách Khoa
-            </a-select-option>
-            <a-select-option value="Đống Đa">
-              Đống Đa
-            </a-select-option>
-            <a-select-option value="Hoàng Mai">
-              Hoàng Mai
-            </a-select-option>
+            <a-select-option
+              v-for="ward in dataWard"
+              :key="ward"
+              v-bind:value="ward"
+              >{{ ward }}</a-select-option
+            >
           </a-select>
         </a-form-item>
         <a-form-item
@@ -258,7 +249,27 @@ export default {
       ],
       successPost: false,
       errorPost: false,
-      spinning: false
+      spinning: false,
+      dataAddress: [
+        "Trương Định",
+        "Bạch Mai",
+        "Trần Đại Nghĩa",
+        "Minh Khai",
+        "Giải Phóng",
+        "Đại Cồ Việt",
+        "Trường Chinh",
+        "Xã Đàn"
+      ],
+      dataWard: [
+        "Ba Đình",
+        "Hai Bà Trưng",
+        "Hoàng Mai",
+        "Đống Đa",
+        "Hoàn Kiếm",
+        "Cầu Giấy",
+        "Thanh Xuân",
+        "Hà Đông"
+      ]
     };
   },
   methods: {

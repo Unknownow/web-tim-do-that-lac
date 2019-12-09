@@ -47,9 +47,9 @@
         >
           <a-select-option
             v-for="nameCategory in categoryData"
-            :key="nameCategory"
-            v-bind:value="nameCategory"
-            >{{ nameCategory }}</a-select-option
+            :key="nameCategory.key"
+            v-bind:value="nameCategory.key"
+            >{{ nameCategory.name }}</a-select-option
           >
         </a-select>
 
@@ -87,7 +87,17 @@ export default {
         "Trường Chinh",
         "Xã Đàn"
       ],
-      categoryData: ["Ví", "Giấy tờ", "Điện thoại", "Laptop", "Thẻ ATM"]
+      categoryData: [
+        { name: "Ví", key: "wallet" },
+        { name: "Giấy tờ", key: "paper" },
+        { name: "Điện thoại", key: "phone" },
+        { name: "Laptop", key: "laptop" },
+        { name: "Thẻ ATM", key: "atm" },
+        { name: "Giấy phép lái xe", key: "driverlicense" },
+        { name: "Máy tính bảng", key: "tablet" },
+        { name: "Thẻ nhớ", key: "memory" },
+        { name: "Khác", key: "other" }
+      ]
     };
   },
 
@@ -111,14 +121,28 @@ export default {
     handleFocus() {
       if (this.$i18n.locale == "en") {
         this.categoryData = [
-          "Wallet",
-          "Personal Document",
-          "Mobile Phone",
-          "Laptop",
-          "ATM Card"
+          { name: "Wallet", key: "wallet" },
+          { name: "Personal Document", key: "paper" },
+          { name: "Mobile Phone", key: "phone" },
+          { name: "Laptop", key: "laptop" },
+          { name: "ATM Card", key: "atm" },
+          { name: "Driver license", key: "driverlicense" },
+          { name: "Tablet", key: "tablet" },
+          { name: "Memory", key: "memory" },
+          { name: "Other", key: "other" }
         ];
       } else {
-        this.categoryData = ["Ví", "paper", "Điện thoại", "Laptop", "Thẻ ATM"];
+        this.categoryData = [
+          { name: "Ví", key: "wallet" },
+          { name: "Giấy tờ", key: "paper" },
+          { name: "Điện thoại", key: "phone" },
+          { name: "Laptop", key: "laptop" },
+          { name: "Thẻ ATM", key: "atm" },
+          { name: "Giấy phép lái xe", key: "driverlicense" },
+          { name: "Máy tính bảng", key: "tablet" },
+          { name: "Thẻ nhớ", key: "memory" },
+          { name: "Khác", key: "other" }
+        ];
       }
     },
     handleSearch: function() {
@@ -157,6 +181,8 @@ export default {
           urlCategory +
           "&start=0&end=8";
       }
+
+      console.log(url);
 
       axios
         .get(url)
