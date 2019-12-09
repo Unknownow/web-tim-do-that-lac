@@ -11,7 +11,7 @@ cloudinary.config(config.cloudinaryConfig);
 
 async function createPost(idUser, postDetail, images) {
     const currentUser = await User.findOne(idUser);
-    if(currentUser.tel === "null" || currentUser.address === "null"){
+    if (currentUser.tel === "null" || currentUser.address === "null") {
         throw new CustomError(errorCode.FORBIDDEN, "Your account is not verified. Please update your tel and address!");
     }
 
@@ -47,7 +47,7 @@ async function createPost(idUser, postDetail, images) {
 }
 
 async function getAllPost(idUser) {
-    const posts = await Post.find({ "idUser": idUser });
+    const posts = await Post.find({ "idUser": idUser }).sort({ updatedAt: -1 });
 
     if (posts.length <= 0) {
         throw new CustomError(errorCode.NOT_FOUND, "Could not find any post of this user!");
@@ -122,7 +122,7 @@ async function updatePost(_id, user, updatedInfo, images) {
     }
 
 
-    const updatedPost = Post.findByIdAndUpdate(_id, {...updatedInfo }, { new: true });
+    const updatedPost = Post.findByIdAndUpdate(_id, { ...updatedInfo }, { new: true });
     return updatedPost;
 }
 
@@ -181,7 +181,7 @@ async function getPostByIndex(start, end) {
     listPosts = listPosts.docs;
 
     for (let i = 0; i < listPosts.length; i++) {
-        let tempUser = await User.findById(listPosts[i].idUser);
+        let tempUser = await User.findById(listPosts[i].idUser).sort({ updatedAt: -1 });
         listPosts[i] = { name: tempUser.name, tel: tempUser.tel, ...listPosts[i]._doc };
         delete listPosts[i].idUser;
     }
@@ -216,6 +216,7 @@ async function searchPost(keyword) {
         ],
         finishedFlag: false
     }, {
+        sort: { updatedAT: -1 },
         offset: start,
         limit
     });
