@@ -176,7 +176,7 @@
       <comment-facebook id="elementComment"></comment-facebook>
     </div>
     <div id="endPage"></div>
-    <modal name="modal-reply" :height="300" :width="600">
+    <modal name="modal-reply" :height="350" :width="600">
       <div
         style="text-align: center; margin-top: 10px; font-size: 20px; color: black"
       >
@@ -196,57 +196,63 @@
       </div>
 
       <div id="formPostNews" style="margin-top: 0px; margin-left: 30px">
-        <a-form :form="form" @submit="handleSubmit">
-          <a-form-item
-            label="Nội dung phản hồi"
-            :label-col="{ span: 5 }"
-            :wrapper-col="{ span: 12 }"
-          >
-            <a-textarea
-              style="margin-left: 10px"
-              placeholder="Nội dung"
-              v-decorator="['contentReply', {}]"
-              autosize
-            />
-          </a-form-item>
-          <a-form-item
-            label="Hình ảnh minh họa"
-            :label-col="{ span: 5 }"
-            :wrapper-col="{ span: 12 }"
-          >
-            <div style="margin-left: 10px; width: 100%">
-              <div class="clearfix">
-                <a-upload
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  listType="picture-card"
-                  :fileList="fileList"
-                  @preview="handlePreview"
-                  @change="handleChange"
-                >
-                  <div v-if="fileList.length < 2">
-                    <a-icon type="plus" />
-                    <div class="ant-upload-text">Upload</div>
-                  </div>
-                </a-upload>
-                <a-modal
-                  :visible="previewVisible"
-                  :footer="null"
-                  @cancel="handleCancel"
-                >
-                  <img alt="example" style="width: 100%" :src="previewImage" />
-                </a-modal>
+        <a-spin :spinning="spinningReply" size="large">
+          <a-form :form="form" @submit="handleSubmit">
+            <a-form-item
+              label="Nội dung phản hồi"
+              :label-col="{ span: 5 }"
+              :wrapper-col="{ span: 12 }"
+            >
+              <a-textarea
+                style="margin-left: 10px"
+                placeholder="Nội dung"
+                v-decorator="['contentReply', {}]"
+                autosize
+              />
+            </a-form-item>
+            <a-form-item
+              label="Hình ảnh minh họa"
+              :label-col="{ span: 5 }"
+              :wrapper-col="{ span: 12 }"
+            >
+              <div style="margin-left: 10px; width: 100%">
+                <div class="clearfix">
+                  <a-upload
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    listType="picture-card"
+                    :fileList="fileList"
+                    @preview="handlePreview"
+                    @change="handleChange"
+                  >
+                    <div v-if="fileList.length < 2">
+                      <a-icon type="plus" />
+                      <div class="ant-upload-text">Upload</div>
+                    </div>
+                  </a-upload>
+                  <a-modal
+                    :visible="previewVisible"
+                    :footer="null"
+                    @cancel="handleCancel"
+                  >
+                    <img
+                      alt="example"
+                      style="width: 100%"
+                      :src="previewImage"
+                    />
+                  </a-modal>
+                </div>
               </div>
-            </div>
-          </a-form-item>
-          <a-form-item
-            :wrapper-col="{ span: 12, offset: 5 }"
-            style="margin-left: 150px;"
-          >
-            <a-button type="primary" html-type="submit">
-              Phản hồi
-            </a-button>
-          </a-form-item>
-        </a-form>
+            </a-form-item>
+            <a-form-item
+              :wrapper-col="{ span: 12, offset: 5 }"
+              style="margin-left: 150px;"
+            >
+              <a-button type="primary" html-type="submit">
+                Phản hồi
+              </a-button>
+            </a-form-item>
+          </a-form>
+        </a-spin>
       </div>
     </modal>
     <modal name="modal-listReply" :height="300" :width="600">
@@ -332,7 +338,8 @@ export default {
       successReply: false,
       dataReply: null,
       fileListImagereply: [],
-      spinning: true
+      spinning: true,
+      spinningReply: false
     };
   },
   components: {
@@ -390,6 +397,7 @@ export default {
                 }
               });
             }
+            this.spinningReply = true;
             axios
               .post(
                 "http://202.191.56.159:2828/reply/create/" + idPost,
@@ -402,6 +410,7 @@ export default {
               )
               .then(response => {
                 console.log(response);
+                this.spinningReply = false;
                 this.successReply = true;
               })
               .catch(error => {
@@ -476,7 +485,8 @@ export default {
   },
   beforeCreate() {
     // console.log(this.$router);
-    this.$store.state.linkshareFB = "http://202.191.56.159:2882"+this.$router.history.current.fullPath;
+    this.$store.state.linkshareFB =
+      "http://202.191.56.159:2882" + this.$router.history.current.fullPath;
     this.spinning = true;
     this.idPost = this.$router.history.current.params.idPost;
     let url;
