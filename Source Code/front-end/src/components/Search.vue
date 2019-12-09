@@ -89,6 +89,7 @@ export default {
       ],
       categoryData: [
         { name: "Ví", key: "wallet" },
+        { name: "CMND", key: "identitycard" },
         { name: "Giấy tờ", key: "paper" },
         { name: "Điện thoại", key: "phone" },
         { name: "Laptop", key: "laptop" },
@@ -96,7 +97,8 @@ export default {
         { name: "Giấy phép lái xe", key: "driverlicense" },
         { name: "Máy tính bảng", key: "tablet" },
         { name: "Thẻ nhớ", key: "memory" },
-        { name: "Khác", key: "other" }
+        { name: "Hộ chiếu", key: "passport" },
+        { name: "Khác", key: "others" }
       ]
     };
   },
@@ -122,6 +124,7 @@ export default {
       if (this.$i18n.locale == "en") {
         this.categoryData = [
           { name: "Wallet", key: "wallet" },
+          { name: "Identity Card", key: "identitycard" },
           { name: "Personal Document", key: "paper" },
           { name: "Mobile Phone", key: "phone" },
           { name: "Laptop", key: "laptop" },
@@ -129,11 +132,13 @@ export default {
           { name: "Driver license", key: "driverlicense" },
           { name: "Tablet", key: "tablet" },
           { name: "Memory", key: "memory" },
-          { name: "Other", key: "other" }
+          { name: "Passport", key: "passport" },
+          { name: "Others", key: "others" }
         ];
       } else {
         this.categoryData = [
           { name: "Ví", key: "wallet" },
+          { name: "CMND", key: "identitycard" },
           { name: "Giấy tờ", key: "paper" },
           { name: "Điện thoại", key: "phone" },
           { name: "Laptop", key: "laptop" },
@@ -141,7 +146,8 @@ export default {
           { name: "Giấy phép lái xe", key: "driverlicense" },
           { name: "Máy tính bảng", key: "tablet" },
           { name: "Thẻ nhớ", key: "memory" },
-          { name: "Khác", key: "other" }
+          { name: "Hộ chiếu", key: "passport" },
+          { name: "Khác", key: "others" }
         ];
       }
     },

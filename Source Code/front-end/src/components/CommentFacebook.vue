@@ -22,7 +22,7 @@ export default {
       .getElementById("cmtFB")
       .setAttribute(
         "data-href",
-        "http://localhost:2882/" + this.$router.history.current.params.idPost
+        "http://202.191.56.159:2882/" + this.$router.history.current.params.idPost
       );
   },
   methods: {

@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
     token: null,
     dataPost: null,
     currentPage: 1,
-    totalPost: 0
+    totalPost: 0,
+    linkshareFB: "https://www.imdb.com/title/tt0117500/"
   },
   getters: {},
   mutations: {

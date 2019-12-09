@@ -3,13 +3,13 @@
     <h1>AAAAAAAAAAAAAAAAAA</h1>
     <div
       class="fb-comments"
-      data-href="http://localhost:2882/vi/test"
+      data-href="http://202.191.56.159:2882/vi/test"
       data-width="500"
       data-numposts="5"
     ></div>
     <div
       class="fb-share-button"
-      data-href="http://localhost:2882/vi/test"
+      data-href="http://202.191.56.159:2882/vi/test"
       data-layout="button_count"
       data-size="large"
     >
