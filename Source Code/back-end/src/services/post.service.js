@@ -216,7 +216,7 @@ async function searchPost(keyword) {
         ],
         finishedFlag: false
     }, {
-        sort: { updatedAT: -1 },
+        sort: { updatedAt: -1 },
         offset: start,
         limit
     });
