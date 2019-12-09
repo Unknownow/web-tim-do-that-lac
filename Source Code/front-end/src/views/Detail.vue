@@ -33,13 +33,13 @@
             <div>
               <div
                 class="fb-share-button"
-                data-href="http://hci11.it4440.phungluan.com/table.html#"
+                :data-href="this.$store.state.linkshareFB"
                 data-layout="button"
                 data-size="large"
               >
                 <a
                   target="_blank"
-                  href="http://hci11.it4440.phungluan.com/table.html#"
+                  :href="this.$store.state.linkshareFB"
                   class="fb-xfbml-parse-ignore"
                   >Chia sẻ</a
                 >
@@ -476,6 +476,7 @@ export default {
   },
   beforeCreate() {
     // console.log(this.$router);
+    this.$store.state.linkshareFB = "http://202.191.56.159:2882"+this.$router.history.current.fullPath;
     this.spinning = true;
     this.idPost = this.$router.history.current.params.idPost;
     let url;
