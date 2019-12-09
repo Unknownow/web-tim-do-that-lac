@@ -177,7 +177,7 @@ async function finishPost(_id, user) {
 async function getPostByIndex(start, end) {
     const limit = end - start + 1;
 
-    let listPosts = await Post.paginate({ finishedFlag: "false" }, { select: ["idUser", "title", "time", "address", "imgLinks"], offset: start, limit });
+    let listPosts = await Post.paginate({ finishedFlag: "false" }, { select: ["idUser", "title", "time", "address", "imgLinks"], sort: { updatedAt: -1 }, offset: start, limit });
     listPosts = listPosts.docs;
 
     for (let i = 0; i < listPosts.length; i++) {
