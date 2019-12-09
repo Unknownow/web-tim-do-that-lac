@@ -87,7 +87,7 @@
               >
                 Danh sách phản hồi của bài viết
               </div>
-              <div class="clearfix">
+              <div class="clearfix" id="pageDetail">
                 <a-upload
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   listType="picture-card"
@@ -270,7 +270,7 @@
         >
           <a-list-item slot="renderItem" slot-scope="item, index">
             <div style="margin-left: 10px; width: 100%">
-              <div class="clearfix">
+              <div class="clearfix" id="pageDetail">
                 <a-upload
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   listType="picture-card"
@@ -548,9 +548,11 @@ export default {
 };
 </script>
 <style>
-.anticon-delete {
-  display: none !important;
+#pageDetail .anticon-delete {
+  display: none;
 }
+</style>
+<style scoped>
 #leftContent {
   position: absolute;
   top: 70%;
@@ -585,5 +587,5 @@ hr {
   width: 100%;
   margin-top: 40px;
   float: left;
-}
-</style>
+}</style
+>>
