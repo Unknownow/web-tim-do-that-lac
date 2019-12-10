@@ -32,30 +32,36 @@ async function updateCategory(categoryName, updatedInfo) {
     const updates = Object.keys(updatedInfo);
     const allowedUpdates = ['name', 'description'];
     const isValidOperation = updates.every(update =>
-      allowedUpdates.includes(update),
+        allowedUpdates.includes(update),
     );
-  
+
     if (!isValidOperation) {
-      throw new CustomError(
-        errorCode.NOT_FOUND,
-        'Not figure out the infomation update',
-      );
+        throw new CustomError(
+            errorCode.NOT_FOUND,
+            'Not figure out the infomation update',
+        );
     }
 
     categoryName = categoryName.toLowerCase();
 
-    let existingCategory = await Category.findOne({name:categoryName});
+    let existingCategory = await Category.findOne({ name: categoryName });
     if (!existingCategory) {
         throw new CustomError(errorCode.BAD_REQUEST, "Category does not exist!");
     }
     updatedInfo.name = updatedInfo.name.toLowerCase();
-    const category = await Category.updateOne({name:categoryName}, updatedInfo);
+    const category = await Category.updateOne({ name: categoryName }, updatedInfo);
     return category;
+}
+
+async function getAllCategories() {
+    const categoryList = await Category.find({}).sort({ name: 1 });
+    return categoryList;
 }
 
 
 module.exports = {
     createCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getAllCategories
 }

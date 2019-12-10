@@ -6,19 +6,20 @@ const errorCode = require("../errors/errorCode");
 const cloudinary = require("cloudinary").v2;
 const replyEmailSender = require("./email.service").replyEmailSender;
 
-async function createReply(idPost, idUser, description, images) {
+async function createReply(idPost, idUser, replyDetail, images) {
     const currentUser = await User.findOne(idUser);
-    if(currentUser.tel === "null" || currentUser.address === "null"){
+    if (currentUser.tel === "null" || currentUser.address === "null") {
         throw new CustomError(errorCode.FORBIDDEN, "Your account is not verified. Please update your tel and address!");
     }
 
     const newReply = await Reply.create({
         "idPost": idPost,
         "idUser": idUser,
-        "description": description,
+        "description": replyDetail.description,
+        "answers": replyDetail.answers,
+        "questions": replyDetail.questions,
         imgLinks: []
     });
-
     if (images) {
         const folderName = idUser + "_folder/reply/" + newReply.id;
         for (let i = 0; i < images.length; i++) {

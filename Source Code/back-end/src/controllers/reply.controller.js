@@ -4,9 +4,9 @@ const errorCode = require("../errors/errorCode");
 
 async function createReply(req, res) {
     const { idPost } = req.params;
-    const description = JSON.parse(JSON.stringify(req.body)).description;
+    const replyDetail = JSON.parse(JSON.stringify(req.body));
     const images = req.files;
-    const reply = await replyService.createReply(idPost, req.user._id, description, images);
+    const reply = await replyService.createReply(idPost, req.user._id, replyDetail, images);
 
     res.status(201).send({
         status: 1,

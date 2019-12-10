@@ -49,7 +49,12 @@ const PostSchema = new mongoose.Schema(
             type: Date,
             default: Date.now,
             index: { expires: 7776000 },
-        }
+        },
+        questions: [{
+            type: String,
+            trim: true,
+            required:false
+        }]
     },
     {
         timestamps: true,

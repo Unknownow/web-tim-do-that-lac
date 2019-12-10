@@ -84,7 +84,7 @@ async function updatePost(_id, user, updatedInfo, images) {
         throw new CustomError(errorCode.FORBIDDEN, "You are not permitted to update this post!");
     }
     const updates = Object.keys(updatedInfo);
-    const allowedUpdates = ["title", "description", "address", "time", "categories"];
+    const allowedUpdates = ["title", "description", "address", "time", "categories", "questions"];
     const isValidUpdate = updates.every(update =>
         allowedUpdates.includes(update),
     );
