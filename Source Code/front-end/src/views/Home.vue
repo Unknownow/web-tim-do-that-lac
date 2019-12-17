@@ -138,7 +138,7 @@ export default {
       .then(response => {
         // check image null
         response.data.results.map(post => {
-          console.log(post);
+          // console.log(post);
           if (post.imgLinks[0] == null) {
             if (post.categories[0] === "wallet") {
                 post.imgLinks[0] = "/defaultWallet.jpg";
@@ -192,7 +192,7 @@ export default {
     },
     handleRenderPostCategory(category) {
       window.scrollBy(0, 450);
-      console.log("renders");
+      // console.log("renders");
       this.$router.push({
         name: "news",
         params: { category: category }
