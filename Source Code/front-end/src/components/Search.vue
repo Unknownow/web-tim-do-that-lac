@@ -199,7 +199,6 @@ export default {
           // this.dataPost = response.data.results;
           this.$store.state.dataPost = response.data.results.listPosts;
           this.$store.state.dataPost.map(post => {
-            console.log(post);
             if (post.imgLinks[0] == null) {
               if (post.categories[0] === "wallet") {
                 post.imgLinks[0] = "/defaultWallet.jpg";
