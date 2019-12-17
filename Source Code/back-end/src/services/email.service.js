@@ -51,7 +51,7 @@ const replyEmailSender = async (email, replyInfo) => {
         }
 
         a {
-            color: #414EF9;
+            color: #e66767;
         }
 
         /* Layout ------------------------------ */
@@ -70,7 +70,7 @@ const replyEmailSender = async (email, replyInfo) => {
 
         /* Masthead ----------------------- */
         .email-masthead {
-            background-color: #0984e3;
+            background-color: #e66767;
             padding: 15px 0;
             text-align: center;
         }
@@ -181,7 +181,7 @@ const replyEmailSender = async (email, replyInfo) => {
         .button {
             display: inline-block;
             width: 200px;
-            background-color: #414EF9;
+            background-color: #e66767;
             border-radius: 3px;
             color: #ffffff;
             font-size: 15px;
@@ -201,7 +201,7 @@ const replyEmailSender = async (email, replyInfo) => {
         }
 
         .button--blue {
-            background-color: #414EF9;
+            background-color: #e66767;
             font-size: xx-large;
         }
 
@@ -252,7 +252,7 @@ const replyEmailSender = async (email, replyInfo) => {
                                 </tr>
                                 <tr>
                                     <td class="content-cell">
-                                        <p style="font-weight: bold; color: #0984e3;">Best regard!<br>Lost & Found Team
+                                        <p style="font-weight: bold; color: #e66767;">Best regard!<br>Lost & Found Team
                                         </p>
                                     </td>
                                 </tr>
@@ -321,7 +321,7 @@ const otpEmailSender = async (email, otp) => {
               -webkit-text-size-adjust: none;
             }
             a {
-              color: #414EF9;
+              color: #e66767;
             }
             /* Layout ------------------------------ */
             .email-wrapper {
@@ -337,7 +337,7 @@ const otpEmailSender = async (email, otp) => {
             }
             /* Masthead ----------------------- */
             .email-masthead {
-              background-color: #0984e3;
+              background-color: #e66767;
               padding: 15px 0;
               text-align: center;
           }
@@ -430,7 +430,7 @@ const otpEmailSender = async (email, otp) => {
             .button {
               display: inline-block;
               width: 200px;
-              background-color: #414EF9;
+              background-color: #e66767;
               border-radius: 3px;
               color: #ffffff;
               font-size: 15px;
@@ -447,7 +447,7 @@ const otpEmailSender = async (email, otp) => {
               background-color: #FF3665;
             }
             .button--blue {
-              background-color: #414EF9;
+              background-color: #e66767;
               font-size: xx-large;
             }
             /*Media Queries ------------------------------ */
@@ -490,7 +490,7 @@ const otpEmailSender = async (email, otp) => {
                                 <td align="center">
                                   <div>
                                     <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{action_url}}" style="height:45px;v-text-anchor:middle;width:200px;" arcsize="7%" stroke="f" fill="t">
-                                    <v:fill type="tile" color="#414EF9" />
+                                    <v:fill type="tile" color="#e66767" />
                                     <w:anchorlock/>
                                     <center style="color:#ffffff;font-family:sans-serif;font-size:15px;">Verify Email</center>
                                   </v:roundrect><![endif]-->
@@ -499,7 +499,7 @@ const otpEmailSender = async (email, otp) => {
                                 </td>
                               </tr>
                             </table>
-                            <p style="font-weight: bold; color: #0984e3;">Best regard!<br>Lost & Found Team</p>
+                            <p style="font-weight: bold; color: #e66767;">Best regard!<br>Lost & Found Team</p>
                             <!-- Sub copy -->
                             <!-- <table class="body-sub">
                               <tr>

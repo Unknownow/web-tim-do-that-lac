@@ -31,7 +31,7 @@ async function updateCategory(req, res) {
     if (!isValidRole) {
         throw new CustomError(errorCode.UNAUTHORIZED, "Not permited to do this action!");
     }
-    
+
     const { name } = req.params;
     const updatedInfo = req.body;
     const category = await categoryService.updateCategory(name, updatedInfo);
@@ -54,8 +54,17 @@ async function deleteCategory(req, res) {
     });
 }
 
+async function getAllCategories(req, res) {
+    const categoryList = await categoryService.getAllCategories();
+    res.status(201).send({
+        status: 1,
+        results: categoryList
+    });
+}
+
 module.exports = {
     createCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getAllCategories
 }

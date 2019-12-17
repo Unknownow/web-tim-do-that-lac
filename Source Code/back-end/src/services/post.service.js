@@ -84,7 +84,7 @@ async function updatePost(_id, user, updatedInfo, images) {
         throw new CustomError(errorCode.FORBIDDEN, "You are not permitted to update this post!");
     }
     const updates = Object.keys(updatedInfo);
-    const allowedUpdates = ["title", "description", "address", "time", "categories"];
+    const allowedUpdates = ["title", "description", "address", "time", "categories", "questions"];
     const isValidUpdate = updates.every(update =>
         allowedUpdates.includes(update),
     );
@@ -177,7 +177,7 @@ async function finishPost(_id, user) {
 async function getPostByIndex(start, end) {
     const limit = end - start + 1;
 
-    let listPosts = await Post.paginate({ finishedFlag: "false" }, { select: ["idUser", "title", "time", "address", "imgLinks"], offset: start, limit });
+    let listPosts = await Post.paginate({ finishedFlag: "false" }, { select: ["idUser", "title", "time", "address", "imgLinks", "categories"], sort: { updatedAt: -1 }, offset: start, limit });
     listPosts = listPosts.docs;
 
     for (let i = 0; i < listPosts.length; i++) {
@@ -216,7 +216,7 @@ async function searchPost(keyword) {
         ],
         finishedFlag: false
     }, {
-        sort: { updatedAT: -1 },
+        sort: { updatedAt: -1 },
         offset: start,
         limit
     });
