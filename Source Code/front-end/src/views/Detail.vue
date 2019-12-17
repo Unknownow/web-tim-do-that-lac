@@ -178,11 +178,11 @@
       <div
         style="text-align: center; margin-top: 10px; font-size: 20px; color: black"
       >
-        Phản hồi bài viết
+        {{ $t("detail.title") }}
         <a-alert
           v-if="this.errorReply"
           type="error"
-          message="Bạn cần đăng nhập để thực hiện chức năng này"
+          :message="$t('postnews.error')"
           banner
         />
         <a-alert
@@ -197,19 +197,19 @@
         <a-spin :spinning="spinningReply" size="large">
           <a-form :form="form" @submit="handleSubmit">
             <a-form-item
-              label="Nội dung phản hồi"
+              :label="$t('detail.content')"
               :label-col="{ span: 5 }"
               :wrapper-col="{ span: 12 }"
             >
               <a-textarea
                 style="margin-left: 10px"
-                placeholder="Nội dung"
+                :placeholder="$t('detail.content')"
                 v-decorator="['contentReply', {}]"
                 autosize
               />
             </a-form-item>
             <a-form-item
-              label="Hình ảnh minh họa"
+               :label="$t('detail.picture')"
               :label-col="{ span: 5 }"
               :wrapper-col="{ span: 12 }"
             >
@@ -224,7 +224,7 @@
                   >
                     <div v-if="fileList.length < 2">
                       <a-icon type="plus" />
-                      <div class="ant-upload-text">Upload</div>
+                      <div class="ant-upload-text">{{ $t('detail.upload')}}</div>
                     </div>
                   </a-upload>
                   <a-modal
@@ -246,7 +246,7 @@
               style="margin-left: 150px;"
             >
               <a-button type="primary" html-type="submit">
-                Phản hồi
+                {{$t('detail.reply')}}
               </a-button>
             </a-form-item>
           </a-form>
@@ -353,6 +353,9 @@ export default {
     },
     show: function() {
       this.$modal.show("modal-reply");
+      if (this.$store.state.token == null || this.$store.state.token == "") {
+        this.errorReply = true;
+      }
     },
     hide() {
       this.$modal.hide("modal-reply");
@@ -413,6 +416,7 @@ export default {
                 this.successReply = true;
               })
               .catch(error => {
+                this.errorReply = true;
                 console.log(error);
               })
               .finally(() => {

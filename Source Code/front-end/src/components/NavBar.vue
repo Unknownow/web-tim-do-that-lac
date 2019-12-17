@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     handleRenderPostCategory(values) {
+      window.scrollBy(0, 500);
       // this.$store.state.currentPage = 1;
       // this.$store.state.totalPost = 0;
       // console.log("renders");

@@ -62,7 +62,11 @@
         "share": "Chia sẻ",
         "comment": "Bình luận",
         "detail": "Chi tiết",
-        "category": "Danh mục"
+        "category": "Danh mục",
+        "title": "Phản hồi bài viết",
+        "content": "Nội dung phản hồi",
+        "picture": "Hình ảnh minh họa",
+        "upload": "Tải ảnh"
     },
     "postnews":{
         "titlePostNews": "Đăng tin",

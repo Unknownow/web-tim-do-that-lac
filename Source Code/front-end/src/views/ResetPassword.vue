@@ -20,7 +20,17 @@
       </a-form>
     </div>
     <div id="formResetPassword" v-if="this.sendOTP">
-      <a-alert message="Mã OTP đã được gửi đến Email của bạn" type="success" showIcon />
+      <a-alert
+        message="Mã OTP đã được gửi đến Email của bạn"
+        type="success"
+        showIcon
+      />
+      <a-alert
+        v-if="changePassSuccess"
+        message="Bạn đã đổi mật khẩu thành công"
+        type="success"
+        showIcon
+      />
       <a-form :form="form" @submit="handleResetPassword">
         <a-form-item v-bind="formItemLayout" label="Mật khẩu mới">
           <a-input
@@ -66,7 +76,7 @@
         </a-form-item>
         <a-form-item
           v-bind="tailFormItemLayout"
-          style="margin-top: -50px; margin-bottom: 50px"
+          style="margin-top: 50px; margin-bottom: 50px"
         >
           <a-button type="primary" html-type="submit">Xác nhận</a-button>
         </a-form-item>
@@ -81,6 +91,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      changePassSuccess: false,
       emailSenOTP: null,
       sendOTP: false,
       showError: false,
@@ -176,6 +187,7 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          this.changePassSuccess = false;
           let url =
             "http://202.191.56.159:2828/user/resetPassword/" + this.emailSenOTP;
           axios
@@ -184,10 +196,14 @@ export default {
               password: values.password
             })
             .then(response => {
+              this.changePassSuccess = true;
+              setTimeout(() => {
+                this.$router.push("/login");
+              }, 1000);
               console.log(response);
             })
             .catch(err => {
-            //   this.showError = true;
+              //   this.showError = true;
               console.log(err.message);
             });
         }

@@ -3,6 +3,9 @@
     <!-- <div class="row"> -->
     <!-- <div class="column"> -->
     <!-- <div style="margin-bottom: 10px">Kết nối</div> -->
+    <div style="float: left; margin: 10px">
+      <div>Liên hệ: nguyenhuyduc@gmail.com</div>
+    </div>
     <div style="float: right; margin: 10px;">
       <a-icon type="twitter" class="icon-footer" :style="{ fontSize: '20px'}" />
       <a-icon type="facebook" class="icon-footer" :style="{ fontSize: '20px'}" />

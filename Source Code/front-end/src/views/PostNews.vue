@@ -156,22 +156,14 @@
             :placeholder="$t('detail.category')"
             style="width: 100%"
             @change="handleChangeCategory"
+            @focus="handleFocus"
           >
-            <a-select-option value="wallet">
-              {{ $t("navbar.wallet") }}
-            </a-select-option>
-            <a-select-option value="paper">
-              {{ $t("navbar.paper") }}
-            </a-select-option>
-            <a-select-option value="phone">
-              {{ $t("navbar.phone") }}
-            </a-select-option>
-            <a-select-option value="laptop">
-              {{ $t("navbar.laptop") }}
-            </a-select-option>
-            <a-select-option value="other">
-              {{ $t("navbar.other") }}
-            </a-select-option>
+            <a-select-option
+              v-for="nameCategory in categoryData"
+              :key="nameCategory.key"
+              v-bind:value="nameCategory.key"
+              >{{ nameCategory.name }}</a-select-option
+            >
           </a-select>
         </a-form-item>
         <a-form-item
@@ -269,10 +261,34 @@ export default {
         "Cầu Giấy",
         "Thanh Xuân",
         "Hà Đông"
+      ],
+      categoryData: [
+        { name: "Ví", key: "wallet" },
+        { name: "CMND", key: "identitycard" },
+        { name: "Giấy tờ", key: "paper" },
+        { name: "Điện thoại", key: "phone" },
+        { name: "Laptop", key: "laptop" },
+        { name: "Thẻ ATM", key: "atm" },
+        { name: "Giấy phép lái xe", key: "driverlicense" },
+        { name: "Máy tính bảng", key: "tablet" },
+        { name: "Thẻ nhớ", key: "memory" },
+        { name: "Hộ chiếu", key: "passport" },
+        { name: "Khác", key: "others" }
       ]
     };
   },
   methods: {
+    //WARNING! To be deprecated in React v17. Use componentDidMount instead.
+    mounted() {
+      console.log("sadhasjhashjdgsadgashg");
+    },
+    beforeRouteUpdate(to, from, next) {
+      console.log("--------------------------");
+      if (this.$store.state.token == null || this.$store.state.token == "") {
+        this.errorPost = true;
+      }
+      next();
+    },
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
@@ -368,6 +384,37 @@ export default {
       //   console.log("------------------");
       //   console.log(fileList[0]);
       this.fileList = fileList;
+    },
+    handleFocus() {
+      if (this.$i18n.locale == "en") {
+        this.categoryData = [
+          { name: "Wallet", key: "wallet" },
+          { name: "Identity Card", key: "identitycard" },
+          { name: "Personal Document", key: "paper" },
+          { name: "Mobile Phone", key: "phone" },
+          { name: "Laptop", key: "laptop" },
+          { name: "ATM Card", key: "atm" },
+          { name: "Driver license", key: "driverlicense" },
+          { name: "Tablet", key: "tablet" },
+          { name: "Memory", key: "memory" },
+          { name: "Passport", key: "passport" },
+          { name: "Others", key: "others" }
+        ];
+      } else {
+        this.categoryData = [
+          { name: "Ví", key: "wallet" },
+          { name: "CMND", key: "identitycard" },
+          { name: "Giấy tờ", key: "paper" },
+          { name: "Điện thoại", key: "phone" },
+          { name: "Laptop", key: "laptop" },
+          { name: "Thẻ ATM", key: "atm" },
+          { name: "Giấy phép lái xe", key: "driverlicense" },
+          { name: "Máy tính bảng", key: "tablet" },
+          { name: "Thẻ nhớ", key: "memory" },
+          { name: "Hộ chiếu", key: "passport" },
+          { name: "Khác", key: "others" }
+        ];
+      }
     }
   }
 };

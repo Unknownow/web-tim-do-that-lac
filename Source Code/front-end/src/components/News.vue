@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="width: 100%">
+    <div id="post" style="width: 100%">
       <div>
         <h1>{{ $t("news.title") }}</h1>
       </div>
@@ -49,20 +49,20 @@ export default {
       currentPage: 2
     };
   },
-  // beforeCreate(){
-  //    axios
-  //     .get("http://202.191.56.159:2828/post/getPost?start=0&end=5")
-  //     .then(response => {
-  //       this.dataPost = response.data.results;
-  //       console.log(this.dataPost);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     })
-  //     .finally(() => {
-  //       // always executed
-  //     });
-  // },
+  beforeCreate() {
+    //  axios
+    //   .get("http://202.191.56.159:2828/post/getPost?start=0&end=5")
+    //   .then(response => {
+    //     this.dataPost = response.data.results;
+    //     console.log(this.dataPost);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   })
+    //   .finally(() => {
+    //     // always executed
+    //   });
+  },
   methods: {
     clickPost: function(idPost) {
       // console.log(idPost);

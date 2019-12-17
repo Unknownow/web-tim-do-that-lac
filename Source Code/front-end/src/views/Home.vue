@@ -138,6 +138,7 @@ export default {
       .then(response => {
         // check image null
         response.data.results.map(post => {
+          console.log(post);
           if (post.imgLinks[0] == null) {
             post.imgLinks[0] = "/bphone3pro.png";
           }
@@ -170,7 +171,8 @@ export default {
       });
     },
     handleRenderPostCategory(category) {
-      // console.log("renders");
+      window.scrollBy(0, 450);
+      console.log("renders");
       this.$router.push({
         name: "news",
         params: { category: category }

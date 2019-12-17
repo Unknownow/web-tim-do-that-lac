@@ -199,8 +199,29 @@ export default {
           // this.dataPost = response.data.results;
           this.$store.state.dataPost = response.data.results.listPosts;
           this.$store.state.dataPost.map(post => {
+            console.log(post);
             if (post.imgLinks[0] == null) {
-              post.imgLinks[0] = "/bphone3pro.png";
+              if (post.categories[0] === "wallet") {
+                post.imgLinks[0] = "/defaultWallet.jpg";
+              } else if (post.categories[0] === "phone") {
+                 post.imgLinks[0] = "/bphone3pro.png";
+              } else if (post.categories[0] === "paper") {
+                post.imgLinks[0] = "/defaultPaper.png";
+              } else if (post.categories[0] === "identitycard") {
+                post.imgLinks[0] = "/defaultIdentityCard.jpg";
+              } else if (post.categories[0] === "driverlicense") {
+                post.imgLinks[0] = "/defaultDriverLicense.jpg";
+              } else if (post.categories[0] === "passport") {
+                post.imgLinks[0] = "/defaultPassport.jpg";
+              } else if (post.categories[0] === "atm") {
+                post.imgLinks[0] = "/defaultATMCard.png";
+              } else if (post.categories[0] === "laptop") {
+                post.imgLinks[0] = "/defaultLaptop.jpg";
+              } else if (post.categories[0] === "tablet") {
+                post.imgLinks[0] = "/defaultTablet.jpg";
+              } else {
+                post.imgLinks[0] = "/defaultOther.jpg";
+              }
             }
           });
 

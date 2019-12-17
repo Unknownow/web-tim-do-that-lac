@@ -62,7 +62,11 @@
     "share": "Share",
     "comment": "Comment",
     "detail": "Detail",
-    "category": "Category"
+    "category": "Category",
+    "title": "Reply the post",
+    "content": "Content reply",
+    "picture": "Picture",
+    "upload": "Upload"
   },
   "postnews": {
     "titlePostNews": "New Post",
