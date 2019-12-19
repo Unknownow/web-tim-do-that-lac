@@ -209,7 +209,7 @@
               />
             </a-form-item>
             <a-form-item
-               :label="$t('detail.picture')"
+              :label="$t('detail.picture')"
               :label-col="{ span: 5 }"
               :wrapper-col="{ span: 12 }"
             >
@@ -224,7 +224,9 @@
                   >
                     <div v-if="fileList.length < 2">
                       <a-icon type="plus" />
-                      <div class="ant-upload-text">{{ $t('detail.upload')}}</div>
+                      <div class="ant-upload-text">
+                        {{ $t("detail.upload") }}
+                      </div>
                     </div>
                   </a-upload>
                   <a-modal
@@ -246,7 +248,7 @@
               style="margin-left: 150px;"
             >
               <a-button type="primary" html-type="submit">
-                {{$t('detail.reply')}}
+                {{ $t("detail.reply") }}
               </a-button>
             </a-form-item>
           </a-form>
@@ -356,6 +358,7 @@ export default {
       if (this.$store.state.token == null || this.$store.state.token == "") {
         this.errorReply = true;
       }
+      console.log(this.$refs);
     },
     hide() {
       this.$modal.hide("modal-reply");

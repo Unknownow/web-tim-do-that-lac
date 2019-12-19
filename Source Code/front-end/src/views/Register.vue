@@ -250,7 +250,7 @@ export default {
             this.$store.state.token = response.data.results.token;
             console.log(response);
             this.storeToken(values.Username, response.data.results.token);
-            this.$router.push("/home");
+            this.$router.push("/login");
           }
         })
         .catch(err => {
