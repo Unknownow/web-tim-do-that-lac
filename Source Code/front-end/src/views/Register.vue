@@ -248,8 +248,8 @@ export default {
             this.$store.state.nameCurrentUser = values.Username;
             this.$store.state.loginState = true;
             this.$store.state.token = response.data.results.token;
-            console.log(response);
-            this.storeToken(values.Username, response.data.results.token);
+            // console.log(response);
+            this.storeToken(response.data.results.token, values.Username);
             this.$router.push("/login");
           }
         })
